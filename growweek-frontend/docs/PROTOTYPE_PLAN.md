@@ -495,12 +495,43 @@ lib/api/services/
 
 ---
 
+## ⚠️ 알려진 이슈 및 기술 부채
+
+### 타임존(Timezone) 처리 표준 필요
+
+**문제**:
+- JavaScript의 `new Date("2024-12-22")` 는 UTC 자정(00:00:00Z)으로 파싱됨
+- 한국 시간(UTC+9)에서는 실제로 `2024-12-22 09:00:00 KST`가 됨
+- 로컬 시간으로 생성한 Date 객체와 비교 시 하루가 밀리는 문제 발생
+
+**현재 임시 해결책**:
+- 날짜 비교 시 `Date` 객체 대신 **문자열 비교** 사용 (`"2024-12-22" >= "2024-12-22"`)
+- `formatDateStr()` 함수로 로컬 날짜를 `YYYY-MM-DD` 문자열로 변환 후 비교
+
+**향후 표준화 필요 사항**:
+1. **백엔드**: 날짜 응답 형식 표준화 (ISO 8601 with timezone 또는 순수 날짜 문자열)
+2. **프론트엔드**: 날짜 파싱/비교 유틸리티 함수 표준화
+3. **권장**: 날짜만 다루는 필드(`dueDate`, `startDate`, `endDate`)는 시간대 없이 `YYYY-MM-DD` 문자열로 통일
+4. **권장**: 타임스탬프(`createdAt`, `updatedAt`)는 ISO 8601 with timezone 사용
+
+```typescript
+// 권장 패턴: 날짜 문자열 비교
+const isInRange = dateStr >= startDate && dateStr <= endDate;
+
+// 피해야 할 패턴: Date 객체 비교 (시간대 이슈)
+const isInRange = new Date(dateStr) >= new Date(startDate);
+```
+
+---
+
 ## 📝 다음 단계
 
 1. ✅ **API 명세 확인 완료**
-2. **타입 정의 파일 생성**: `lib/api/types/` 폴더에 TypeScript 타입 정의
-3. **서비스 레이어 구현**: 실제 API 엔드포인트에 맞춘 서비스 파일 작성
-4. **프로토타입 구현**: Phase 1 MVP 개발 시작
+2. ✅ **타입 정의 파일 생성**: `lib/api/types/` 폴더에 TypeScript 타입 정의
+3. ✅ **서비스 레이어 구현**: 실제 API 엔드포인트에 맞춘 서비스 파일 작성
+4. ✅ **Phase 1 MVP 구현**: 대시보드, 칸반 보드, 할일 상세, 회고 작성/상세
+5. 🔄 **Phase 2 확장 기능**: 월간 회고 목록, 캘린더 뷰
+6. ⏳ **타임존 표준화**: 백엔드/프론트엔드 날짜 처리 표준 정의
 
 ---
 
