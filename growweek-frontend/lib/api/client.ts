@@ -16,6 +16,17 @@ const apiClient = axios.create({
 // 요청 인터셉터
 apiClient.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
+    // X-User-Id 헤더 추가 (API 인증용)
+    // TODO: 실제 인증 시스템 구현 시 동적으로 설정
+    const userId =
+      typeof window !== "undefined"
+        ? localStorage.getItem("userId") || "1"
+        : "1";
+
+    if (config.headers) {
+      config.headers["X-User-Id"] = userId;
+    }
+
     // 토큰이 필요한 경우 헤더에 추가
     const token =
       typeof window !== "undefined" ? localStorage.getItem("accessToken") : null;
