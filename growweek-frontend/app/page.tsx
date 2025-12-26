@@ -1,65 +1,214 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useEffect, useState } from "react";
+import { PageLayout } from "@/components/layout";
+import { Button } from "@/components/common";
+import {
+  WeekInfo,
+  TaskStatistics,
+  RetrospectiveStatus,
+  QuickTaskList,
+} from "@/components/dashboard";
+import { taskService, retrospectiveService } from "@/lib/api";
+import type {
+  WeeklyTaskResponse,
+  RetrospectiveSummaryResponse,
+} from "@/lib/api";
+import { getWeekStart, getWeekEnd, formatDate } from "@/lib/utils";
+import Link from "next/link";
+
+export default function DashboardPage() {
+  const [weeklyData, setWeeklyData] = useState<WeeklyTaskResponse | null>(null);
+  const [retrospective, setRetrospective] =
+    useState<RetrospectiveSummaryResponse | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const weekStart = formatDate(getWeekStart());
+  const weekEnd = formatDate(getWeekEnd());
+
+  useEffect(() => {
+    async function fetchDashboardData() {
+      setIsLoading(true);
+      setError(null);
+
+      try {
+        // 주간 할일 데이터 조회
+        const tasksData = await taskService.getWeekly(weekStart);
+        setWeeklyData(tasksData);
+
+        // 이번 주 회고 조회 (목록에서 현재 주차에 해당하는 회고 찾기)
+        const retrospectives = await retrospectiveService.getAll({ size: 10 });
+        const currentWeekRetro = retrospectives.items.find(
+          (r) => r.startDate === weekStart || r.endDate === weekEnd
+        );
+        setRetrospective(currentWeekRetro || null);
+      } catch (err) {
+        console.error("Failed to fetch dashboard data:", err);
+        setError("데이터를 불러오는 중 오류가 발생했습니다.");
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchDashboardData();
+  }, [weekStart, weekEnd]);
+
+  // 로딩 상태
+  if (isLoading) {
+    return (
+      <PageLayout title="대시보드" description="이번 주 할일과 회고를 확인하세요">
+        <div className="flex items-center justify-center h-96">
+          <div className="flex flex-col items-center gap-4">
+            <div className="w-12 h-12 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin" />
+            <p className="text-zinc-500">데이터를 불러오는 중...</p>
+          </div>
+        </div>
+      </PageLayout>
+    );
+  }
+
+  // 에러 상태 (Mock 데이터로 대체)
+  const mockWeeklyData: WeeklyTaskResponse = weeklyData || {
+    weekStart,
+    weekEnd,
+    tasks: [],
+    statistics: {
+      total: 0,
+      todo: 0,
+      inProgress: 0,
+      done: 0,
+      cancel: 0,
+    },
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <PageLayout
+      title="대시보드"
+      description="이번 주 할일과 회고를 확인하세요"
+      actions={
+        <Link href="/tasks">
+          <Button
+            leftIcon={
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 4v16m8-8H4"
+                />
+              </svg>
+            }
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            할일 추가
+          </Button>
+        </Link>
+      }
+    >
+      {error && (
+        <div className="mb-6 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl">
+          <div className="flex items-center gap-2 text-amber-800 dark:text-amber-200">
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+              />
+            </svg>
+            <span className="text-sm font-medium">{error}</span>
+          </div>
         </div>
-      </main>
-    </div>
+      )}
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* 좌측: 주차 정보 + 통계 */}
+        <div className="lg:col-span-2 space-y-6">
+          <WeekInfo weekStart={mockWeeklyData.weekStart} weekEnd={mockWeeklyData.weekEnd} />
+          <TaskStatistics statistics={mockWeeklyData.statistics} />
+          <QuickTaskList tasks={mockWeeklyData.tasks} />
+        </div>
+
+        {/* 우측: 회고 상태 */}
+        <div className="space-y-6">
+          <RetrospectiveStatus
+            retrospective={retrospective}
+            weekStart={mockWeeklyData.weekStart}
+            weekEnd={mockWeeklyData.weekEnd}
+          />
+
+          {/* 빠른 링크 */}
+          <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6">
+            <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100 mb-4">
+              빠른 링크
+            </h3>
+            <div className="space-y-2">
+              <Link
+                href="/tasks"
+                className="flex items-center gap-3 p-3 rounded-xl hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
+              >
+                <div className="w-10 h-10 bg-indigo-100 dark:bg-indigo-900/50 rounded-lg flex items-center justify-center">
+                  <svg
+                    className="w-5 h-5 text-indigo-600 dark:text-indigo-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <p className="font-medium text-zinc-900 dark:text-zinc-100">
+                    칸반 보드
+                  </p>
+                  <p className="text-sm text-zinc-500">할일 관리하기</p>
+                </div>
+              </Link>
+              <Link
+                href="/retrospective"
+                className="flex items-center gap-3 p-3 rounded-xl hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
+              >
+                <div className="w-10 h-10 bg-amber-100 dark:bg-amber-900/50 rounded-lg flex items-center justify-center">
+                  <svg
+                    className="w-5 h-5 text-amber-600 dark:text-amber-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <p className="font-medium text-zinc-900 dark:text-zinc-100">
+                    회고 목록
+                  </p>
+                  <p className="text-sm text-zinc-500">지난 회고 보기</p>
+                </div>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </PageLayout>
   );
 }
