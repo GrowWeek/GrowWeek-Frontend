@@ -3,15 +3,26 @@ import axios, {
   AxiosResponse,
   InternalAxiosRequestConfig,
 } from "axios";
+import { config } from "@/lib/config";
 
 // API 클라이언트 인스턴스 생성
+// baseURL은 요청 시점에 동적으로 결정됨 (런타임 환경변수 지원)
 const apiClient = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8080",
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
   },
 });
+
+// 요청 시점에 baseURL 설정 (런타임 환경변수 반영)
+apiClient.interceptors.request.use(
+  (requestConfig: InternalAxiosRequestConfig) => {
+    if (!requestConfig.baseURL) {
+      requestConfig.baseURL = config.apiBaseUrl;
+    }
+    return requestConfig;
+  }
+);
 
 // 요청 인터셉터
 apiClient.interceptors.request.use(
