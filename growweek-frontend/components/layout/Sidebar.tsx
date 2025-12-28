@@ -1,7 +1,9 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { memberService, MemberResponse } from "@/lib/api";
 
 interface NavItem {
   href: string;
@@ -90,6 +92,50 @@ const navItems: NavItem[] = [
 
 export function Sidebar() {
   const pathname = usePathname();
+  const router = useRouter();
+  const [currentUser, setCurrentUser] = useState<MemberResponse | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // 캐시된 사용자 정보 먼저 로드
+    const cachedUser = memberService.getCachedCurrentMember();
+    if (cachedUser) {
+      setCurrentUser(cachedUser);
+    }
+
+    // 로그인 상태 확인
+    if (memberService.isLoggedIn()) {
+      memberService
+        .getCurrentMember()
+        .then(setCurrentUser)
+        .catch(() => {
+          // 토큰이 유효하지 않은 경우
+          memberService.logout();
+          router.push("/login");
+        })
+        .finally(() => setIsLoading(false));
+    } else {
+      setIsLoading(false);
+      // 로그인 페이지가 아니면 리다이렉트
+      if (pathname !== "/login" && pathname !== "/signup") {
+        router.push("/login");
+      }
+    }
+  }, [router, pathname]);
+
+  const handleLogout = () => {
+    memberService.logout();
+    setCurrentUser(null);
+    router.push("/login");
+  };
+
+  // 사용자 이니셜 추출
+  const getUserInitial = () => {
+    if (currentUser?.nickname) {
+      return currentUser.nickname.charAt(0).toUpperCase();
+    }
+    return "U";
+  };
 
   return (
     <aside className="fixed left-0 top-0 h-full w-64 bg-zinc-50 dark:bg-zinc-950 border-r border-zinc-200 dark:border-zinc-800 flex flex-col">
@@ -130,21 +176,61 @@ export function Sidebar() {
         })}
       </nav>
 
-      {/* Footer */}
+      {/* User Footer */}
       <div className="p-4 border-t border-zinc-200 dark:border-zinc-800">
-        <div className="flex items-center gap-3 px-3 py-2">
-          <div className="w-8 h-8 bg-gradient-to-br from-emerald-400 to-cyan-500 rounded-full flex items-center justify-center">
-            <span className="text-white font-medium text-xs">U</span>
+        {isLoading ? (
+          <div className="flex items-center gap-3 px-3 py-2">
+            <div className="w-8 h-8 bg-zinc-200 dark:bg-zinc-700 rounded-full animate-pulse" />
+            <div className="flex-1">
+              <div className="h-4 w-20 bg-zinc-200 dark:bg-zinc-700 rounded animate-pulse mb-1" />
+              <div className="h-3 w-16 bg-zinc-200 dark:bg-zinc-700 rounded animate-pulse" />
+            </div>
           </div>
-          <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100 truncate">
-              사용자
-            </p>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400">
-              User ID: 1
-            </p>
+        ) : currentUser ? (
+          <div className="space-y-2">
+            <div className="flex items-center gap-3 px-3 py-2">
+              <div className="w-8 h-8 bg-gradient-to-br from-emerald-400 to-cyan-500 rounded-full flex items-center justify-center">
+                <span className="text-white font-medium text-xs">
+                  {getUserInitial()}
+                </span>
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100 truncate">
+                  {currentUser.nickname}
+                </p>
+                <p className="text-xs text-zinc-500 dark:text-zinc-400 truncate">
+                  {currentUser.email}
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={handleLogout}
+              className="w-full flex items-center gap-2 px-3 py-2 text-sm text-zinc-600 dark:text-zinc-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-zinc-100 dark:hover:bg-zinc-900 rounded-xl transition-colors"
+            >
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                />
+              </svg>
+              로그아웃
+            </button>
           </div>
-        </div>
+        ) : (
+          <Link
+            href="/login"
+            className="flex items-center justify-center gap-2 w-full px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-sm font-medium transition-colors"
+          >
+            로그인
+          </Link>
+        )}
       </div>
     </aside>
   );
