@@ -20,6 +20,10 @@ import {
   getWeekEnd,
   formatDate,
   formatDateRangeKorean,
+  getRetrospectiveWritePeriod,
+  getTimeUntilRetrospectiveOpen,
+  getTimeUntilRetrospectiveClose,
+  isRetrospectiveExpired,
 } from "@/lib/utils";
 
 export default function RetrospectiveWritePage() {
@@ -30,9 +34,35 @@ export default function RetrospectiveWritePage() {
   const [isGeneratingQuestions, setIsGeneratingQuestions] = useState(false);
   const [isCompleting, setIsCompleting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // // 🧪 테스트용: 다음 주 월요일 00시 01분으로 모킹 (기간 만료 테스트)
+  // const getMockedTime = () => {
+  //   const now = new Date();
+  //   const day = now.getDay();
+  //   const diff = now.getDate() - day + (day === 0 ? -6 : 1); // 이번 주 월요일
+  //   const monday = new Date(now.setDate(diff));
+  //   monday.setDate(monday.getDate() + 7); // 다음 주 월요일
+  //   monday.setHours(0, 1, 0, 0); // 00:01:00
+  //   return monday;
+  // };
+  // const [currentTime, setCurrentTime] = useState(getMockedTime());
+  const [currentTime, setCurrentTime] = useState(new Date()); // 원래 코드
 
   const weekStart = formatDate(getWeekStart());
   const weekEnd = formatDate(getWeekEnd());
+
+  // 회고 작성 가능 시간 체크
+  const { isWithinPeriod } = getRetrospectiveWritePeriod(currentTime);
+  const timeUntilOpen = getTimeUntilRetrospectiveOpen(currentTime);
+  const timeUntilClose = getTimeUntilRetrospectiveClose(currentTime);
+
+  // 1분마다 현재 시간 업데이트 (시간 제한 체크용)
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 60000); // 1분마다 업데이트
+
+    return () => clearInterval(timer);
+  }, []);
 
   // 이번 주 회고 조회 또는 생성
   const fetchOrCreateRetrospective = useCallback(async () => {
@@ -161,6 +191,15 @@ export default function RetrospectiveWritePage() {
   const answeredCount = retrospective?.answers.filter((a) => a.content).length || 0;
   const isCompleted = retrospective?.status === "DONE";
 
+  // 회고 기간 만료 여부 체크 (회고가 있는 경우)
+  const expiredInfo = retrospective
+    ? isRetrospectiveExpired(retrospective.endDate, currentTime)
+    : null;
+  const isExpired = expiredInfo?.isExpired ?? false;
+
+  // 편집 불가 여부: 완료됨 또는 기간 만료
+  const isEditDisabled = isCompleted || isExpired;
+
   // 로딩 상태
   if (isLoading) {
     return (
@@ -184,7 +223,7 @@ export default function RetrospectiveWritePage() {
           <Button variant="ghost" onClick={() => router.push("/retrospective")}>
             ← 목록
           </Button>
-          {retrospective && retrospective.status !== "DONE" && (
+          {retrospective && retrospective.status !== "DONE" && !isExpired && (
             <Button
               onClick={handleComplete}
               isLoading={isCompleting}
@@ -214,8 +253,99 @@ export default function RetrospectiveWritePage() {
           </div>
         )}
 
-        {/* 회고가 없는 경우: 생성 안내 */}
-        {!retrospective && (
+        {/* 회고 작성 기간 안내 (마감까지 남은 시간) */}
+        {isWithinPeriod && timeUntilClose && !retrospective?.status?.includes("DONE") && (
+          <div className="p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-amber-100 dark:bg-amber-800/50 rounded-lg flex items-center justify-center flex-shrink-0">
+                <svg
+                  className="w-5 h-5 text-amber-600 dark:text-amber-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+              </div>
+              <div>
+                <p className="font-medium text-amber-800 dark:text-amber-200">
+                  회고 작성 마감까지{" "}
+                  <span className="font-bold">
+                    {timeUntilClose.days > 0 && `${timeUntilClose.days}일 `}
+                    {timeUntilClose.hours}시간 {timeUntilClose.minutes}분
+                  </span>{" "}
+                  남았습니다
+                </p>
+                <p className="text-sm text-amber-700 dark:text-amber-300">
+                  월요일 0시 0분까지 회고를 완료해주세요.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* 회고 작성 불가 기간 안내 */}
+        {!isWithinPeriod && !retrospective && timeUntilOpen && (
+          <Card>
+            <CardContent className="py-12 text-center">
+              <div className="w-20 h-20 bg-gradient-to-br from-zinc-100 to-zinc-200 dark:from-zinc-800 dark:to-zinc-700 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                <svg
+                  className="w-10 h-10 text-zinc-400 dark:text-zinc-500"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                  />
+                </svg>
+              </div>
+              <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100 mb-2">
+                회고 작성 기간이 아닙니다
+              </h2>
+              <p className="text-zinc-500 dark:text-zinc-400 mb-4">
+                회고는 <span className="font-semibold text-indigo-600 dark:text-indigo-400">금요일 0시</span>부터{" "}
+                <span className="font-semibold text-indigo-600 dark:text-indigo-400">월요일 0시</span>까지 작성할 수 있습니다.
+              </p>
+              <div className="inline-flex items-center gap-2 px-4 py-3 bg-zinc-100 dark:bg-zinc-800 rounded-xl mb-6">
+                <svg
+                  className="w-5 h-5 text-zinc-500"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <span className="text-zinc-700 dark:text-zinc-300">
+                  다음 회고 시작까지{" "}
+                  <span className="font-bold text-indigo-600 dark:text-indigo-400">
+                    {timeUntilOpen.days > 0 && `${timeUntilOpen.days}일 `}
+                    {timeUntilOpen.hours}시간 {timeUntilOpen.minutes}분
+                  </span>
+                </span>
+              </div>
+              <p className="text-sm text-zinc-400">
+                금요일이 되면 이번 주 할일을 바탕으로 회고를 작성할 수 있습니다.
+              </p>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* 회고가 없는 경우: 생성 안내 (작성 가능 기간일 때만) */}
+        {!retrospective && isWithinPeriod && (
           <Card>
             <CardContent className="py-12 text-center">
               <div className="w-20 h-20 bg-gradient-to-br from-indigo-100 to-purple-100 dark:from-indigo-900/30 dark:to-purple-900/30 rounded-2xl flex items-center justify-center mx-auto mb-6">
@@ -287,9 +417,45 @@ export default function RetrospectiveWritePage() {
               </div>
             )}
 
+            {/* 기간 만료 안내 (완료되지 않은 상태에서 기간이 지난 경우) */}
+            {!isCompleted && isExpired && (
+              <div className="p-4 bg-rose-50 dark:bg-rose-900/20 border border-rose-200 dark:border-rose-800 rounded-xl">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-rose-100 dark:bg-rose-800/50 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <svg
+                      className="w-5 h-5 text-rose-600 dark:text-rose-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                      />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="font-medium text-rose-800 dark:text-rose-200">
+                      회고 작성 기간이 종료되었습니다
+                    </p>
+                    <p className="text-sm text-rose-700 dark:text-rose-300">
+                      작성 기간(월요일 0시)이 지나 더 이상 수정할 수 없습니다.
+                      {answeredCount > 0 && (
+                        <span className="block mt-1">
+                          작성된 답변 {answeredCount}개는 그대로 유지됩니다.
+                        </span>
+                      )}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* 질문 생성 전 */}
             {(retrospective.status === "TODO" ||
-              retrospective.status === "BEFORE_GENERATE_QUESTION") && (
+              retrospective.status === "BEFORE_GENERATE_QUESTION") && !isExpired && (
               <Card>
                 <CardContent className="py-12 text-center">
                   <div className="w-20 h-20 bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-2xl flex items-center justify-center mx-auto mb-6">
@@ -337,6 +503,36 @@ export default function RetrospectiveWritePage() {
               </Card>
             )}
 
+            {/* 질문 생성 전 + 기간 만료 */}
+            {(retrospective.status === "TODO" ||
+              retrospective.status === "BEFORE_GENERATE_QUESTION") && isExpired && (
+              <Card>
+                <CardContent className="py-12 text-center">
+                  <div className="w-20 h-20 bg-gradient-to-br from-zinc-100 to-zinc-200 dark:from-zinc-800 dark:to-zinc-700 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                    <svg
+                      className="w-10 h-10 text-zinc-400 dark:text-zinc-500"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+                      />
+                    </svg>
+                  </div>
+                  <h2 className="text-xl font-bold text-zinc-500 dark:text-zinc-400 mb-2">
+                    질문이 생성되지 않았습니다
+                  </h2>
+                  <p className="text-zinc-400 dark:text-zinc-500">
+                    작성 기간이 종료되어 더 이상 질문을 생성할 수 없습니다.
+                  </p>
+                </CardContent>
+              </Card>
+            )}
+
             {/* 질문 목록 */}
             {retrospective.questions.length > 0 && (
               <div className="space-y-4">
@@ -366,7 +562,7 @@ export default function RetrospectiveWritePage() {
                       question={question}
                       answer={getAnswerForQuestion(question.id)}
                       onSaveAnswer={handleSaveAnswer}
-                      disabled={isCompleted}
+                      disabled={isEditDisabled}
                     />
                   ))}
               </div>
@@ -379,12 +575,12 @@ export default function RetrospectiveWritePage() {
               <AdditionalNotes
                 initialNotes={retrospective.additionalNotes}
                 onSave={handleSaveNotes}
-                disabled={isCompleted}
+                disabled={isEditDisabled}
               />
             )}
 
             {/* 완료 버튼 (하단) */}
-            {!isCompleted && retrospective.questions.length > 0 && (
+            {!isEditDisabled && retrospective.questions.length > 0 && (
               <div className="flex justify-center pt-6">
                 <Button
                   onClick={handleComplete}
