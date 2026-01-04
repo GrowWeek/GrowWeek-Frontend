@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { memberService, MemberResponse } from "@/lib/api";
@@ -93,34 +93,36 @@ const navItems: NavItem[] = [
 export function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
-  const [currentUser, setCurrentUser] = useState<MemberResponse | null>(null);
+  
+  // 캐시된 사용자 정보를 초기값으로 설정 (useEffect 외부에서)
+  const cachedUser = useMemo(() => memberService.getCachedCurrentMember(), []);
+  const [currentUser, setCurrentUser] = useState<MemberResponse | null>(cachedUser);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // 캐시된 사용자 정보 먼저 로드
-    const cachedUser = memberService.getCachedCurrentMember();
-    if (cachedUser) {
-      setCurrentUser(cachedUser);
-    }
-
     // 로그인 상태 확인
-    if (memberService.isLoggedIn()) {
-      memberService
-        .getCurrentMember()
-        .then(setCurrentUser)
-        .catch(() => {
+    const checkAuth = async () => {
+      if (memberService.isLoggedIn()) {
+        try {
+          const user = await memberService.getCurrentMember();
+          setCurrentUser(user);
+        } catch {
           // 토큰이 유효하지 않은 경우
           memberService.logout();
           router.push("/login");
-        })
-        .finally(() => setIsLoading(false));
-    } else {
-      setIsLoading(false);
-      // 로그인 페이지가 아니면 리다이렉트
-      if (pathname !== "/login" && pathname !== "/signup") {
-        router.push("/login");
+        } finally {
+          setIsLoading(false);
+        }
+      } else {
+        setIsLoading(false);
+        // 로그인 페이지가 아니면 리다이렉트
+        if (pathname !== "/login" && pathname !== "/signup") {
+          router.push("/login");
+        }
       }
-    }
+    };
+    
+    checkAuth();
   }, [router, pathname]);
 
   const handleLogout = () => {

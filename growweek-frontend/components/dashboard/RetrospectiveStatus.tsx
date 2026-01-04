@@ -10,8 +10,6 @@ import { isFriday } from "@/lib/utils";
 
 interface RetrospectiveStatusProps {
   retrospective?: RetrospectiveSummaryResponse | null;
-  weekStart: string;
-  weekEnd: string;
 }
 
 const statusConfig: Record<
@@ -27,8 +25,6 @@ const statusConfig: Record<
 
 export function RetrospectiveStatus({
   retrospective,
-  weekStart,
-  weekEnd,
 }: RetrospectiveStatusProps) {
   const showFridayReminder = isFriday() && (!retrospective || retrospective.status !== "DONE");
 

@@ -141,11 +141,7 @@ export default function DashboardPage() {
 
         {/* 우측: 회고 상태 */}
         <div className="space-y-6">
-          <RetrospectiveStatus
-            retrospective={retrospective}
-            weekStart={mockWeeklyData.weekStart}
-            weekEnd={mockWeeklyData.weekEnd}
-          />
+          <RetrospectiveStatus retrospective={retrospective} />
 
           {/* 빠른 링크 */}
           <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6">

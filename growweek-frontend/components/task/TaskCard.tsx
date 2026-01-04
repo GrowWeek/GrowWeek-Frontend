@@ -1,9 +1,9 @@
 "use client";
 
+import { useMemo } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { Badge } from "@/components/common";
-import type { TaskResponse, TaskStatus } from "@/lib/api";
+import type { TaskResponse } from "@/lib/api";
 
 interface TaskCardProps {
   task: TaskResponse;
@@ -25,11 +25,14 @@ function getPriorityConfig(priority: number) {
 
 export function TaskCard({ task, onClick, isDragging }: TaskCardProps) {
   const priority = getPriorityConfig(task.priority);
-  const dueDate = new Date(task.dueDate);
-  const isOverdue = dueDate < new Date() && task.status !== "DONE" && task.status !== "CANCEL";
+  const dueDate = useMemo(() => new Date(task.dueDate), [task.dueDate]);
+  const now = useMemo(() => new Date(), []);
+  const twoDaysFromNow = useMemo(() => new Date(now.getTime() + 2 * 24 * 60 * 60 * 1000), [now]);
+  
+  const isOverdue = dueDate < now && task.status !== "DONE" && task.status !== "CANCEL";
   const isDueSoon =
     !isOverdue &&
-    dueDate <= new Date(Date.now() + 2 * 24 * 60 * 60 * 1000) &&
+    dueDate <= twoDaysFromNow &&
     task.status !== "DONE" &&
     task.status !== "CANCEL";
 
