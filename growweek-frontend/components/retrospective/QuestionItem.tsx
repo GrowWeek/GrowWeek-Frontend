@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Button, Textarea } from "@/components/common";
+import { Button, MarkdownEditor, MarkdownPreview } from "@/components/common";
 import type { QuestionResponse, AnswerResponse } from "@/lib/api";
 
 interface QuestionItemProps {
@@ -83,11 +83,11 @@ export function QuestionItem({
       {/* 답변 영역 */}
       {isEditing && !disabled ? (
         <div className="ml-12 space-y-3">
-          <Textarea
+          <MarkdownEditor
             value={content}
-            onChange={(e) => setContent(e.target.value)}
+            onChange={setContent}
             placeholder="이 질문에 대한 답변을 작성해주세요..."
-            rows={4}
+            height={200}
             disabled={isSaving}
           />
           <div className="flex justify-end gap-2">
@@ -108,9 +108,9 @@ export function QuestionItem({
         </div>
       ) : answer?.content ? (
         <div className="ml-12">
-          <p className="text-zinc-700 dark:text-zinc-300 whitespace-pre-wrap leading-relaxed">
-            {answer.content}
-          </p>
+          <div className="text-zinc-700 dark:text-zinc-300 leading-relaxed prose dark:prose-invert prose-sm max-w-none">
+            <MarkdownPreview content={answer.content} />
+          </div>
           {!disabled && (
             <button
               onClick={() => setIsEditing(true)}

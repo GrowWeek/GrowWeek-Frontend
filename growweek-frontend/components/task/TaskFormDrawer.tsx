@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Modal, Button, Input, Select, MarkdownEditor } from "@/components/common";
+import { Drawer, Button, Input, Select, MarkdownEditor } from "@/components/common";
 import type {
   TaskResponse,
   CreateTaskRequest,
@@ -11,7 +11,7 @@ import type {
 } from "@/lib/api";
 import { formatDate } from "@/lib/utils";
 
-interface TaskFormModalProps {
+interface TaskFormDrawerProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (data: CreateTaskRequest | UpdateTaskRequest) => Promise<void>;
@@ -38,13 +38,13 @@ const statusOptions = [
   { value: "CANCEL", label: "취소" },
 ];
 
-export function TaskFormModal({
+export function TaskFormDrawer({
   isOpen,
   onClose,
   onSubmit,
   task,
   mode,
-}: TaskFormModalProps) {
+}: TaskFormDrawerProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -143,11 +143,11 @@ export function TaskFormModal({
   const isLocked = task?.hasRetrospective;
 
   return (
-    <Modal
+    <Drawer
       isOpen={isOpen}
       onClose={onClose}
       title={mode === "create" ? "할일 추가" : "할일 수정"}
-      size="lg"
+      width="half"
     >
       <form onSubmit={handleSubmit} className="p-6 space-y-5">
         {isLocked && (
@@ -183,7 +183,7 @@ export function TaskFormModal({
           value={description}
           onChange={setDescription}
           placeholder="할일에 대한 설명을 입력하세요 (선택사항)"
-          height={150}
+          height={350}
           disabled={isLocked}
         />
 
@@ -247,7 +247,6 @@ export function TaskFormModal({
           </Button>
         </div>
       </form>
-    </Modal>
+    </Drawer>
   );
 }
-
