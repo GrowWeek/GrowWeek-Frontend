@@ -8,18 +8,20 @@ import {
   TaskFormDrawer,
   TaskDetailModal,
 } from "@/components/task";
-import { taskService } from "@/lib/api";
+import { taskService, retrospectiveService } from "@/lib/api";
 import type {
   TaskResponse,
   TaskStatus,
   CreateTaskRequest,
   UpdateTaskRequest,
   WeeklyTaskResponse,
+  RetrospectiveSummaryResponse,
 } from "@/lib/api";
-import { getWeekStart, formatDate, formatDateRangeKorean } from "@/lib/utils";
+import { getWeekStart, getWeekEnd, formatDate, formatDateRangeKorean } from "@/lib/utils";
 
 export default function TasksPage() {
   const [weeklyData, setWeeklyData] = useState<WeeklyTaskResponse | null>(null);
+  const [retrospective, setRetrospective] = useState<RetrospectiveSummaryResponse | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -30,21 +32,33 @@ export default function TasksPage() {
   const [formMode, setFormMode] = useState<"create" | "edit">("create");
 
   const weekStart = formatDate(getWeekStart());
+  const weekEnd = formatDate(getWeekEnd());
+
+  // 회고가 완료된 주차인지 확인
+  const isRetrospectiveCompleted = retrospective?.status === "DONE";
 
   const fetchTasks = useCallback(async () => {
     setIsLoading(true);
     setError(null);
 
     try {
+      // 주간 할일 데이터 조회
       const data = await taskService.getWeekly(weekStart);
       setWeeklyData(data);
+
+      // 이번 주 회고 조회 (목록에서 현재 주차에 해당하는 회고 찾기)
+      const retrospectives = await retrospectiveService.getAll({ size: 10 });
+      const currentWeekRetro = retrospectives.items.find(
+        (r) => r.startDate === weekStart || r.endDate === weekEnd
+      );
+      setRetrospective(currentWeekRetro || null);
     } catch (err) {
       console.error("Failed to fetch tasks:", err);
       setError("할일을 불러오는 중 오류가 발생했습니다.");
     } finally {
       setIsLoading(false);
     }
-  }, [weekStart]);
+  }, [weekStart, weekEnd]);
 
   useEffect(() => {
     fetchTasks();
@@ -52,6 +66,11 @@ export default function TasksPage() {
 
   // 상태 변경 핸들러
   const handleStatusChange = async (taskId: number, newStatus: TaskStatus) => {
+    if (isRetrospectiveCompleted) {
+      alert("회고가 완료된 주차의 할일은 상태를 변경할 수 없습니다.");
+      return;
+    }
+
     try {
       await taskService.updateStatus(taskId, { status: newStatus });
       await fetchTasks(); // 목록 새로고침
@@ -69,6 +88,10 @@ export default function TasksPage() {
 
   // 할일 추가 핸들러
   const handleAddTask = () => {
+    if (isRetrospectiveCompleted) {
+      alert("회고가 완료된 주차에는 할일을 추가할 수 없습니다.");
+      return;
+    }
     setSelectedTask(null);
     setFormMode("create");
     setIsFormModalOpen(true);
@@ -76,6 +99,10 @@ export default function TasksPage() {
 
   // 할일 수정 핸들러
   const handleEditTask = () => {
+    if (isRetrospectiveCompleted) {
+      alert("회고가 완료된 주차의 할일은 수정할 수 없습니다.");
+      return;
+    }
     setIsDetailModalOpen(false);
     setFormMode("edit");
     setIsFormModalOpen(true);
@@ -84,6 +111,11 @@ export default function TasksPage() {
   // 할일 삭제 핸들러
   const handleDeleteTask = async () => {
     if (!selectedTask) return;
+
+    if (isRetrospectiveCompleted) {
+      alert("회고가 완료된 주차의 할일은 삭제할 수 없습니다.");
+      return;
+    }
 
     if (!confirm("정말 이 할일을 삭제하시겠습니까?")) return;
 
@@ -100,6 +132,10 @@ export default function TasksPage() {
 
   // 폼 제출 핸들러
   const handleFormSubmit = async (data: CreateTaskRequest | UpdateTaskRequest) => {
+    if (isRetrospectiveCompleted) {
+      throw new Error("회고가 완료된 주차에는 할일을 추가하거나 수정할 수 없습니다.");
+    }
+
     try {
       if (formMode === "create") {
         await taskService.create(data as CreateTaskRequest);
@@ -139,6 +175,7 @@ export default function TasksPage() {
       actions={
         <Button
           onClick={handleAddTask}
+          disabled={isRetrospectiveCompleted}
           leftIcon={
             <svg
               className="w-4 h-4"
@@ -186,6 +223,30 @@ export default function TasksPage() {
         </div>
       )}
 
+      {/* 회고 완료 안내 */}
+      {isRetrospectiveCompleted && (
+        <div className="mb-6 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl">
+          <div className="flex items-center gap-2 text-amber-800 dark:text-amber-200">
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+              />
+            </svg>
+            <span className="text-sm font-medium">
+              이번 주 회고가 완료되어 할일을 추가하거나 수정할 수 없습니다.
+            </span>
+          </div>
+        </div>
+      )}
+
       {/* 통계 요약 */}
       {weeklyData && (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
@@ -227,6 +288,7 @@ export default function TasksPage() {
         onStatusChange={handleStatusChange}
         onTaskClick={handleTaskClick}
         onAddTask={handleAddTask}
+        isRetrospectiveCompleted={isRetrospectiveCompleted}
       />
 
       {/* 할일 추가/수정 드로어 */}

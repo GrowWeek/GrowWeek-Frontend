@@ -89,6 +89,7 @@ export default function DashboardPage() {
       actions={
         <Link href="/tasks">
           <Button
+            disabled={retrospective?.status === "DONE"}
             leftIcon={
               <svg
                 className="w-4 h-4"

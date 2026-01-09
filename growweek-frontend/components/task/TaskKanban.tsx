@@ -20,6 +20,7 @@ interface TaskKanbanProps {
   onStatusChange: (taskId: number, newStatus: TaskStatus) => Promise<void>;
   onTaskClick: (task: TaskResponse) => void;
   onAddTask: () => void;
+  isRetrospectiveCompleted?: boolean;
 }
 
 const statuses: TaskStatus[] = ["TODO", "IN_PROGRESS", "DONE", "CANCEL"];
@@ -29,6 +30,7 @@ export function TaskKanban({
   onStatusChange,
   onTaskClick,
   onAddTask,
+  isRetrospectiveCompleted = false,
 }: TaskKanbanProps) {
   const [activeTask, setActiveTask] = useState<TaskResponse | null>(null);
 
@@ -80,6 +82,11 @@ export function TaskKanban({
 
     // 상태가 변경된 경우에만 API 호출
     if (task.status !== newStatus) {
+      // 회고가 완료된 주차는 상태 변경 불가
+      if (isRetrospectiveCompleted) {
+        alert("회고가 완료된 주차의 할일은 상태를 변경할 수 없습니다.");
+        return;
+      }
       // 회고가 작성된 태스크는 이동 불가
       if (task.hasRetrospective) {
         alert("회고가 작성된 할일은 상태를 변경할 수 없습니다.");
@@ -103,7 +110,7 @@ export function TaskKanban({
             status={status}
             tasks={tasksByStatus[status]}
             onTaskClick={onTaskClick}
-            onAddTask={status === "TODO" ? onAddTask : undefined}
+            onAddTask={status === "TODO" && !isRetrospectiveCompleted ? onAddTask : undefined}
           />
         ))}
       </div>
