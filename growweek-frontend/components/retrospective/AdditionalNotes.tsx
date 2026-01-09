@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Button, Textarea } from "@/components/common";
+import { Button, MarkdownEditor, MarkdownPreview } from "@/components/common";
 
 interface AdditionalNotesProps {
   initialNotes?: string;
@@ -50,11 +50,11 @@ export function AdditionalNotes({
 
       {isEditing && !disabled ? (
         <div className="space-y-3">
-          <Textarea
+          <MarkdownEditor
             value={notes}
-            onChange={(e) => setNotes(e.target.value)}
+            onChange={setNotes}
             placeholder="이번 주에 있었던 일, 느낀 점, 개선하고 싶은 점 등을 자유롭게 작성해주세요..."
-            rows={5}
+            height={200}
             disabled={isSaving}
           />
           <div className="flex justify-end gap-2">
@@ -78,9 +78,9 @@ export function AdditionalNotes({
         </div>
       ) : notes ? (
         <div>
-          <p className="text-zinc-700 dark:text-zinc-300 whitespace-pre-wrap leading-relaxed">
-            {notes}
-          </p>
+          <div className="text-zinc-700 dark:text-zinc-300 leading-relaxed prose dark:prose-invert prose-sm max-w-none">
+            <MarkdownPreview content={notes} />
+          </div>
           {!disabled && (
             <button
               onClick={() => setIsEditing(true)}

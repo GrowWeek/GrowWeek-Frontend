@@ -5,7 +5,7 @@ import { PageLayout } from "@/components/layout";
 import { Button } from "@/components/common";
 import {
   TaskKanban,
-  TaskFormModal,
+  TaskFormDrawer,
   TaskDetailModal,
 } from "@/components/task";
 import { taskService } from "@/lib/api";
@@ -229,8 +229,8 @@ export default function TasksPage() {
         onAddTask={handleAddTask}
       />
 
-      {/* 할일 추가/수정 모달 */}
-      <TaskFormModal
+      {/* 할일 추가/수정 드로어 */}
+      <TaskFormDrawer
         isOpen={isFormModalOpen}
         onClose={() => {
           setIsFormModalOpen(false);
