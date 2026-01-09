@@ -3,7 +3,7 @@
 import { useEffect, useState, use } from "react";
 import { useRouter } from "next/navigation";
 import { PageLayout } from "@/components/layout";
-import { Button, Badge, Card, CardContent } from "@/components/common";
+import { Button, Badge, Card, CardContent, MarkdownPreview } from "@/components/common";
 import { RetrospectiveProgress } from "@/components/retrospective";
 import { retrospectiveService } from "@/lib/api";
 import type {
@@ -286,9 +286,9 @@ export default function RetrospectiveDetailPage({
                       <div className="ml-12">
                         {hasAnswer ? (
                           <div className="p-4 bg-zinc-50 dark:bg-zinc-800/50 rounded-xl">
-                            <p className="text-zinc-700 dark:text-zinc-300 whitespace-pre-wrap leading-relaxed">
-                              {answer.content}
-                            </p>
+                            <div className="text-zinc-700 dark:text-zinc-300 leading-relaxed prose dark:prose-invert prose-sm max-w-none">
+                              <MarkdownPreview content={answer.content || ""} />
+                            </div>
                             {answer.updatedAt && (
                               <p className="mt-3 text-xs text-zinc-400">
                                 {new Date(answer.updatedAt).toLocaleDateString("ko-KR", {
@@ -359,9 +359,9 @@ export default function RetrospectiveDetailPage({
                 추가 메모
               </h3>
               <div className="p-4 bg-amber-50 dark:bg-amber-900/20 rounded-xl">
-                <p className="text-zinc-700 dark:text-zinc-300 whitespace-pre-wrap leading-relaxed">
-                  {retrospective.additionalNotes}
-                </p>
+                <div className="text-zinc-700 dark:text-zinc-300 leading-relaxed prose dark:prose-invert prose-sm max-w-none">
+                  <MarkdownPreview content={retrospective.additionalNotes} />
+                </div>
               </div>
             </CardContent>
           </Card>

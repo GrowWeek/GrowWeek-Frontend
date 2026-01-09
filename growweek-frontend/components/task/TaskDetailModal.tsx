@@ -1,6 +1,6 @@
 "use client";
 
-import { Modal, Button, Badge } from "@/components/common";
+import { Modal, Button, Badge, MarkdownPreview } from "@/components/common";
 import type { TaskResponse, TaskStatus } from "@/lib/api";
 
 interface TaskDetailModalProps {
@@ -78,9 +78,9 @@ export function TaskDetailModal({
         {task.description && (
           <div className="mb-6">
             <h3 className="text-sm font-medium text-zinc-500 mb-2">설명</h3>
-            <p className="text-zinc-700 dark:text-zinc-300 whitespace-pre-wrap">
-              {task.description}
-            </p>
+            <div className="text-zinc-700 dark:text-zinc-300 prose dark:prose-invert prose-sm max-w-none">
+              <MarkdownPreview content={task.description} />
+            </div>
           </div>
         )}
 
