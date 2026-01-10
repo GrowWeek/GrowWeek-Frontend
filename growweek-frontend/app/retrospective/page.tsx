@@ -92,8 +92,8 @@ export default function RetrospectiveListPage() {
       <PageLayout title="회고 목록" description="월별 회고를 확인하세요">
         <div className="flex items-center justify-center h-96">
           <div className="flex flex-col items-center gap-4">
-            <div className="w-12 h-12 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin" />
-            <p className="text-zinc-500">회고를 불러오는 중...</p>
+            <div className="w-12 h-12 border-4 border-lime-200 border-t-lime-500 rounded-full animate-spin" />
+            <p className="text-stone-500">회고를 불러오는 중...</p>
           </div>
         </div>
       </PageLayout>
@@ -153,13 +153,13 @@ export default function RetrospectiveListPage() {
         )}
 
         {/* 월 선택 네비게이션 */}
-        <div className="flex items-center justify-between bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-4">
+        <div className="flex items-center justify-between bg-white dark:bg-stone-900 rounded-xl border border-stone-200 dark:border-stone-800 p-4">
           <button
             onClick={handlePrevMonth}
-            className="p-2 rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+            className="p-2 rounded-xl hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
           >
             <svg
-              className="w-6 h-6 text-zinc-600 dark:text-zinc-400"
+              className="w-6 h-6 text-stone-600 dark:text-stone-400"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -167,20 +167,20 @@ export default function RetrospectiveListPage() {
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                strokeWidth={2}
+                strokeWidth={1.5}
                 d="M15 19l-7-7 7-7"
               />
             </svg>
           </button>
 
           <div className="flex items-center gap-4">
-            <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">
+            <h2 className="text-xl font-bold text-stone-900 dark:text-stone-100">
               {year}년 {month}월
             </h2>
             {!isCurrentMonth() && (
               <button
                 onClick={handleCurrentMonth}
-                className="text-sm text-indigo-600 hover:text-indigo-700 font-medium"
+                className="text-sm text-lime-600 hover:text-lime-700 font-medium"
               >
                 이번 달로
               </button>
@@ -192,12 +192,12 @@ export default function RetrospectiveListPage() {
             disabled={!canGoNext()}
             className={`p-2 rounded-xl transition-colors ${
               canGoNext()
-                ? "hover:bg-zinc-100 dark:hover:bg-zinc-800"
+                ? "hover:bg-stone-100 dark:hover:bg-stone-800"
                 : "opacity-30 cursor-not-allowed"
             }`}
           >
             <svg
-              className="w-6 h-6 text-zinc-600 dark:text-zinc-400"
+              className="w-6 h-6 text-stone-600 dark:text-stone-400"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -205,7 +205,7 @@ export default function RetrospectiveListPage() {
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                strokeWidth={2}
+                strokeWidth={1.5}
                 d="M9 5l7 7-7 7"
               />
             </svg>
@@ -224,9 +224,9 @@ export default function RetrospectiveListPage() {
         {/* 회고 목록 */}
         {monthlyData && monthlyData.retrospectives.length > 0 ? (
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
+            <h3 className="text-lg font-semibold text-stone-900 dark:text-stone-100">
               회고 목록
-              <span className="ml-2 text-sm font-normal text-zinc-500">
+              <span className="ml-2 text-sm font-normal text-stone-500">
                 ({monthlyData.retrospectives.length}개)
               </span>
             </h3>
@@ -237,10 +237,10 @@ export default function RetrospectiveListPage() {
             </div>
           </div>
         ) : (
-          <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-12 text-center">
-            <div className="w-20 h-20 bg-zinc-100 dark:bg-zinc-800 rounded-2xl flex items-center justify-center mx-auto mb-6">
+          <div className="bg-white dark:bg-stone-900 rounded-xl border border-stone-200 dark:border-stone-800 p-12 text-center">
+            <div className="w-20 h-20 bg-stone-100 dark:bg-stone-800 rounded-xl flex items-center justify-center mx-auto mb-6">
               <svg
-                className="w-10 h-10 text-zinc-400"
+                className="w-10 h-10 text-stone-400"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -248,15 +248,15 @@ export default function RetrospectiveListPage() {
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  strokeWidth={2}
+                  strokeWidth={1.5}
                   d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
                 />
               </svg>
             </div>
-            <h3 className="text-xl font-bold text-zinc-900 dark:text-zinc-100 mb-2">
+            <h3 className="text-xl font-bold text-stone-900 dark:text-stone-100 mb-2">
               이 달의 회고가 없습니다
             </h3>
-            <p className="text-zinc-500 mb-6">
+            <p className="text-stone-500 mb-6">
               {isCurrentMonth()
                 ? "이번 주 회고를 작성해보세요!"
                 : `${year}년 ${month}월에 작성된 회고가 없습니다.`}

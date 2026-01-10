@@ -45,11 +45,11 @@ export function QuestionItem({
   return (
     <div
       className={`
-        p-6 rounded-2xl border transition-all
+        p-6 rounded-xl border transition-all
         ${
           isAnswered
-            ? "bg-emerald-50/50 dark:bg-emerald-900/10 border-emerald-200 dark:border-emerald-800"
-            : "bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800"
+            ? "bg-lime-50/50 dark:bg-lime-900/10 border-lime-200 dark:border-lime-800"
+            : "bg-white dark:bg-stone-900 border-stone-200 dark:border-stone-800"
         }
       `}
     >
@@ -60,8 +60,8 @@ export function QuestionItem({
             flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold
             ${
               isAnswered
-                ? "bg-emerald-500 text-white"
-                : "bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400"
+                ? "bg-lime-400 text-stone-900"
+                : "bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400"
             }
           `}
         >
@@ -74,7 +74,7 @@ export function QuestionItem({
           )}
         </div>
         <div className="flex-1">
-          <h3 className="text-lg font-medium text-zinc-900 dark:text-zinc-100">
+          <h3 className="text-lg font-medium text-stone-900 dark:text-stone-100">
             {question.content}
           </h3>
         </div>
@@ -108,13 +108,13 @@ export function QuestionItem({
         </div>
       ) : answer?.content ? (
         <div className="ml-12">
-          <div className="text-zinc-700 dark:text-zinc-300 leading-relaxed prose dark:prose-invert prose-sm max-w-none">
+          <div className="text-stone-700 dark:text-stone-300 leading-relaxed prose dark:prose-invert prose-sm max-w-none">
             <MarkdownPreview content={answer.content} />
           </div>
           {!disabled && (
             <button
               onClick={() => setIsEditing(true)}
-              className="mt-3 text-sm text-indigo-600 hover:text-indigo-700 font-medium"
+              className="mt-3 text-sm text-lime-600 hover:text-lime-700 font-medium"
             >
               수정하기
             </button>
@@ -129,8 +129,8 @@ export function QuestionItem({
               w-full p-4 rounded-xl border-2 border-dashed text-center transition-colors
               ${
                 disabled
-                  ? "border-zinc-200 dark:border-zinc-700 text-zinc-400 cursor-not-allowed"
-                  : "border-zinc-300 dark:border-zinc-600 text-zinc-500 hover:border-indigo-400 hover:text-indigo-600"
+                  ? "border-stone-200 dark:border-stone-700 text-stone-400 cursor-not-allowed"
+                  : "border-stone-300 dark:border-stone-600 text-stone-500 hover:border-lime-400 hover:text-lime-600"
               }
             `}
           >

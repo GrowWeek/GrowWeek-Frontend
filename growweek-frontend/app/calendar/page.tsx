@@ -123,8 +123,8 @@ export default function CalendarPage() {
       <PageLayout title="캘린더" description="할일과 회고 일정을 확인하세요">
         <div className="flex items-center justify-center h-96">
           <div className="flex flex-col items-center gap-4">
-            <div className="w-12 h-12 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin" />
-            <p className="text-zinc-500">캘린더를 불러오는 중...</p>
+            <div className="w-12 h-12 border-4 border-lime-200 border-t-lime-500 rounded-full animate-spin" />
+            <p className="text-stone-500">캘린더를 불러오는 중...</p>
           </div>
         </div>
       </PageLayout>
@@ -173,10 +173,10 @@ export default function CalendarPage() {
             <div className="flex items-center gap-2">
               <button
                 onClick={handlePrevMonth}
-                className="p-2 rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+                className="p-2 rounded-xl hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
               >
                 <svg
-                  className="w-5 h-5 text-zinc-600 dark:text-zinc-400"
+                  className="w-5 h-5 text-stone-600 dark:text-stone-400"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -184,20 +184,20 @@ export default function CalendarPage() {
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    strokeWidth={2}
+                    strokeWidth={1.5}
                     d="M15 19l-7-7 7-7"
                   />
                 </svg>
               </button>
-              <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100 min-w-[140px] text-center">
+              <h2 className="text-xl font-bold text-stone-900 dark:text-stone-100 min-w-[140px] text-center">
                 {year}년 {month}월
               </h2>
               <button
                 onClick={handleNextMonth}
-                className="p-2 rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+                className="p-2 rounded-xl hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
               >
                 <svg
-                  className="w-5 h-5 text-zinc-600 dark:text-zinc-400"
+                  className="w-5 h-5 text-stone-600 dark:text-stone-400"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -205,7 +205,7 @@ export default function CalendarPage() {
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    strokeWidth={2}
+                    strokeWidth={1.5}
                     d="M9 5l7 7-7 7"
                   />
                 </svg>
@@ -221,43 +221,43 @@ export default function CalendarPage() {
           {/* 범례 */}
           <div className="flex items-center gap-4 text-sm">
             <div className="flex items-center gap-2">
-              <span className="w-3 h-3 rounded bg-indigo-100 dark:bg-indigo-900/30" />
-              <span className="text-zinc-600 dark:text-zinc-400">할일</span>
+              <span className="w-3 h-3 rounded bg-stone-200 dark:bg-stone-700" />
+              <span className="text-stone-600 dark:text-stone-400">할일</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="w-3 h-3 rounded bg-purple-100 dark:bg-purple-900/30" />
-              <span className="text-zinc-600 dark:text-zinc-400">회고 기간</span>
+              <span className="w-3 h-3 rounded bg-lime-200 dark:bg-lime-800" />
+              <span className="text-stone-600 dark:text-stone-400">회고 기간</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="w-3 h-3 rounded bg-emerald-100 dark:bg-emerald-900/30" />
-              <span className="text-zinc-600 dark:text-zinc-400">완료</span>
+              <span className="w-3 h-3 rounded bg-lime-400" />
+              <span className="text-stone-600 dark:text-stone-400">완료</span>
             </div>
           </div>
         </div>
 
         {/* 월간 요약 */}
         <div className="grid grid-cols-4 gap-4">
-          <div className="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 p-4">
-            <p className="text-sm text-zinc-500 mb-1">전체 할일</p>
-            <p className="text-2xl font-bold text-zinc-900 dark:text-zinc-100">
+          <div className="bg-white dark:bg-stone-900 rounded-xl border border-stone-200 dark:border-stone-800 p-4">
+            <p className="text-sm text-stone-500 mb-1">전체 할일</p>
+            <p className="text-2xl font-bold text-stone-900 dark:text-stone-100">
               {tasks.length}
             </p>
           </div>
-          <div className="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 p-4">
-            <p className="text-sm text-zinc-500 mb-1">완료</p>
-            <p className="text-2xl font-bold text-emerald-600">
+          <div className="bg-white dark:bg-stone-900 rounded-xl border border-stone-200 dark:border-stone-800 p-4">
+            <p className="text-sm text-stone-500 mb-1">완료</p>
+            <p className="text-2xl font-bold text-lime-600 dark:text-lime-400">
               {tasks.filter((t) => t.status === "DONE").length}
             </p>
           </div>
-          <div className="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 p-4">
-            <p className="text-sm text-zinc-500 mb-1">진행 중</p>
-            <p className="text-2xl font-bold text-indigo-600">
+          <div className="bg-white dark:bg-stone-900 rounded-xl border border-stone-200 dark:border-stone-800 p-4">
+            <p className="text-sm text-stone-500 mb-1">진행 중</p>
+            <p className="text-2xl font-bold text-lime-700 dark:text-lime-300">
               {tasks.filter((t) => t.status === "IN_PROGRESS").length}
             </p>
           </div>
-          <div className="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 p-4">
-            <p className="text-sm text-zinc-500 mb-1">회고</p>
-            <p className="text-2xl font-bold text-purple-600">
+          <div className="bg-white dark:bg-stone-900 rounded-xl border border-stone-200 dark:border-stone-800 p-4">
+            <p className="text-sm text-stone-500 mb-1">회고</p>
+            <p className="text-2xl font-bold text-stone-700 dark:text-stone-300">
               {retrospectives.length}
             </p>
           </div>

@@ -28,7 +28,6 @@ export function Drawer({
   title,
   width = "lg",
 }: DrawerProps) {
-  // ESC 키로 닫기
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -52,7 +51,7 @@ export function Drawer({
       {/* Backdrop */}
       <div
         className={`
-          absolute inset-0 bg-black/20
+          absolute inset-0 bg-stone-900/20
           transition-opacity duration-300
           ${isOpen ? "opacity-100" : "opacity-0"}
         `}
@@ -62,7 +61,7 @@ export function Drawer({
       {/* Drawer Content */}
       <div
         className={`
-          relative bg-white dark:bg-zinc-900 shadow-xl
+          relative bg-white dark:bg-stone-900 border-l border-stone-200 dark:border-stone-800
           ${widthStyles[width]} ${width !== "half" ? "w-full" : ""} h-full
           transform transition-transform duration-300 ease-out
           ${isOpen ? "translate-x-0" : "translate-x-full"}
@@ -71,16 +70,16 @@ export function Drawer({
       >
         {/* Header */}
         {title && (
-          <div className="flex items-center justify-between px-6 py-4 border-b border-zinc-200 dark:border-zinc-800 shrink-0">
-            <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
+          <div className="flex items-center justify-between px-5 py-4 border-b border-stone-100 dark:border-stone-800 shrink-0">
+            <h2 className="text-base font-semibold text-stone-900 dark:text-stone-100">
               {title}
             </h2>
             <button
               onClick={onClose}
-              className="p-1.5 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+              className="p-1.5 rounded-lg text-stone-400 hover:text-stone-600 hover:bg-stone-100 dark:hover:text-stone-300 dark:hover:bg-stone-800 transition-colors"
             >
               <svg
-                className="w-5 h-5 text-zinc-500"
+                className="w-4 h-4"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"

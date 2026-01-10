@@ -18,13 +18,12 @@ export function PageLayout({
   actions,
 }: PageLayoutProps) {
   return (
-    <div className="min-h-screen bg-zinc-100 dark:bg-zinc-950">
+    <div className="min-h-screen bg-stone-50 dark:bg-stone-950">
       <Sidebar />
-      <div className="ml-64">
+      <div className="ml-60">
         <Header title={title} description={description} actions={actions} />
-        <main className="p-8">{children}</main>
+        <main className="p-6">{children}</main>
       </div>
     </div>
   );
 }
-

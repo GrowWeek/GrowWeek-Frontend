@@ -90,8 +90,8 @@ export default function RetrospectiveDetailPage({
       <PageLayout title="회고 상세" description="회고 내용을 확인하세요">
         <div className="flex items-center justify-center h-96">
           <div className="flex flex-col items-center gap-4">
-            <div className="w-12 h-12 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin" />
-            <p className="text-zinc-500">회고를 불러오는 중...</p>
+            <div className="w-12 h-12 border-4 border-lime-200 border-t-lime-500 rounded-full animate-spin" />
+            <p className="text-stone-500">회고를 불러오는 중...</p>
           </div>
         </div>
       </PageLayout>
@@ -118,7 +118,7 @@ export default function RetrospectiveDetailPage({
               />
             </svg>
           </div>
-          <p className="text-zinc-600 dark:text-zinc-400 mb-4">
+          <p className="text-stone-600 dark:text-stone-400 mb-4">
             {error || "회고를 찾을 수 없습니다."}
           </p>
           <Button variant="secondary" onClick={() => router.push("/retrospective")}>
@@ -166,7 +166,7 @@ export default function RetrospectiveDetailPage({
           <Badge variant={status.variant} className="text-sm px-3 py-1">
             {status.label}
           </Badge>
-          <span className="text-zinc-500">
+          <span className="text-stone-500">
             {formatWeekIdKorean(retrospective.weekId)}
           </span>
         </div>
@@ -180,11 +180,11 @@ export default function RetrospectiveDetailPage({
 
         {/* 완료 안내 */}
         {isCompleted && (
-          <div className="p-4 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-xl">
+          <div className="p-4 bg-lime-50 dark:bg-lime-900/20 border border-lime-200 dark:border-lime-800 rounded-xl">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-emerald-100 dark:bg-emerald-800/50 rounded-lg flex items-center justify-center">
+              <div className="w-10 h-10 bg-lime-100 dark:bg-lime-800/50 rounded-lg flex items-center justify-center">
                 <svg
-                  className="w-5 h-5 text-emerald-600 dark:text-emerald-400"
+                  className="w-5 h-5 text-lime-600 dark:text-lime-400"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -198,10 +198,10 @@ export default function RetrospectiveDetailPage({
                 </svg>
               </div>
               <div>
-                <p className="font-medium text-emerald-800 dark:text-emerald-200">
+                <p className="font-medium text-lime-800 dark:text-lime-200">
                   회고가 완료되었습니다
                 </p>
-                <p className="text-sm text-emerald-700 dark:text-emerald-300">
+                <p className="text-sm text-lime-700 dark:text-lime-300">
                   {new Date(retrospective.updatedAt).toLocaleDateString("ko-KR", {
                     year: "numeric",
                     month: "long",
@@ -216,9 +216,9 @@ export default function RetrospectiveDetailPage({
         {/* 질문-답변 목록 */}
         {retrospective.questions.length > 0 && (
           <div className="space-y-4">
-            <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
+            <h2 className="text-lg font-semibold text-stone-900 dark:text-stone-100 flex items-center gap-2">
               <svg
-                className="w-5 h-5 text-indigo-500"
+                className="w-5 h-5 text-lime-500"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -226,7 +226,7 @@ export default function RetrospectiveDetailPage({
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  strokeWidth={2}
+                  strokeWidth={1.5}
                   d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
@@ -252,8 +252,8 @@ export default function RetrospectiveDetailPage({
                             flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold
                             ${
                               hasAnswer
-                                ? "bg-emerald-500 text-white"
-                                : "bg-zinc-200 dark:bg-zinc-700 text-zinc-500"
+                                ? "bg-lime-400 text-stone-900"
+                                : "bg-stone-200 dark:bg-stone-700 text-stone-500"
                             }
                           `}
                         >
@@ -276,7 +276,7 @@ export default function RetrospectiveDetailPage({
                           )}
                         </div>
                         <div className="flex-1">
-                          <h3 className="text-lg font-medium text-zinc-900 dark:text-zinc-100">
+                          <h3 className="text-lg font-medium text-stone-900 dark:text-stone-100">
                             {question.content}
                           </h3>
                         </div>
@@ -285,12 +285,12 @@ export default function RetrospectiveDetailPage({
                       {/* 답변 */}
                       <div className="ml-12">
                         {hasAnswer ? (
-                          <div className="p-4 bg-zinc-50 dark:bg-zinc-800/50 rounded-xl">
-                            <div className="text-zinc-700 dark:text-zinc-300 leading-relaxed prose dark:prose-invert prose-sm max-w-none">
+                          <div className="p-4 bg-stone-50 dark:bg-stone-800/50 rounded-xl">
+                            <div className="text-stone-700 dark:text-stone-300 leading-relaxed prose dark:prose-invert prose-sm max-w-none">
                               <MarkdownPreview content={answer.content || ""} />
                             </div>
                             {answer.updatedAt && (
-                              <p className="mt-3 text-xs text-zinc-400">
+                              <p className="mt-3 text-xs text-stone-400">
                                 {new Date(answer.updatedAt).toLocaleDateString("ko-KR", {
                                   month: "long",
                                   day: "numeric",
@@ -301,8 +301,8 @@ export default function RetrospectiveDetailPage({
                             )}
                           </div>
                         ) : (
-                          <div className="p-4 bg-zinc-50 dark:bg-zinc-800/50 rounded-xl text-center">
-                            <p className="text-zinc-400 italic">답변이 작성되지 않았습니다.</p>
+                          <div className="p-4 bg-stone-50 dark:bg-stone-800/50 rounded-xl text-center">
+                            <p className="text-stone-400 italic">답변이 작성되지 않았습니다.</p>
                           </div>
                         )}
                       </div>
@@ -317,9 +317,9 @@ export default function RetrospectiveDetailPage({
         {retrospective.questions.length === 0 && (
           <Card>
             <CardContent className="py-12 text-center">
-              <div className="w-16 h-16 bg-zinc-100 dark:bg-zinc-800 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-stone-100 dark:bg-stone-800 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg
-                  className="w-8 h-8 text-zinc-400"
+                  className="w-8 h-8 text-stone-400"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -327,12 +327,12 @@ export default function RetrospectiveDetailPage({
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    strokeWidth={2}
+                    strokeWidth={1.5}
                     d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                   />
                 </svg>
               </div>
-              <p className="text-zinc-500 mb-4">아직 질문이 생성되지 않았습니다.</p>
+              <p className="text-stone-500 mb-4">아직 질문이 생성되지 않았습니다.</p>
               <Button onClick={handleContinueWriting}>질문 생성하기</Button>
             </CardContent>
           </Card>
@@ -342,9 +342,9 @@ export default function RetrospectiveDetailPage({
         {retrospective.additionalNotes && (
           <Card>
             <CardContent className="p-6">
-              <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100 mb-4 flex items-center gap-2">
+              <h3 className="text-lg font-semibold text-stone-900 dark:text-stone-100 mb-4 flex items-center gap-2">
                 <svg
-                  className="w-5 h-5 text-amber-500"
+                  className="w-5 h-5 text-lime-500"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -352,14 +352,14 @@ export default function RetrospectiveDetailPage({
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    strokeWidth={2}
+                    strokeWidth={1.5}
                     d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
                   />
                 </svg>
                 추가 메모
               </h3>
-              <div className="p-4 bg-amber-50 dark:bg-amber-900/20 rounded-xl">
-                <div className="text-zinc-700 dark:text-zinc-300 leading-relaxed prose dark:prose-invert prose-sm max-w-none">
+              <div className="p-4 bg-lime-50 dark:bg-lime-900/20 rounded-xl">
+                <div className="text-stone-700 dark:text-stone-300 leading-relaxed prose dark:prose-invert prose-sm max-w-none">
                   <MarkdownPreview content={retrospective.additionalNotes} />
                 </div>
               </div>
@@ -370,9 +370,9 @@ export default function RetrospectiveDetailPage({
         {/* 메타 정보 */}
         <Card>
           <CardContent className="p-6">
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100 mb-4 flex items-center gap-2">
+            <h3 className="text-lg font-semibold text-stone-900 dark:text-stone-100 mb-4 flex items-center gap-2">
               <svg
-                className="w-5 h-5 text-indigo-500"
+                className="w-5 h-5 text-lime-500"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -380,34 +380,34 @@ export default function RetrospectiveDetailPage({
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  strokeWidth={2}
+                  strokeWidth={1.5}
                   d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
               회고 정보
             </h3>
             <div className="grid grid-cols-2 gap-4">
-              <div className="p-4 bg-zinc-50 dark:bg-zinc-800/50 rounded-xl">
-                <p className="text-sm text-zinc-500 mb-1">회고 기간</p>
-                <p className="font-medium text-zinc-900 dark:text-zinc-100">
+              <div className="p-4 bg-stone-50 dark:bg-stone-800/50 rounded-xl">
+                <p className="text-sm text-stone-500 mb-1">회고 기간</p>
+                <p className="font-medium text-stone-900 dark:text-stone-100">
                   {formatWeekIdKorean(retrospective.weekId)}
                 </p>
               </div>
-              <div className="p-4 bg-zinc-50 dark:bg-zinc-800/50 rounded-xl">
-                <p className="text-sm text-zinc-500 mb-1">질문 수</p>
-                <p className="font-medium text-zinc-900 dark:text-zinc-100">
+              <div className="p-4 bg-stone-50 dark:bg-stone-800/50 rounded-xl">
+                <p className="text-sm text-stone-500 mb-1">질문 수</p>
+                <p className="font-medium text-stone-900 dark:text-stone-100">
                   {retrospective.questionCount}개
                 </p>
               </div>
-              <div className="p-4 bg-zinc-50 dark:bg-zinc-800/50 rounded-xl">
-                <p className="text-sm text-zinc-500 mb-1">생성일</p>
-                <p className="font-medium text-zinc-900 dark:text-zinc-100">
+              <div className="p-4 bg-stone-50 dark:bg-stone-800/50 rounded-xl">
+                <p className="text-sm text-stone-500 mb-1">생성일</p>
+                <p className="font-medium text-stone-900 dark:text-stone-100">
                   {new Date(retrospective.createdAt).toLocaleDateString("ko-KR")}
                 </p>
               </div>
-              <div className="p-4 bg-zinc-50 dark:bg-zinc-800/50 rounded-xl">
-                <p className="text-sm text-zinc-500 mb-1">최종 수정</p>
-                <p className="font-medium text-zinc-900 dark:text-zinc-100">
+              <div className="p-4 bg-stone-50 dark:bg-stone-800/50 rounded-xl">
+                <p className="text-sm text-stone-500 mb-1">최종 수정</p>
+                <p className="font-medium text-stone-900 dark:text-stone-100">
                   {new Date(retrospective.updatedAt).toLocaleDateString("ko-KR")}
                 </p>
               </div>

@@ -31,20 +31,20 @@ export function AdditionalNotes({
   };
 
   return (
-    <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6">
-      <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100 mb-4 flex items-center gap-2">
-        <svg className="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <div className="bg-white dark:bg-stone-900 rounded-xl border border-stone-200 dark:border-stone-800 p-6">
+      <h3 className="text-lg font-semibold text-stone-900 dark:text-stone-100 mb-4 flex items-center gap-2">
+        <svg className="w-5 h-5 text-lime-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
-            strokeWidth={2}
+            strokeWidth={1.5}
             d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
           />
         </svg>
         추가 메모
       </h3>
 
-      <p className="text-sm text-zinc-500 mb-4">
+      <p className="text-sm text-stone-500 mb-4">
         질문 외에 추가로 기록하고 싶은 내용을 자유롭게 작성하세요.
       </p>
 
@@ -78,13 +78,13 @@ export function AdditionalNotes({
         </div>
       ) : notes ? (
         <div>
-          <div className="text-zinc-700 dark:text-zinc-300 leading-relaxed prose dark:prose-invert prose-sm max-w-none">
+          <div className="text-stone-700 dark:text-stone-300 leading-relaxed prose dark:prose-invert prose-sm max-w-none">
             <MarkdownPreview content={notes} />
           </div>
           {!disabled && (
             <button
               onClick={() => setIsEditing(true)}
-              className="mt-3 text-sm text-indigo-600 hover:text-indigo-700 font-medium"
+              className="mt-3 text-sm text-lime-600 hover:text-lime-700 font-medium"
             >
               수정하기
             </button>
@@ -98,8 +98,8 @@ export function AdditionalNotes({
             w-full p-4 rounded-xl border-2 border-dashed text-center transition-colors
             ${
               disabled
-                ? "border-zinc-200 dark:border-zinc-700 text-zinc-400 cursor-not-allowed"
-                : "border-zinc-300 dark:border-zinc-600 text-zinc-500 hover:border-indigo-400 hover:text-indigo-600"
+                ? "border-stone-200 dark:border-stone-700 text-stone-400 cursor-not-allowed"
+                : "border-stone-300 dark:border-stone-600 text-stone-500 hover:border-lime-400 hover:text-lime-600"
             }
           `}
         >

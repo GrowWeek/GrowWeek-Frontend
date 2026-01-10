@@ -14,21 +14,21 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variantStyles: Record<ButtonVariant, string> = {
   primary:
-    "bg-indigo-600 text-white hover:bg-indigo-700 focus:ring-indigo-500 dark:bg-indigo-500 dark:hover:bg-indigo-600",
+    "bg-lime-400 text-stone-900 hover:bg-lime-300 focus:ring-lime-400/50 dark:bg-lime-400 dark:hover:bg-lime-300 dark:text-stone-900 font-semibold",
   secondary:
-    "bg-zinc-100 text-zinc-900 hover:bg-zinc-200 focus:ring-zinc-500 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:bg-zinc-700",
+    "bg-stone-100 text-stone-700 hover:bg-stone-200 focus:ring-stone-400/50 dark:bg-stone-800 dark:text-stone-200 dark:hover:bg-stone-700",
   ghost:
-    "bg-transparent text-zinc-700 hover:bg-zinc-100 focus:ring-zinc-500 dark:text-zinc-300 dark:hover:bg-zinc-800",
+    "bg-transparent text-stone-600 hover:bg-stone-100 focus:ring-stone-400/50 dark:text-stone-400 dark:hover:bg-stone-800",
   danger:
-    "bg-rose-600 text-white hover:bg-rose-700 focus:ring-rose-500 dark:bg-rose-500 dark:hover:bg-rose-600",
+    "bg-rose-500 text-white hover:bg-rose-600 focus:ring-rose-500/50 dark:bg-rose-600 dark:hover:bg-rose-500",
   outline:
-    "bg-transparent border border-zinc-300 text-zinc-700 hover:bg-zinc-50 focus:ring-zinc-500 dark:border-zinc-600 dark:text-zinc-300 dark:hover:bg-zinc-800",
+    "bg-transparent border border-stone-300 text-stone-700 hover:bg-stone-50 focus:ring-stone-400/50 dark:border-stone-600 dark:text-stone-300 dark:hover:bg-stone-800/50",
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
   sm: "px-3 py-1.5 text-sm",
   md: "px-4 py-2 text-sm",
-  lg: "px-6 py-3 text-base",
+  lg: "px-6 py-2.5 text-base",
 };
 
 export function Button({
@@ -46,9 +46,10 @@ export function Button({
     <button
       className={`
         inline-flex items-center justify-center gap-2
-        font-medium rounded-xl
+        font-medium rounded-lg
         focus:outline-none focus:ring-2 focus:ring-offset-2
-        transition-colors duration-200
+        dark:focus:ring-offset-stone-900
+        transition-all duration-150
         disabled:opacity-50 disabled:cursor-not-allowed
         ${variantStyles[variant]}
         ${sizeStyles[size]}
@@ -86,4 +87,3 @@ export function Button({
     </button>
   );
 }
-

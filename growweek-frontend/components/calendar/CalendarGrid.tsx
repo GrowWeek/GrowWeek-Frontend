@@ -22,7 +22,6 @@ interface DayInfo {
 
 const WEEKDAYS = ["일", "월", "화", "수", "목", "금", "토"];
 
-// 회고 데이터에 시작/종료일 문자열을 추가한 타입
 interface RetrospectiveWithDateRange extends RetrospectiveSummaryResponse {
   startDateStr: string;
   endDateStr: string;
@@ -35,7 +34,6 @@ export function CalendarGrid({
   retrospectives,
   onDateClick,
 }: CalendarGridProps) {
-  // 회고 데이터를 미리 처리하여 시작/종료일 문자열 추가 (성능 최적화)
   const retrospectivesWithDates = useMemo<RetrospectiveWithDateRange[]>(() => {
     return retrospectives.map((r) => {
       const { start, end } = parseWeekId(r.weekId);
@@ -52,14 +50,10 @@ export function CalendarGrid({
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    // 해당 월의 첫 날과 마지막 날
     const firstDay = new Date(year, month - 1, 1);
     const lastDay = new Date(year, month, 0);
-
-    // 시작 요일 (0: 일요일)
     const startDayOfWeek = firstDay.getDay();
 
-    // 이전 달 날짜 채우기
     for (let i = startDayOfWeek - 1; i >= 0; i--) {
       const date = new Date(year, month - 1, -i);
       result.push({
@@ -71,15 +65,11 @@ export function CalendarGrid({
       });
     }
 
-    // 현재 달 날짜 채우기
     for (let day = 1; day <= lastDay.getDate(); day++) {
       const date = new Date(year, month - 1, day);
       const dateStr = formatDateStr(date);
 
-      // 해당 날짜의 할일 (마감일 기준)
       const dayTasks = tasks.filter((t) => t.dueDate === dateStr);
-
-      // 해당 날짜가 포함된 회고 기간 (미리 계산된 시작/종료일 사용)
       const dayRetros = retrospectivesWithDates.filter(
         (r) => dateStr >= r.startDateStr && dateStr <= r.endDateStr
       );
@@ -93,7 +83,6 @@ export function CalendarGrid({
       });
     }
 
-    // 다음 달 날짜 채우기 (6주 채우기)
     const remaining = 42 - result.length;
     for (let i = 1; i <= remaining; i++) {
       const date = new Date(year, month, i);
@@ -110,18 +99,18 @@ export function CalendarGrid({
   }, [year, month, tasks, retrospectivesWithDates]);
 
   return (
-    <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 overflow-hidden">
+    <div className="bg-white dark:bg-stone-900 rounded-xl border border-stone-200 dark:border-stone-800 overflow-hidden">
       {/* 요일 헤더 */}
-      <div className="grid grid-cols-7 border-b border-zinc-200 dark:border-zinc-800">
+      <div className="grid grid-cols-7 border-b border-stone-200 dark:border-stone-800">
         {WEEKDAYS.map((day, index) => (
           <div
             key={day}
-            className={`py-3 text-center text-sm font-medium ${
+            className={`py-2.5 text-center text-sm font-medium ${
               index === 0
                 ? "text-rose-500"
                 : index === 6
-                ? "text-sky-500"
-                : "text-zinc-500"
+                ? "text-lime-600 dark:text-lime-400"
+                : "text-stone-500"
             }`}
           >
             {day}
@@ -140,10 +129,10 @@ export function CalendarGrid({
               key={index}
               onClick={() => onDateClick?.(day.date)}
               className={`
-                min-h-[100px] p-2 border-b border-r border-zinc-100 dark:border-zinc-800
+                min-h-[90px] p-2 border-b border-r border-stone-100 dark:border-stone-800
                 ${index % 7 === 6 ? "border-r-0" : ""}
-                ${!day.isCurrentMonth ? "bg-zinc-50 dark:bg-zinc-950" : ""}
-                ${hasItems ? "cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-800/50" : ""}
+                ${!day.isCurrentMonth ? "bg-stone-50 dark:bg-stone-950" : ""}
+                ${hasItems ? "cursor-pointer hover:bg-stone-50 dark:hover:bg-stone-800/50" : ""}
                 transition-colors
               `}
             >
@@ -151,17 +140,17 @@ export function CalendarGrid({
               <div className="flex items-center justify-between mb-1">
                 <span
                   className={`
-                    inline-flex items-center justify-center w-7 h-7 rounded-full text-sm
+                    inline-flex items-center justify-center w-6 h-6 rounded-full text-sm
                     ${
                       day.isToday
-                        ? "bg-indigo-600 text-white font-bold"
+                        ? "bg-lime-400 text-stone-900 font-bold"
                         : day.isCurrentMonth
                         ? dayOfWeek === 0
                           ? "text-rose-500"
                           : dayOfWeek === 6
-                          ? "text-sky-500"
-                          : "text-zinc-900 dark:text-zinc-100"
-                        : "text-zinc-300 dark:text-zinc-600"
+                          ? "text-lime-600 dark:text-lime-400"
+                          : "text-stone-900 dark:text-stone-100"
+                        : "text-stone-300 dark:text-stone-600"
                     }
                   `}
                 >
@@ -170,7 +159,7 @@ export function CalendarGrid({
               </div>
 
               {/* 이벤트 표시 */}
-              <div className="space-y-1">
+              <div className="space-y-0.5">
                 {/* 회고 기간 표시 */}
                 {(day.retrospectives as RetrospectiveWithDateRange[]).slice(0, 1).map((retro) => {
                   const dateStr = formatDateStr(day.date);
@@ -181,18 +170,17 @@ export function CalendarGrid({
                     <div
                       key={retro.id}
                       className={`
-                        text-xs py-0.5 px-1.5 truncate
+                        text-xs py-0.5 px-1 truncate
                         ${
                           retro.status === "DONE"
-                            ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300"
-                            : "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300"
+                            ? "bg-lime-100 text-lime-700 dark:bg-lime-900/30 dark:text-lime-400"
+                            : "bg-stone-100 text-stone-600 dark:bg-stone-800 dark:text-stone-400"
                         }
-                        ${isStart ? "rounded-l-md" : ""}
-                        ${isEnd ? "rounded-r-md" : ""}
-                        ${!isStart && !isEnd ? "" : ""}
+                        ${isStart ? "rounded-l" : ""}
+                        ${isEnd ? "rounded-r" : ""}
                       `}
                     >
-                      {isStart ? "📝 회고" : ""}
+                      {isStart ? "회고" : ""}
                     </div>
                   );
                 })}
@@ -202,13 +190,13 @@ export function CalendarGrid({
                   <div
                     key={task.id}
                     className={`
-                      text-xs py-0.5 px-1.5 rounded truncate
+                      text-xs py-0.5 px-1 rounded truncate
                       ${
                         task.status === "DONE"
-                          ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300"
+                          ? "bg-lime-100 text-lime-700 dark:bg-lime-900/30 dark:text-lime-400"
                           : task.status === "CANCEL"
-                          ? "bg-zinc-100 text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400 line-through"
-                          : "bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300"
+                          ? "bg-stone-100 text-stone-400 dark:bg-stone-800 dark:text-stone-500 line-through"
+                          : "bg-lime-50 text-lime-700 dark:bg-lime-900/20 dark:text-lime-400"
                       }
                     `}
                     title={task.title}
@@ -219,8 +207,8 @@ export function CalendarGrid({
 
                 {/* 더보기 표시 */}
                 {day.tasks.length > 2 && (
-                  <div className="text-xs text-zinc-400 px-1.5">
-                    +{day.tasks.length - 2}개 더
+                  <div className="text-xs text-stone-400 px-1">
+                    +{day.tasks.length - 2}개
                   </div>
                 )}
               </div>
@@ -238,4 +226,3 @@ function formatDateStr(date: Date): string {
   const day = String(date.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
 }
-

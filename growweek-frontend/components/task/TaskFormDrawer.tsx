@@ -214,7 +214,7 @@ export function TaskFormDrawer({
           />
         )}
 
-        <div className="flex justify-end gap-3 pt-4 border-t border-zinc-200 dark:border-zinc-800">
+        <div className="flex justify-end gap-3 pt-4 border-t border-stone-200 dark:border-stone-800">
           <Button type="button" variant="ghost" onClick={onClose}>
             취소
           </Button>

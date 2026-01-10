@@ -25,7 +25,6 @@ export function Modal({
   title,
   size = "md",
 }: ModalProps) {
-  // ESC 키로 닫기
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -48,26 +47,26 @@ export function Modal({
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        className="absolute inset-0 bg-stone-900/40 backdrop-blur-sm"
         onClick={onClose}
       />
 
       {/* Modal Content */}
       <div
-        className={`relative bg-white dark:bg-zinc-900 rounded-2xl shadow-xl ${sizeStyles[size]} w-full mx-4 max-h-[90vh] overflow-hidden animate-fade-in`}
+        className={`relative bg-white dark:bg-stone-900 rounded-xl border border-stone-200 dark:border-stone-800 ${sizeStyles[size]} w-full mx-4 max-h-[90vh] overflow-hidden animate-scale-in`}
       >
         {/* Header */}
         {title && (
-          <div className="flex items-center justify-between px-6 py-4 border-b border-zinc-200 dark:border-zinc-800">
-            <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
+          <div className="flex items-center justify-between px-5 py-4 border-b border-stone-100 dark:border-stone-800">
+            <h2 className="text-base font-semibold text-stone-900 dark:text-stone-100">
               {title}
             </h2>
             <button
               onClick={onClose}
-              className="p-1 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+              className="p-1.5 rounded-lg text-stone-400 hover:text-stone-600 hover:bg-stone-100 dark:hover:text-stone-300 dark:hover:bg-stone-800 transition-colors"
             >
               <svg
-                className="w-5 h-5 text-zinc-500"
+                className="w-4 h-4"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -90,4 +89,3 @@ export function Modal({
     document.body
   );
 }
-
