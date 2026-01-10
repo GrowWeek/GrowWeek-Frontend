@@ -22,6 +22,12 @@ interface DayInfo {
 
 const WEEKDAYS = ["일", "월", "화", "수", "목", "금", "토"];
 
+// 회고 데이터에 시작/종료일 문자열을 추가한 타입
+interface RetrospectiveWithDateRange extends RetrospectiveSummaryResponse {
+  startDateStr: string;
+  endDateStr: string;
+}
+
 export function CalendarGrid({
   year,
   month,
@@ -29,6 +35,18 @@ export function CalendarGrid({
   retrospectives,
   onDateClick,
 }: CalendarGridProps) {
+  // 회고 데이터를 미리 처리하여 시작/종료일 문자열 추가 (성능 최적화)
+  const retrospectivesWithDates = useMemo<RetrospectiveWithDateRange[]>(() => {
+    return retrospectives.map((r) => {
+      const { start, end } = parseWeekId(r.weekId);
+      return {
+        ...r,
+        startDateStr: formatDate(start),
+        endDateStr: formatDate(end),
+      };
+    });
+  }, [retrospectives]);
+
   const days = useMemo(() => {
     const result: DayInfo[] = [];
     const today = new Date();
@@ -61,13 +79,10 @@ export function CalendarGrid({
       // 해당 날짜의 할일 (마감일 기준)
       const dayTasks = tasks.filter((t) => t.dueDate === dateStr);
 
-      // 해당 날짜가 포함된 회고 기간 (weekId를 파싱하여 시작/종료일 계산)
-      const dayRetros = retrospectives.filter((r) => {
-        const { start, end } = parseWeekId(r.weekId);
-        const startStr = formatDate(start);
-        const endStr = formatDate(end);
-        return dateStr >= startStr && dateStr <= endStr;
-      });
+      // 해당 날짜가 포함된 회고 기간 (미리 계산된 시작/종료일 사용)
+      const dayRetros = retrospectivesWithDates.filter(
+        (r) => dateStr >= r.startDateStr && dateStr <= r.endDateStr
+      );
 
       result.push({
         date,
@@ -92,7 +107,7 @@ export function CalendarGrid({
     }
 
     return result;
-  }, [year, month, tasks, retrospectives]);
+  }, [year, month, tasks, retrospectivesWithDates]);
 
   return (
     <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 overflow-hidden">
@@ -157,10 +172,10 @@ export function CalendarGrid({
               {/* 이벤트 표시 */}
               <div className="space-y-1">
                 {/* 회고 기간 표시 */}
-                {day.retrospectives.slice(0, 1).map((retro) => {
-                  const { start, end } = parseWeekId(retro.weekId);
-                  const isStart = formatDate(start) === formatDateStr(day.date);
-                  const isEnd = formatDate(end) === formatDateStr(day.date);
+                {(day.retrospectives as RetrospectiveWithDateRange[]).slice(0, 1).map((retro) => {
+                  const dateStr = formatDateStr(day.date);
+                  const isStart = retro.startDateStr === dateStr;
+                  const isEnd = retro.endDateStr === dateStr;
 
                   return (
                     <div

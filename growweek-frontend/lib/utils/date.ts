@@ -313,8 +313,13 @@ export function isDateInWeek(date: Date | string, weekId: string): boolean {
 /**
  * 특정 WeekId의 회고 작성 기간을 반환합니다.
  * 작성 가능 기간: 해당 주의 금요일 00:00 ~ 다음 주 월요일 00:00
+ * @param weekId WeekId (YYYY-Www 형식)
+ * @param now 현재 시간 (테스트 용이성을 위해 주입 가능)
  */
-export function getRetrospectiveWritePeriodForWeek(weekId: string): {
+export function getRetrospectiveWritePeriodForWeek(
+  weekId: string,
+  now: Date = new Date()
+): {
   startTime: Date;
   endTime: Date;
   isWithinPeriod: boolean;
@@ -331,7 +336,6 @@ export function getRetrospectiveWritePeriodForWeek(weekId: string): {
   nextMonday.setDate(start.getDate() + 7);
   nextMonday.setHours(0, 0, 0, 0);
 
-  const now = new Date();
   const isWithinPeriod = now >= friday && now < nextMonday;
 
   return { startTime: friday, endTime: nextMonday, isWithinPeriod };
@@ -339,8 +343,13 @@ export function getRetrospectiveWritePeriodForWeek(weekId: string): {
 
 /**
  * 특정 WeekId의 회고 작성 기간이 만료되었는지 확인합니다.
+ * @param weekId WeekId (YYYY-Www 형식)
+ * @param now 현재 시간 (테스트 용이성을 위해 주입 가능)
  */
-export function isRetrospectiveExpiredForWeek(weekId: string): {
+export function isRetrospectiveExpiredForWeek(
+  weekId: string,
+  now: Date = new Date()
+): {
   isExpired: boolean;
   deadline: Date;
 } {
@@ -351,6 +360,5 @@ export function isRetrospectiveExpiredForWeek(weekId: string): {
   deadline.setDate(start.getDate() + 7);
   deadline.setHours(0, 0, 0, 0);
 
-  const now = new Date();
   return { isExpired: now >= deadline, deadline };
 }

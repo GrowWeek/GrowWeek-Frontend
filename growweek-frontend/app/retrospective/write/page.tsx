@@ -188,7 +188,7 @@ export default function RetrospectiveWritePage() {
 
   // 회고 기간 만료 여부 체크 (회고가 있는 경우)
   const expiredInfo = retrospective
-    ? isRetrospectiveExpiredForWeek(retrospective.weekId)
+    ? isRetrospectiveExpiredForWeek(retrospective.weekId, currentTime)
     : null;
   const isExpired = expiredInfo?.isExpired ?? false;
 
