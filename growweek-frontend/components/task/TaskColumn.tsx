@@ -21,27 +21,27 @@ const columnConfig: Record<
 > = {
   TODO: {
     title: "할 일",
-    color: "text-zinc-700 dark:text-zinc-300",
-    bgColor: "bg-zinc-100 dark:bg-zinc-800",
-    borderColor: "border-zinc-300 dark:border-zinc-600",
+    color: "text-stone-700 dark:text-stone-300",
+    bgColor: "bg-stone-100 dark:bg-stone-800",
+    borderColor: "border-stone-300 dark:border-stone-600",
   },
   IN_PROGRESS: {
     title: "진행 중",
-    color: "text-sky-700 dark:text-sky-300",
-    bgColor: "bg-sky-50 dark:bg-sky-900/30",
-    borderColor: "border-sky-300 dark:border-sky-700",
+    color: "text-lime-700 dark:text-lime-400",
+    bgColor: "bg-lime-50 dark:bg-lime-900/20",
+    borderColor: "border-lime-400 dark:border-lime-600",
   },
   DONE: {
     title: "완료",
-    color: "text-emerald-700 dark:text-emerald-300",
-    bgColor: "bg-emerald-50 dark:bg-emerald-900/30",
-    borderColor: "border-emerald-300 dark:border-emerald-700",
+    color: "text-lime-700 dark:text-lime-400",
+    bgColor: "bg-lime-50 dark:bg-lime-900/20",
+    borderColor: "border-lime-400 dark:border-lime-600",
   },
   CANCEL: {
     title: "취소",
-    color: "text-rose-700 dark:text-rose-300",
-    bgColor: "bg-rose-50 dark:bg-rose-900/30",
-    borderColor: "border-rose-300 dark:border-rose-700",
+    color: "text-stone-500 dark:text-stone-400",
+    bgColor: "bg-stone-100 dark:bg-stone-800",
+    borderColor: "border-stone-300 dark:border-stone-700",
   },
 };
 
@@ -62,19 +62,19 @@ export function TaskColumn({
     <div
       className={`
         flex flex-col h-full min-h-[500px]
-        bg-zinc-50 dark:bg-zinc-900/50 rounded-2xl
+        bg-stone-50 dark:bg-stone-900/50 rounded-xl
         border-2 border-dashed
         ${isOver ? config.borderColor : "border-transparent"}
-        transition-colors duration-200
+        transition-colors duration-150
       `}
     >
       {/* Column Header */}
-      <div className={`px-4 py-3 rounded-t-2xl ${config.bgColor}`}>
+      <div className={`px-3 py-2.5 rounded-t-xl ${config.bgColor}`}>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <h3 className={`font-semibold ${config.color}`}>{config.title}</h3>
+            <h3 className={`font-medium text-sm ${config.color}`}>{config.title}</h3>
             <span
-              className={`px-2 py-0.5 text-xs font-medium rounded-full ${config.bgColor} ${config.color}`}
+              className={`px-1.5 py-0.5 text-xs font-medium rounded ${config.bgColor} ${config.color}`}
             >
               {tasks.length}
             </span>
@@ -82,11 +82,11 @@ export function TaskColumn({
           {status === "TODO" && onAddTask && (
             <button
               onClick={onAddTask}
-              className="p-1.5 rounded-lg hover:bg-white/50 dark:hover:bg-zinc-800/50 transition-colors"
+              className="p-1 rounded-md hover:bg-white/50 dark:hover:bg-stone-800/50 transition-colors"
               title="할일 추가"
             >
               <svg
-                className="w-5 h-5 text-zinc-500"
+                className="w-4 h-4 text-stone-500"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -107,9 +107,9 @@ export function TaskColumn({
       <div
         ref={setNodeRef}
         className={`
-          flex-1 p-3 space-y-3 overflow-y-auto
-          ${isOver ? "bg-indigo-50/50 dark:bg-indigo-900/10" : ""}
-          transition-colors duration-200
+          flex-1 p-2.5 space-y-2 overflow-y-auto
+          ${isOver ? "bg-lime-50/50 dark:bg-lime-900/10" : ""}
+          transition-colors duration-150
         `}
       >
         <SortableContext items={taskIds} strategy={verticalListSortingStrategy}>
@@ -123,9 +123,9 @@ export function TaskColumn({
         </SortableContext>
 
         {tasks.length === 0 && (
-          <div className="flex flex-col items-center justify-center h-32 text-zinc-400">
+          <div className="flex flex-col items-center justify-center h-28 text-stone-400">
             <svg
-              className="w-8 h-8 mb-2"
+              className="w-6 h-6 mb-1.5"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -137,11 +137,10 @@ export function TaskColumn({
                 d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
               />
             </svg>
-            <p className="text-sm">할일이 없습니다</p>
+            <p className="text-xs">할일이 없습니다</p>
           </div>
         )}
       </div>
     </div>
   );
 }
-

@@ -25,7 +25,7 @@ const navItems: NavItem[] = [
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
-          strokeWidth={2}
+          strokeWidth={1.5}
           d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
         />
       </svg>
@@ -44,7 +44,7 @@ const navItems: NavItem[] = [
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
-          strokeWidth={2}
+          strokeWidth={1.5}
           d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
         />
       </svg>
@@ -63,7 +63,7 @@ const navItems: NavItem[] = [
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
-          strokeWidth={2}
+          strokeWidth={1.5}
           d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
         />
       </svg>
@@ -82,7 +82,7 @@ const navItems: NavItem[] = [
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
-          strokeWidth={2}
+          strokeWidth={1.5}
           d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
         />
       </svg>
@@ -93,21 +93,18 @@ const navItems: NavItem[] = [
 export function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
-  
-  // 캐시된 사용자 정보를 초기값으로 설정 (useEffect 외부에서)
+
   const cachedUser = useMemo(() => memberService.getCachedCurrentMember(), []);
   const [currentUser, setCurrentUser] = useState<MemberResponse | null>(cachedUser);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // 로그인 상태 확인
     const checkAuth = async () => {
       if (memberService.isLoggedIn()) {
         try {
           const user = await memberService.getCurrentMember();
           setCurrentUser(user);
         } catch {
-          // 토큰이 유효하지 않은 경우
           memberService.logout();
           router.push("/login");
         } finally {
@@ -115,13 +112,12 @@ export function Sidebar() {
         }
       } else {
         setIsLoading(false);
-        // 로그인 페이지가 아니면 리다이렉트
         if (pathname !== "/login" && pathname !== "/signup") {
           router.push("/login");
         }
       }
     };
-    
+
     checkAuth();
   }, [router, pathname]);
 
@@ -131,7 +127,6 @@ export function Sidebar() {
     router.push("/login");
   };
 
-  // 사용자 이니셜 추출
   const getUserInitial = () => {
     if (currentUser?.nickname) {
       return currentUser.nickname.charAt(0).toUpperCase();
@@ -140,14 +135,16 @@ export function Sidebar() {
   };
 
   return (
-    <aside className="fixed left-0 top-0 h-full w-64 bg-zinc-50 dark:bg-zinc-950 border-r border-zinc-200 dark:border-zinc-800 flex flex-col">
+    <aside className="fixed left-0 top-0 h-full w-60 bg-white dark:bg-stone-950 border-r border-stone-200 dark:border-stone-800 flex flex-col">
       {/* Logo */}
-      <div className="h-16 flex items-center px-6 border-b border-zinc-200 dark:border-zinc-800">
-        <Link href="/" className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold text-sm">G</span>
+      <div className="h-14 flex items-center px-5 border-b border-stone-100 dark:border-stone-800">
+        <Link href="/" className="flex items-center gap-2.5">
+          <div className="w-7 h-7 bg-lime-400 rounded-lg flex items-center justify-center">
+            <svg className="w-4 h-4 text-stone-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
           </div>
-          <span className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+          <span className="text-lg font-bold text-stone-900 dark:text-stone-100">
             GrowWeek
           </span>
         </Link>
@@ -162,16 +159,18 @@ export function Sidebar() {
               key={item.href}
               href={item.href}
               className={`
-                flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium
-                transition-colors duration-200
+                flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium
+                transition-colors duration-150
                 ${
                   isActive
-                    ? "bg-indigo-100 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300"
-                    : "text-zinc-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-900"
+                    ? "bg-lime-50 text-lime-700 dark:bg-lime-900/20 dark:text-lime-400"
+                    : "text-stone-600 hover:bg-stone-50 dark:text-stone-400 dark:hover:bg-stone-900"
                 }
               `}
             >
-              {item.icon}
+              <span className={isActive ? "text-lime-600 dark:text-lime-400" : ""}>
+                {item.icon}
+              </span>
               {item.label}
             </Link>
           );
@@ -179,35 +178,35 @@ export function Sidebar() {
       </nav>
 
       {/* User Footer */}
-      <div className="p-4 border-t border-zinc-200 dark:border-zinc-800">
+      <div className="p-3 border-t border-stone-100 dark:border-stone-800">
         {isLoading ? (
           <div className="flex items-center gap-3 px-3 py-2">
-            <div className="w-8 h-8 bg-zinc-200 dark:bg-zinc-700 rounded-full animate-pulse" />
+            <div className="w-8 h-8 bg-stone-100 dark:bg-stone-800 rounded-full animate-pulse" />
             <div className="flex-1">
-              <div className="h-4 w-20 bg-zinc-200 dark:bg-zinc-700 rounded animate-pulse mb-1" />
-              <div className="h-3 w-16 bg-zinc-200 dark:bg-zinc-700 rounded animate-pulse" />
+              <div className="h-4 w-20 bg-stone-100 dark:bg-stone-800 rounded animate-pulse mb-1" />
+              <div className="h-3 w-16 bg-stone-100 dark:bg-stone-800 rounded animate-pulse" />
             </div>
           </div>
         ) : currentUser ? (
-          <div className="space-y-2">
+          <div className="space-y-1">
             <div className="flex items-center gap-3 px-3 py-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-emerald-400 to-cyan-500 rounded-full flex items-center justify-center">
-                <span className="text-white font-medium text-xs">
+              <div className="w-8 h-8 bg-lime-100 dark:bg-lime-900/30 rounded-full flex items-center justify-center">
+                <span className="text-lime-700 dark:text-lime-400 font-medium text-xs">
                   {getUserInitial()}
                 </span>
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100 truncate">
+                <p className="text-sm font-medium text-stone-900 dark:text-stone-100 truncate">
                   {currentUser.nickname}
                 </p>
-                <p className="text-xs text-zinc-500 dark:text-zinc-400 truncate">
+                <p className="text-xs text-stone-500 dark:text-stone-500 truncate">
                   {currentUser.email}
                 </p>
               </div>
             </div>
             <button
               onClick={handleLogout}
-              className="w-full flex items-center gap-2 px-3 py-2 text-sm text-zinc-600 dark:text-zinc-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-zinc-100 dark:hover:bg-zinc-900 rounded-xl transition-colors"
+              className="w-full flex items-center gap-2 px-3 py-2 text-sm text-stone-500 dark:text-stone-500 hover:text-stone-700 dark:hover:text-stone-300 hover:bg-stone-50 dark:hover:bg-stone-900 rounded-lg transition-colors"
             >
               <svg
                 className="w-4 h-4"
@@ -218,7 +217,7 @@ export function Sidebar() {
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  strokeWidth={2}
+                  strokeWidth={1.5}
                   d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
                 />
               </svg>
@@ -228,7 +227,7 @@ export function Sidebar() {
         ) : (
           <Link
             href="/login"
-            className="flex items-center justify-center gap-2 w-full px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-sm font-medium transition-colors"
+            className="flex items-center justify-center gap-2 w-full px-4 py-2 bg-lime-400 hover:bg-lime-300 text-stone-900 rounded-lg text-sm font-semibold transition-colors"
           >
             로그인
           </Link>
@@ -237,4 +236,3 @@ export function Sidebar() {
     </aside>
   );
 }
-

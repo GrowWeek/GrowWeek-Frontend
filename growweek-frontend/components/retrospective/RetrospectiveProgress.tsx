@@ -34,7 +34,7 @@ export function RetrospectiveProgress({
     questionCount > 0 ? Math.round((answeredCount / questionCount) * 100) : 0;
 
   return (
-    <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6">
+    <div className="bg-white dark:bg-stone-900 rounded-xl border border-stone-200 dark:border-stone-800 p-6">
       {/* 단계 표시 */}
       <div className="flex items-center justify-between mb-6">
         {steps.map((step, index) => {
@@ -49,10 +49,10 @@ export function RetrospectiveProgress({
                     w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium
                     ${
                       isCompleted
-                        ? "bg-emerald-500 text-white"
+                        ? "bg-lime-400 text-stone-900"
                         : isCurrent
-                        ? "bg-indigo-500 text-white"
-                        : "bg-zinc-200 dark:bg-zinc-700 text-zinc-500"
+                        ? "bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900"
+                        : "bg-stone-200 dark:bg-stone-700 text-stone-500"
                     }
                   `}
                 >
@@ -67,7 +67,7 @@ export function RetrospectiveProgress({
                 <span
                   className={`
                     mt-2 text-xs font-medium
-                    ${isCurrent ? "text-indigo-600 dark:text-indigo-400" : "text-zinc-500"}
+                    ${isCurrent ? "text-stone-900 dark:text-stone-100" : "text-stone-500"}
                   `}
                 >
                   {step.label}
@@ -77,7 +77,7 @@ export function RetrospectiveProgress({
                 <div
                   className={`
                     w-12 h-0.5 mx-2
-                    ${isCompleted ? "bg-emerald-500" : "bg-zinc-200 dark:bg-zinc-700"}
+                    ${isCompleted ? "bg-lime-400" : "bg-stone-200 dark:bg-stone-700"}
                   `}
                 />
               )}
@@ -90,14 +90,14 @@ export function RetrospectiveProgress({
       {questionCount > 0 && status !== "TODO" && status !== "BEFORE_GENERATE_QUESTION" && (
         <div>
           <div className="flex items-center justify-between text-sm mb-2">
-            <span className="text-zinc-500">답변 진행률</span>
-            <span className="font-medium text-zinc-900 dark:text-zinc-100">
+            <span className="text-stone-500">답변 진행률</span>
+            <span className="font-medium text-stone-900 dark:text-stone-100">
               {answeredCount} / {questionCount} ({progressPercent}%)
             </span>
           </div>
-          <div className="h-2 bg-zinc-100 dark:bg-zinc-800 rounded-full overflow-hidden">
+          <div className="h-2 bg-stone-100 dark:bg-stone-800 rounded-full overflow-hidden">
             <div
-              className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full transition-all duration-500"
+              className="h-full bg-lime-400 rounded-full transition-all duration-500"
               style={{ width: `${progressPercent}%` }}
             />
           </div>

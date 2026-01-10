@@ -8,19 +8,18 @@ interface HeaderProps {
 
 export function Header({ title, description, actions }: HeaderProps) {
   return (
-    <header className="h-16 bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 flex items-center justify-between px-8">
+    <header className="h-14 bg-white dark:bg-stone-950 border-b border-stone-100 dark:border-stone-800 flex items-center justify-between px-6">
       <div>
-        <h1 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">
+        <h1 className="text-lg font-semibold text-stone-900 dark:text-stone-100">
           {title}
         </h1>
         {description && (
-          <p className="text-sm text-zinc-500 dark:text-zinc-400">
+          <p className="text-sm text-stone-500 dark:text-stone-400">
             {description}
           </p>
         )}
       </div>
-      {actions && <div className="flex items-center gap-3">{actions}</div>}
+      {actions && <div className="flex items-center gap-2">{actions}</div>}
     </header>
   );
 }
-

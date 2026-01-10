@@ -201,8 +201,8 @@ export default function RetrospectiveWritePage() {
       <PageLayout title="회고 작성" description="이번 주를 돌아보세요">
         <div className="flex items-center justify-center h-96">
           <div className="flex flex-col items-center gap-4">
-            <div className="w-12 h-12 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin" />
-            <p className="text-zinc-500">회고를 불러오는 중...</p>
+            <div className="w-12 h-12 border-4 border-lime-200 border-t-lime-500 rounded-full animate-spin" />
+            <p className="text-stone-500">회고를 불러오는 중...</p>
           </div>
         </div>
       </PageLayout>
@@ -288,9 +288,9 @@ export default function RetrospectiveWritePage() {
         {!isWithinPeriod && !retrospective && timeUntilOpen && (
           <Card>
             <CardContent className="py-12 text-center">
-              <div className="w-20 h-20 bg-gradient-to-br from-zinc-100 to-zinc-200 dark:from-zinc-800 dark:to-zinc-700 rounded-2xl flex items-center justify-center mx-auto mb-6">
+              <div className="w-20 h-20 bg-stone-100 dark:bg-stone-800 rounded-xl flex items-center justify-center mx-auto mb-6">
                 <svg
-                  className="w-10 h-10 text-zinc-400 dark:text-zinc-500"
+                  className="w-10 h-10 text-stone-400 dark:text-stone-500"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -298,21 +298,21 @@ export default function RetrospectiveWritePage() {
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    strokeWidth={2}
+                    strokeWidth={1.5}
                     d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
                   />
                 </svg>
               </div>
-              <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100 mb-2">
+              <h2 className="text-xl font-bold text-stone-900 dark:text-stone-100 mb-2">
                 회고 작성 기간이 아닙니다
               </h2>
-              <p className="text-zinc-500 dark:text-zinc-400 mb-4">
-                회고는 <span className="font-semibold text-indigo-600 dark:text-indigo-400">금요일 0시</span>부터{" "}
-                <span className="font-semibold text-indigo-600 dark:text-indigo-400">월요일 0시</span>까지 작성할 수 있습니다.
+              <p className="text-stone-500 dark:text-stone-400 mb-4">
+                회고는 <span className="font-semibold text-lime-600 dark:text-lime-400">금요일 0시</span>부터{" "}
+                <span className="font-semibold text-lime-600 dark:text-lime-400">월요일 0시</span>까지 작성할 수 있습니다.
               </p>
-              <div className="inline-flex items-center gap-2 px-4 py-3 bg-zinc-100 dark:bg-zinc-800 rounded-xl mb-6">
+              <div className="inline-flex items-center gap-2 px-4 py-3 bg-stone-100 dark:bg-stone-800 rounded-xl mb-6">
                 <svg
-                  className="w-5 h-5 text-zinc-500"
+                  className="w-5 h-5 text-stone-500"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -320,19 +320,19 @@ export default function RetrospectiveWritePage() {
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    strokeWidth={2}
+                    strokeWidth={1.5}
                     d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
                   />
                 </svg>
-                <span className="text-zinc-700 dark:text-zinc-300">
+                <span className="text-stone-700 dark:text-stone-300">
                   다음 회고 시작까지{" "}
-                  <span className="font-bold text-indigo-600 dark:text-indigo-400">
+                  <span className="font-bold text-lime-600 dark:text-lime-400">
                     {timeUntilOpen.days > 0 && `${timeUntilOpen.days}일 `}
                     {timeUntilOpen.hours}시간 {timeUntilOpen.minutes}분
                   </span>
                 </span>
               </div>
-              <p className="text-sm text-zinc-400">
+              <p className="text-sm text-stone-400">
                 금요일이 되면 이번 주 할일을 바탕으로 회고를 작성할 수 있습니다.
               </p>
             </CardContent>
@@ -343,9 +343,9 @@ export default function RetrospectiveWritePage() {
         {!retrospective && isWithinPeriod && (
           <Card>
             <CardContent className="py-12 text-center">
-              <div className="w-20 h-20 bg-gradient-to-br from-indigo-100 to-purple-100 dark:from-indigo-900/30 dark:to-purple-900/30 rounded-2xl flex items-center justify-center mx-auto mb-6">
+              <div className="w-20 h-20 bg-lime-100 dark:bg-lime-900/30 rounded-xl flex items-center justify-center mx-auto mb-6">
                 <svg
-                  className="w-10 h-10 text-indigo-600 dark:text-indigo-400"
+                  className="w-10 h-10 text-lime-600 dark:text-lime-400"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -353,15 +353,15 @@ export default function RetrospectiveWritePage() {
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    strokeWidth={2}
+                    strokeWidth={1.5}
                     d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
                   />
                 </svg>
               </div>
-              <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100 mb-2">
+              <h2 className="text-xl font-bold text-stone-900 dark:text-stone-100 mb-2">
                 이번 주 회고 시작하기
               </h2>
-              <p className="text-zinc-500 dark:text-zinc-400 mb-6">
+              <p className="text-stone-500 dark:text-stone-400 mb-6">
                 {formatWeekIdKorean(currentWeekId)} 기간의 회고를 작성해보세요.
               </p>
               <Button onClick={handleCreateRetrospective} isLoading={isCreating} size="lg">
@@ -383,11 +383,11 @@ export default function RetrospectiveWritePage() {
 
             {/* 완료된 회고 안내 */}
             {isCompleted && (
-              <div className="p-4 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-xl">
+              <div className="p-4 bg-lime-50 dark:bg-lime-900/20 border border-lime-200 dark:border-lime-800 rounded-xl">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-emerald-100 dark:bg-emerald-800/50 rounded-lg flex items-center justify-center">
+                  <div className="w-10 h-10 bg-lime-100 dark:bg-lime-800/50 rounded-lg flex items-center justify-center">
                     <svg
-                      className="w-5 h-5 text-emerald-600 dark:text-emerald-400"
+                      className="w-5 h-5 text-lime-600 dark:text-lime-400"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -401,10 +401,10 @@ export default function RetrospectiveWritePage() {
                     </svg>
                   </div>
                   <div>
-                    <p className="font-medium text-emerald-800 dark:text-emerald-200">
+                    <p className="font-medium text-lime-800 dark:text-lime-200">
                       회고가 완료되었습니다
                     </p>
-                    <p className="text-sm text-emerald-700 dark:text-emerald-300">
+                    <p className="text-sm text-lime-700 dark:text-lime-300">
                       더 이상 수정할 수 없습니다.
                     </p>
                   </div>
@@ -453,9 +453,9 @@ export default function RetrospectiveWritePage() {
               retrospective.status === "BEFORE_GENERATE_QUESTION") && !isExpired && (
               <Card>
                 <CardContent className="py-12 text-center">
-                  <div className="w-20 h-20 bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                  <div className="w-20 h-20 bg-lime-100 dark:bg-lime-900/30 rounded-xl flex items-center justify-center mx-auto mb-6">
                     <svg
-                      className="w-10 h-10 text-purple-600 dark:text-purple-400"
+                      className="w-10 h-10 text-lime-600 dark:text-lime-400"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -463,15 +463,15 @@ export default function RetrospectiveWritePage() {
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        strokeWidth={2}
+                        strokeWidth={1.5}
                         d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
                       />
                     </svg>
                   </div>
-                  <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100 mb-2">
+                  <h2 className="text-xl font-bold text-stone-900 dark:text-stone-100 mb-2">
                     AI 질문 생성
                   </h2>
-                  <p className="text-zinc-500 dark:text-zinc-400 mb-6">
+                  <p className="text-stone-500 dark:text-stone-400 mb-6">
                     이번 주 할일을 바탕으로 맞춤형 회고 질문을 생성합니다.
                   </p>
                   <Button
@@ -503,9 +503,9 @@ export default function RetrospectiveWritePage() {
               retrospective.status === "BEFORE_GENERATE_QUESTION") && isExpired && (
               <Card>
                 <CardContent className="py-12 text-center">
-                  <div className="w-20 h-20 bg-gradient-to-br from-zinc-100 to-zinc-200 dark:from-zinc-800 dark:to-zinc-700 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                  <div className="w-20 h-20 bg-stone-100 dark:bg-stone-800 rounded-xl flex items-center justify-center mx-auto mb-6">
                     <svg
-                      className="w-10 h-10 text-zinc-400 dark:text-zinc-500"
+                      className="w-10 h-10 text-stone-400 dark:text-stone-500"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -513,15 +513,15 @@ export default function RetrospectiveWritePage() {
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        strokeWidth={2}
+                        strokeWidth={1.5}
                         d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
                       />
                     </svg>
                   </div>
-                  <h2 className="text-xl font-bold text-zinc-500 dark:text-zinc-400 mb-2">
+                  <h2 className="text-xl font-bold text-stone-500 dark:text-stone-400 mb-2">
                     질문이 생성되지 않았습니다
                   </h2>
-                  <p className="text-zinc-400 dark:text-zinc-500">
+                  <p className="text-stone-400 dark:text-stone-500">
                     작성 기간이 종료되어 더 이상 질문을 생성할 수 없습니다.
                   </p>
                 </CardContent>
@@ -531,9 +531,9 @@ export default function RetrospectiveWritePage() {
             {/* 질문 목록 */}
             {retrospective.questions.length > 0 && (
               <div className="space-y-4">
-                <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
+                <h2 className="text-lg font-semibold text-stone-900 dark:text-stone-100 flex items-center gap-2">
                   <svg
-                    className="w-5 h-5 text-indigo-500"
+                    className="w-5 h-5 text-lime-500"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -541,7 +541,7 @@ export default function RetrospectiveWritePage() {
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      strokeWidth={2}
+                      strokeWidth={1.5}
                       d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                     />
                   </svg>

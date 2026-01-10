@@ -16,9 +16,9 @@ interface StatItemProps {
 
 function StatItem({ label, value, color, bgColor }: StatItemProps) {
   return (
-    <div className={`${bgColor} rounded-xl p-4`}>
-      <p className={`text-2xl font-bold ${color}`}>{value}</p>
-      <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1">{label}</p>
+    <div className={`${bgColor} rounded-lg p-3`}>
+      <p className={`text-xl font-bold ${color}`}>{value}</p>
+      <p className="text-sm text-stone-500 dark:text-stone-400 mt-0.5">{label}</p>
     </div>
   );
 }
@@ -35,8 +35,8 @@ export function TaskStatistics({ statistics }: TaskStatisticsProps) {
         <div className="flex items-center justify-between">
           <CardTitle>이번 주 할일 현황</CardTitle>
           <div className="flex items-center gap-2">
-            <span className="text-sm text-zinc-500">완료율</span>
-            <span className="text-lg font-bold text-indigo-600">
+            <span className="text-sm text-stone-500">완료율</span>
+            <span className="text-lg font-bold text-lime-600 dark:text-lime-400">
               {completionRate}%
             </span>
           </div>
@@ -44,47 +44,47 @@ export function TaskStatistics({ statistics }: TaskStatisticsProps) {
       </CardHeader>
       <CardContent>
         {/* Progress Bar */}
-        <div className="mb-6">
-          <div className="h-3 bg-zinc-100 dark:bg-zinc-800 rounded-full overflow-hidden">
+        <div className="mb-5">
+          <div className="h-2 bg-stone-100 dark:bg-stone-800 rounded-full overflow-hidden">
             <div
-              className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full transition-all duration-500"
+              className="h-full bg-lime-400 rounded-full transition-all duration-500"
               style={{ width: `${completionRate}%` }}
             />
           </div>
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
           <StatItem
             label="할 일"
             value={statistics.todo}
-            color="text-zinc-700 dark:text-zinc-300"
-            bgColor="bg-zinc-100 dark:bg-zinc-800"
+            color="text-stone-700 dark:text-stone-300"
+            bgColor="bg-stone-100 dark:bg-stone-800"
           />
           <StatItem
             label="진행 중"
             value={statistics.inProgress}
-            color="text-sky-700 dark:text-sky-300"
-            bgColor="bg-sky-50 dark:bg-sky-900/30"
+            color="text-lime-700 dark:text-lime-400"
+            bgColor="bg-lime-50 dark:bg-lime-900/20"
           />
           <StatItem
             label="완료"
             value={statistics.done}
-            color="text-emerald-700 dark:text-emerald-300"
-            bgColor="bg-emerald-50 dark:bg-emerald-900/30"
+            color="text-lime-700 dark:text-lime-400"
+            bgColor="bg-lime-50 dark:bg-lime-900/20"
           />
           <StatItem
             label="취소"
             value={statistics.cancel}
-            color="text-rose-700 dark:text-rose-300"
-            bgColor="bg-rose-50 dark:bg-rose-900/30"
+            color="text-stone-500 dark:text-stone-400"
+            bgColor="bg-stone-100 dark:bg-stone-800"
           />
         </div>
 
         {/* Total */}
-        <div className="mt-4 pt-4 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between">
-          <span className="text-sm text-zinc-500">전체 할일</span>
-          <span className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
+        <div className="mt-4 pt-4 border-t border-stone-100 dark:border-stone-800 flex items-center justify-between">
+          <span className="text-sm text-stone-500">전체 할일</span>
+          <span className="text-base font-semibold text-stone-900 dark:text-stone-100">
             {statistics.total}개
           </span>
         </div>
@@ -92,4 +92,3 @@ export function TaskStatistics({ statistics }: TaskStatisticsProps) {
     </Card>
   );
 }
-

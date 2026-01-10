@@ -23,9 +23,9 @@ const statusConfig: Record<
 };
 
 const priorityConfig: Record<number, { label: string; color: string }> = {
-  1: { label: "🔴 높음", color: "text-rose-600" },
-  2: { label: "🟡 중간", color: "text-amber-600" },
-  3: { label: "🟢 낮음", color: "text-emerald-600" },
+  1: { label: "높음", color: "text-rose-600" },
+  2: { label: "중간", color: "text-amber-600" },
+  3: { label: "낮음", color: "text-lime-600" },
 };
 
 function getPriorityConfig(priority: number) {
@@ -71,31 +71,31 @@ export function TaskDetailModal({
         </div>
 
         {/* 제목 */}
-        <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100 mb-4">
+        <h2 className="text-xl font-bold text-stone-900 dark:text-stone-100 mb-4">
           {task.title}
         </h2>
 
         {/* 설명 */}
         {task.description && (
           <div className="mb-6">
-            <h3 className="text-sm font-medium text-zinc-500 mb-2">설명</h3>
-            <div className="text-zinc-700 dark:text-zinc-300 prose dark:prose-invert prose-sm max-w-none">
+            <h3 className="text-sm font-medium text-stone-500 mb-2">설명</h3>
+            <div className="text-stone-700 dark:text-stone-300 prose dark:prose-invert prose-sm max-w-none">
               <MarkdownPreview content={task.description} />
             </div>
           </div>
         )}
 
         {/* 메타 정보 */}
-        <div className="grid grid-cols-2 gap-4 mb-6 p-4 bg-zinc-50 dark:bg-zinc-800/50 rounded-xl">
+        <div className="grid grid-cols-2 gap-4 mb-6 p-4 bg-stone-50 dark:bg-stone-800/50 rounded-xl">
           <div>
-            <h3 className="text-xs font-medium text-zinc-500 mb-1">주차</h3>
-            <p className="text-sm text-zinc-900 dark:text-zinc-100">
+            <h3 className="text-xs font-medium text-stone-500 mb-1">주차</h3>
+            <p className="text-sm text-stone-900 dark:text-stone-100">
               {formatWeekIdKorean(task.weekId)}
             </p>
           </div>
           <div>
-            <h3 className="text-xs font-medium text-zinc-500 mb-1">마감일</h3>
-            <p className="text-sm text-zinc-900 dark:text-zinc-100">
+            <h3 className="text-xs font-medium text-stone-500 mb-1">마감일</h3>
+            <p className="text-sm text-stone-900 dark:text-stone-100">
               {new Date(task.dueDate).toLocaleDateString("ko-KR", {
                 year: "numeric",
                 month: "long",
@@ -104,21 +104,21 @@ export function TaskDetailModal({
             </p>
           </div>
           <div>
-            <h3 className="text-xs font-medium text-zinc-500 mb-1">생성일</h3>
-            <p className="text-sm text-zinc-900 dark:text-zinc-100">
+            <h3 className="text-xs font-medium text-stone-500 mb-1">생성일</h3>
+            <p className="text-sm text-stone-900 dark:text-stone-100">
               {new Date(task.createdAt).toLocaleDateString("ko-KR")}
             </p>
           </div>
           <div>
-            <h3 className="text-xs font-medium text-zinc-500 mb-1">수정일</h3>
-            <p className="text-sm text-zinc-900 dark:text-zinc-100">
+            <h3 className="text-xs font-medium text-stone-500 mb-1">수정일</h3>
+            <p className="text-sm text-stone-900 dark:text-stone-100">
               {new Date(task.updatedAt).toLocaleDateString("ko-KR")}
             </p>
           </div>
         </div>
 
         {/* 액션 버튼 */}
-        <div className="flex justify-between pt-4 border-t border-zinc-200 dark:border-zinc-800">
+        <div className="flex justify-between pt-4 border-t border-stone-200 dark:border-stone-800">
           <Button
             variant="danger"
             onClick={onDelete}

@@ -59,8 +59,8 @@ export default function DashboardPage() {
       <PageLayout title="대시보드" description="이번 주 할일과 회고를 확인하세요">
         <div className="flex items-center justify-center h-96">
           <div className="flex flex-col items-center gap-4">
-            <div className="w-12 h-12 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin" />
-            <p className="text-zinc-500">데이터를 불러오는 중...</p>
+            <div className="w-12 h-12 border-4 border-lime-200 border-t-lime-500 rounded-full animate-spin" />
+            <p className="text-stone-500">데이터를 불러오는 중...</p>
           </div>
         </div>
       </PageLayout>
@@ -143,18 +143,18 @@ export default function DashboardPage() {
           <RetrospectiveStatus retrospective={retrospective} />
 
           {/* 빠른 링크 */}
-          <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6">
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100 mb-4">
+          <div className="bg-white dark:bg-stone-900 rounded-xl border border-stone-200 dark:border-stone-800 p-6">
+            <h3 className="text-lg font-semibold text-stone-900 dark:text-stone-100 mb-4">
               빠른 링크
             </h3>
             <div className="space-y-2">
               <Link
                 href="/tasks"
-                className="flex items-center gap-3 p-3 rounded-xl hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
+                className="flex items-center gap-3 p-3 rounded-xl hover:bg-stone-50 dark:hover:bg-stone-800 transition-colors"
               >
-                <div className="w-10 h-10 bg-indigo-100 dark:bg-indigo-900/50 rounded-lg flex items-center justify-center">
+                <div className="w-10 h-10 bg-lime-100 dark:bg-lime-900/50 rounded-lg flex items-center justify-center">
                   <svg
-                    className="w-5 h-5 text-indigo-600 dark:text-indigo-400"
+                    className="w-5 h-5 text-lime-600 dark:text-lime-400"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -162,25 +162,25 @@ export default function DashboardPage() {
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      strokeWidth={2}
+                      strokeWidth={1.5}
                       d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
                     />
                   </svg>
                 </div>
                 <div>
-                  <p className="font-medium text-zinc-900 dark:text-zinc-100">
+                  <p className="font-medium text-stone-900 dark:text-stone-100">
                     칸반 보드
                   </p>
-                  <p className="text-sm text-zinc-500">할일 관리하기</p>
+                  <p className="text-sm text-stone-500">할일 관리하기</p>
                 </div>
               </Link>
               <Link
                 href="/retrospective"
-                className="flex items-center gap-3 p-3 rounded-xl hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
+                className="flex items-center gap-3 p-3 rounded-xl hover:bg-stone-50 dark:hover:bg-stone-800 transition-colors"
               >
-                <div className="w-10 h-10 bg-amber-100 dark:bg-amber-900/50 rounded-lg flex items-center justify-center">
+                <div className="w-10 h-10 bg-stone-100 dark:bg-stone-800 rounded-lg flex items-center justify-center">
                   <svg
-                    className="w-5 h-5 text-amber-600 dark:text-amber-400"
+                    className="w-5 h-5 text-stone-600 dark:text-stone-400"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -188,16 +188,16 @@ export default function DashboardPage() {
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      strokeWidth={2}
+                      strokeWidth={1.5}
                       d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
                     />
                   </svg>
                 </div>
                 <div>
-                  <p className="font-medium text-zinc-900 dark:text-zinc-100">
+                  <p className="font-medium text-stone-900 dark:text-stone-100">
                     회고 목록
                   </p>
-                  <p className="text-sm text-zinc-500">지난 회고 보기</p>
+                  <p className="text-sm text-stone-500">지난 회고 보기</p>
                 </div>
               </Link>
             </div>

@@ -13,23 +13,24 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className="w-full">
         {label && (
-          <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1.5">
+          <label className="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-1.5">
             {label}
-            {props.required && <span className="text-rose-500 ml-1">*</span>}
+            {props.required && <span className="text-rose-500 ml-0.5">*</span>}
           </label>
         )}
         <input
           ref={ref}
           className={`
-            w-full px-4 py-2.5 rounded-xl
-            bg-white dark:bg-zinc-800
-            border border-zinc-200 dark:border-zinc-700
-            text-zinc-900 dark:text-zinc-100
-            placeholder:text-zinc-400 dark:placeholder:text-zinc-500
-            focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent
-            disabled:opacity-50 disabled:cursor-not-allowed
+            w-full px-3.5 py-2.5 rounded-lg
+            bg-white dark:bg-stone-900
+            border border-stone-200 dark:border-stone-700
+            text-stone-900 dark:text-stone-100
+            placeholder:text-stone-400 dark:placeholder:text-stone-500
+            focus:outline-none focus:ring-2 focus:ring-lime-500/50 focus:border-lime-500
+            dark:focus:ring-lime-500/30 dark:focus:border-lime-500
+            disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-stone-50 dark:disabled:bg-stone-800
             transition-colors
-            ${error ? "border-rose-500 focus:ring-rose-500" : ""}
+            ${error ? "border-rose-400 focus:ring-rose-500/50 focus:border-rose-400" : ""}
             ${className}
           `}
           {...props}
@@ -38,7 +39,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           <p className="mt-1.5 text-sm text-rose-500">{error}</p>
         )}
         {helperText && !error && (
-          <p className="mt-1.5 text-sm text-zinc-500">{helperText}</p>
+          <p className="mt-1.5 text-sm text-stone-500">{helperText}</p>
         )}
       </div>
     );
@@ -58,23 +59,24 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     return (
       <div className="w-full">
         {label && (
-          <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1.5">
+          <label className="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-1.5">
             {label}
-            {props.required && <span className="text-rose-500 ml-1">*</span>}
+            {props.required && <span className="text-rose-500 ml-0.5">*</span>}
           </label>
         )}
         <textarea
           ref={ref}
           className={`
-            w-full px-4 py-2.5 rounded-xl
-            bg-white dark:bg-zinc-800
-            border border-zinc-200 dark:border-zinc-700
-            text-zinc-900 dark:text-zinc-100
-            placeholder:text-zinc-400 dark:placeholder:text-zinc-500
-            focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent
-            disabled:opacity-50 disabled:cursor-not-allowed
+            w-full px-3.5 py-2.5 rounded-lg
+            bg-white dark:bg-stone-900
+            border border-stone-200 dark:border-stone-700
+            text-stone-900 dark:text-stone-100
+            placeholder:text-stone-400 dark:placeholder:text-stone-500
+            focus:outline-none focus:ring-2 focus:ring-lime-500/50 focus:border-lime-500
+            dark:focus:ring-lime-500/30 dark:focus:border-lime-500
+            disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-stone-50 dark:disabled:bg-stone-800
             transition-colors resize-none
-            ${error ? "border-rose-500 focus:ring-rose-500" : ""}
+            ${error ? "border-rose-400 focus:ring-rose-500/50 focus:border-rose-400" : ""}
             ${className}
           `}
           {...props}
@@ -83,7 +85,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           <p className="mt-1.5 text-sm text-rose-500">{error}</p>
         )}
         {helperText && !error && (
-          <p className="mt-1.5 text-sm text-zinc-500">{helperText}</p>
+          <p className="mt-1.5 text-sm text-stone-500">{helperText}</p>
         )}
       </div>
     );
@@ -103,22 +105,23 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
     return (
       <div className="w-full">
         {label && (
-          <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1.5">
+          <label className="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-1.5">
             {label}
-            {props.required && <span className="text-rose-500 ml-1">*</span>}
+            {props.required && <span className="text-rose-500 ml-0.5">*</span>}
           </label>
         )}
         <select
           ref={ref}
           className={`
-            w-full px-4 py-2.5 rounded-xl
-            bg-white dark:bg-zinc-800
-            border border-zinc-200 dark:border-zinc-700
-            text-zinc-900 dark:text-zinc-100
-            focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent
-            disabled:opacity-50 disabled:cursor-not-allowed
+            w-full px-3.5 py-2.5 rounded-lg
+            bg-white dark:bg-stone-900
+            border border-stone-200 dark:border-stone-700
+            text-stone-900 dark:text-stone-100
+            focus:outline-none focus:ring-2 focus:ring-lime-500/50 focus:border-lime-500
+            dark:focus:ring-lime-500/30 dark:focus:border-lime-500
+            disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-stone-50 dark:disabled:bg-stone-800
             transition-colors
-            ${error ? "border-rose-500 focus:ring-rose-500" : ""}
+            ${error ? "border-rose-400 focus:ring-rose-500/50 focus:border-rose-400" : ""}
             ${className}
           `}
           {...props}
@@ -138,4 +141,3 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
 );
 
 Select.displayName = "Select";
-
