@@ -14,7 +14,7 @@ import type {
   WeeklyTaskResponse,
   RetrospectiveSummaryResponse,
 } from "@/lib/api";
-import { getWeekStart, getWeekEnd, formatDate } from "@/lib/utils";
+import { getCurrentWeekId } from "@/lib/utils";
 import Link from "next/link";
 
 export default function DashboardPage() {
@@ -24,8 +24,7 @@ export default function DashboardPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const weekStart = formatDate(getWeekStart());
-  const weekEnd = formatDate(getWeekEnd());
+  const currentWeekId = getCurrentWeekId();
 
   useEffect(() => {
     async function fetchDashboardData() {
@@ -34,13 +33,13 @@ export default function DashboardPage() {
 
       try {
         // 주간 할일 데이터 조회
-        const tasksData = await taskService.getWeekly(weekStart);
+        const tasksData = await taskService.getWeekly(currentWeekId);
         setWeeklyData(tasksData);
 
         // 이번 주 회고 조회 (목록에서 현재 주차에 해당하는 회고 찾기)
         const retrospectives = await retrospectiveService.getAll({ size: 10 });
         const currentWeekRetro = retrospectives.items.find(
-          (r) => r.startDate === weekStart || r.endDate === weekEnd
+          (r) => r.weekId === currentWeekId
         );
         setRetrospective(currentWeekRetro || null);
       } catch (err) {
@@ -52,7 +51,7 @@ export default function DashboardPage() {
     }
 
     fetchDashboardData();
-  }, [weekStart, weekEnd]);
+  }, [currentWeekId]);
 
   // 로딩 상태
   if (isLoading) {
@@ -70,8 +69,7 @@ export default function DashboardPage() {
 
   // 에러 상태 (Mock 데이터로 대체)
   const mockWeeklyData: WeeklyTaskResponse = weeklyData || {
-    weekStart,
-    weekEnd,
+    weekId: currentWeekId,
     tasks: [],
     statistics: {
       total: 0,
@@ -135,7 +133,7 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* 좌측: 주차 정보 + 통계 */}
         <div className="lg:col-span-2 space-y-6">
-          <WeekInfo weekStart={mockWeeklyData.weekStart} weekEnd={mockWeeklyData.weekEnd} />
+          <WeekInfo weekId={mockWeeklyData.weekId} />
           <TaskStatistics statistics={mockWeeklyData.statistics} />
           <QuickTaskList tasks={mockWeeklyData.tasks} />
         </div>

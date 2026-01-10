@@ -12,7 +12,7 @@ export interface TaskResponse {
   status: TaskStatus;
   sensitivityLevel: SensitivityLevel;
   priority: number;
-  startDate: string;
+  weekId: string; // YYYY-Www 형식 (예: 2025-W02)
   dueDate: string;
   hasRetrospective: boolean;
   createdAt: string;
@@ -24,8 +24,7 @@ export interface CreateTaskRequest {
   title: string;
   description?: string;
   priority: number;
-  startDate: string;
-  dueDate: string;
+  dueDate: string; // 이 날짜로 weekId가 서버에서 자동 계산됨
   sensitivityLevel?: SensitivityLevel;
 }
 
@@ -55,8 +54,7 @@ export interface TaskStatisticsResponse {
 
 // 주간 할일 응답 DTO
 export interface WeeklyTaskResponse {
-  weekStart: string;
-  weekEnd: string;
+  weekId: string; // YYYY-Www 형식 (예: 2025-W02)
   tasks: TaskResponse[];
   statistics: TaskStatisticsResponse;
 }

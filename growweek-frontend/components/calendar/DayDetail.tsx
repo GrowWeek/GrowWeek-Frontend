@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Modal, Badge } from "@/components/common";
 import type { TaskResponse, RetrospectiveSummaryResponse, TaskStatus, RetrospectiveStatus } from "@/lib/api";
+import { formatWeekIdKorean } from "@/lib/utils";
 
 interface DayDetailProps {
   isOpen: boolean;
@@ -66,9 +67,7 @@ export function DayDetail({
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="font-medium text-zinc-900 dark:text-zinc-100">
-                        {new Date(retro.startDate).toLocaleDateString("ko-KR", { month: "short", day: "numeric" })}
-                        {" ~ "}
-                        {new Date(retro.endDate).toLocaleDateString("ko-KR", { month: "short", day: "numeric" })}
+                        {formatWeekIdKorean(retro.weekId)}
                       </p>
                       <p className="text-sm text-zinc-500 mt-1">
                         답변: {retro.answeredCount}/{retro.questionCount}

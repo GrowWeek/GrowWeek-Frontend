@@ -2,6 +2,7 @@
 
 import { Modal, Button, Badge, MarkdownPreview } from "@/components/common";
 import type { TaskResponse, TaskStatus } from "@/lib/api";
+import { formatWeekIdKorean } from "@/lib/utils";
 
 interface TaskDetailModalProps {
   isOpen: boolean;
@@ -87,13 +88,9 @@ export function TaskDetailModal({
         {/* 메타 정보 */}
         <div className="grid grid-cols-2 gap-4 mb-6 p-4 bg-zinc-50 dark:bg-zinc-800/50 rounded-xl">
           <div>
-            <h3 className="text-xs font-medium text-zinc-500 mb-1">시작일</h3>
+            <h3 className="text-xs font-medium text-zinc-500 mb-1">주차</h3>
             <p className="text-sm text-zinc-900 dark:text-zinc-100">
-              {new Date(task.startDate).toLocaleDateString("ko-KR", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
+              {formatWeekIdKorean(task.weekId)}
             </p>
           </div>
           <div>

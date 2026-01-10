@@ -39,11 +39,12 @@ export const taskService = {
 
   /**
    * 주간 할일 목록 + 통계 조회
+   * @param weekId 주 식별자 (YYYY-Www 형식, 예: 2025-W02)
    */
-  getWeekly: async (weekStart: string, params?: OffsetPaginationParams) => {
+  getWeekly: async (weekId: string, params?: OffsetPaginationParams) => {
     const response = await apiClient.get<WeeklyTaskResponse>(
       "/api/v1/tasks/weekly",
-      { params: { weekStart, ...params } }
+      { params: { weekId, ...params } }
     );
     return response.data;
   },

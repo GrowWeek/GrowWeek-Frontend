@@ -17,7 +17,7 @@ import type {
   WeeklyTaskResponse,
   RetrospectiveSummaryResponse,
 } from "@/lib/api";
-import { getWeekStart, getWeekEnd, formatDate, formatDateRangeKorean } from "@/lib/utils";
+import { getCurrentWeekId, formatWeekIdKorean } from "@/lib/utils";
 
 export default function TasksPage() {
   const [weeklyData, setWeeklyData] = useState<WeeklyTaskResponse | null>(null);
@@ -31,8 +31,7 @@ export default function TasksPage() {
   const [selectedTask, setSelectedTask] = useState<TaskResponse | null>(null);
   const [formMode, setFormMode] = useState<"create" | "edit">("create");
 
-  const weekStart = formatDate(getWeekStart());
-  const weekEnd = formatDate(getWeekEnd());
+  const currentWeekId = getCurrentWeekId();
 
   // 회고가 완료된 주차인지 확인
   const isRetrospectiveCompleted = retrospective?.status === "DONE";
@@ -43,13 +42,13 @@ export default function TasksPage() {
 
     try {
       // 주간 할일 데이터 조회
-      const data = await taskService.getWeekly(weekStart);
+      const data = await taskService.getWeekly(currentWeekId);
       setWeeklyData(data);
 
       // 이번 주 회고 조회 (목록에서 현재 주차에 해당하는 회고 찾기)
       const retrospectives = await retrospectiveService.getAll({ size: 10 });
       const currentWeekRetro = retrospectives.items.find(
-        (r) => r.startDate === weekStart || r.endDate === weekEnd
+        (r) => r.weekId === currentWeekId
       );
       setRetrospective(currentWeekRetro || null);
     } catch (err) {
@@ -58,7 +57,7 @@ export default function TasksPage() {
     } finally {
       setIsLoading(false);
     }
-  }, [weekStart, weekEnd]);
+  }, [currentWeekId]);
 
   useEffect(() => {
     fetchTasks();
@@ -165,7 +164,7 @@ export default function TasksPage() {
 
   const tasks = weeklyData?.tasks || [];
   const dateRange = weeklyData
-    ? formatDateRangeKorean(weeklyData.weekStart, weeklyData.weekEnd)
+    ? formatWeekIdKorean(weeklyData.weekId)
     : "";
 
   return (

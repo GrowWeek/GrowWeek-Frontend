@@ -6,6 +6,7 @@ import { Button } from "@/components/common";
 import { CalendarGrid, DayDetail } from "@/components/calendar";
 import { taskService, retrospectiveService } from "@/lib/api";
 import type { TaskResponse, RetrospectiveSummaryResponse } from "@/lib/api";
+import { parseWeekId, formatDate } from "@/lib/utils";
 
 export default function CalendarPage() {
   // 현재 년월
@@ -101,7 +102,11 @@ export default function CalendarPage() {
 
     const dateTasks = tasks.filter((t) => t.dueDate === dateStr);
     const dateRetros = retrospectives.filter((r) => {
-      return dateStr >= r.startDate && dateStr <= r.endDate;
+      // weekId를 파싱하여 해당 주의 시작일과 종료일을 구함
+      const { start, end } = parseWeekId(r.weekId);
+      const startStr = formatDate(start);
+      const endStr = formatDate(end);
+      return dateStr >= startStr && dateStr <= endStr;
     });
 
     return { tasks: dateTasks, retrospectives: dateRetros };

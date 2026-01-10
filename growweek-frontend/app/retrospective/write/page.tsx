@@ -16,14 +16,12 @@ import type {
   AnswerResponse,
 } from "@/lib/api";
 import {
-  getWeekStart,
-  getWeekEnd,
-  formatDate,
-  formatDateRangeKorean,
+  getCurrentWeekId,
+  formatWeekIdKorean,
   getRetrospectiveWritePeriod,
   getTimeUntilRetrospectiveOpen,
   getTimeUntilRetrospectiveClose,
-  isRetrospectiveExpired,
+  isRetrospectiveExpiredForWeek,
 } from "@/lib/utils";
 
 export default function RetrospectiveWritePage() {
@@ -47,8 +45,7 @@ export default function RetrospectiveWritePage() {
   // const [currentTime, setCurrentTime] = useState(getMockedTime());
   const [currentTime, setCurrentTime] = useState(new Date()); // 원래 코드
 
-  const weekStart = formatDate(getWeekStart());
-  const weekEnd = formatDate(getWeekEnd());
+  const currentWeekId = getCurrentWeekId();
 
   // 회고 작성 가능 시간 체크
   const { isWithinPeriod } = getRetrospectiveWritePeriod(currentTime);
@@ -73,8 +70,7 @@ export default function RetrospectiveWritePage() {
       // 기존 회고 목록에서 이번 주 회고 찾기
       const list = await retrospectiveService.getAll({ size: 10 });
       const existingRetro = list.items.find(
-        (r: RetrospectiveSummaryResponse) =>
-          r.startDate === weekStart || r.endDate === weekEnd
+        (r: RetrospectiveSummaryResponse) => r.weekId === currentWeekId
       );
 
       if (existingRetro) {
@@ -91,7 +87,7 @@ export default function RetrospectiveWritePage() {
     } finally {
       setIsLoading(false);
     }
-  }, [weekStart, weekEnd]);
+  }, [currentWeekId]);
 
   useEffect(() => {
     fetchOrCreateRetrospective();
@@ -102,8 +98,7 @@ export default function RetrospectiveWritePage() {
     setIsCreating(true);
     try {
       const created = await retrospectiveService.create({
-        startDate: weekStart,
-        endDate: weekEnd,
+        weekId: currentWeekId,
         questionCount: 3,
       });
       setRetrospective(created);
@@ -193,7 +188,7 @@ export default function RetrospectiveWritePage() {
 
   // 회고 기간 만료 여부 체크 (회고가 있는 경우)
   const expiredInfo = retrospective
-    ? isRetrospectiveExpired(retrospective.endDate, currentTime)
+    ? isRetrospectiveExpiredForWeek(retrospective.weekId, currentTime)
     : null;
   const isExpired = expiredInfo?.isExpired ?? false;
 
@@ -217,7 +212,7 @@ export default function RetrospectiveWritePage() {
   return (
     <PageLayout
       title="회고 작성"
-      description={`${formatDateRangeKorean(weekStart, weekEnd)} 회고`}
+      description={`${formatWeekIdKorean(currentWeekId)} 회고`}
       actions={
         <div className="flex items-center gap-3">
           <Button variant="ghost" onClick={() => router.push("/retrospective")}>
@@ -367,7 +362,7 @@ export default function RetrospectiveWritePage() {
                 이번 주 회고 시작하기
               </h2>
               <p className="text-zinc-500 dark:text-zinc-400 mb-6">
-                {formatDateRangeKorean(weekStart, weekEnd)} 기간의 회고를 작성해보세요.
+                {formatWeekIdKorean(currentWeekId)} 기간의 회고를 작성해보세요.
               </p>
               <Button onClick={handleCreateRetrospective} isLoading={isCreating} size="lg">
                 회고 시작하기

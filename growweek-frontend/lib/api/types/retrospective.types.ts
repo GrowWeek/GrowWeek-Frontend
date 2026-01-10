@@ -26,8 +26,7 @@ export interface AnswerResponse {
 // 회고 상세 응답 DTO
 export interface RetrospectiveResponse {
   id: number;
-  startDate: string;
-  endDate: string;
+  weekId: string; // YYYY-Www 형식 (예: 2025-W02)
   status: RetrospectiveStatus;
   questionCount: number;
   questions: QuestionResponse[];
@@ -40,8 +39,7 @@ export interface RetrospectiveResponse {
 // 회고 요약 응답 DTO
 export interface RetrospectiveSummaryResponse {
   id: number;
-  startDate: string;
-  endDate: string;
+  weekId: string; // YYYY-Www 형식 (예: 2025-W02)
   status: RetrospectiveStatus;
   questionCount: number;
   answeredCount: number;
@@ -50,8 +48,7 @@ export interface RetrospectiveSummaryResponse {
 
 // 회고 생성 요청 DTO
 export interface CreateRetrospectiveRequest {
-  startDate: string;
-  endDate: string;
+  weekId: string; // YYYY-Www 형식 (예: 2025-W02)
   questionCount: number;
 }
 
