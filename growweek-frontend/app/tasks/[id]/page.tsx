@@ -7,6 +7,7 @@ import { Button, Badge, Card, CardContent } from "@/components/common";
 import { TaskFormModal } from "@/components/task";
 import { taskService } from "@/lib/api";
 import type { TaskResponse, TaskStatus, UpdateTaskRequest } from "@/lib/api";
+import { formatWeekIdKorean } from "@/lib/utils";
 
 interface TaskDetailPageProps {
   params: Promise<{ id: string }>;
@@ -307,14 +308,9 @@ export default function TaskDetailPage({ params }: TaskDetailPageProps) {
               </h2>
               <div className="space-y-4">
                 <div className="flex justify-between items-center py-3 border-b border-zinc-100 dark:border-zinc-800">
-                  <span className="text-zinc-500">시작일</span>
+                  <span className="text-zinc-500">주차</span>
                   <span className="font-medium text-zinc-900 dark:text-zinc-100">
-                    {new Date(task.startDate).toLocaleDateString("ko-KR", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                      weekday: "short",
-                    })}
+                    {formatWeekIdKorean(task.weekId)}
                   </span>
                 </div>
                 <div className="flex justify-between items-center py-3 border-b border-zinc-100 dark:border-zinc-800">

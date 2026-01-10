@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Badge } from "@/components/common";
 import type { RetrospectiveSummaryResponse, RetrospectiveStatus } from "@/lib/api";
-import { formatDateRangeKorean } from "@/lib/utils";
+import { formatWeekIdKorean } from "@/lib/utils";
 
 interface RetrospectiveCardProps {
   retrospective: RetrospectiveSummaryResponse;
@@ -35,7 +35,7 @@ export function RetrospectiveCard({ retrospective }: RetrospectiveCardProps) {
       <div className="flex items-start justify-between mb-3">
         <div>
           <p className="text-sm text-zinc-500 mb-1">
-            {formatDateRangeKorean(retrospective.startDate, retrospective.endDate)}
+            {formatWeekIdKorean(retrospective.weekId)}
           </p>
           <Badge variant={status.variant}>{status.label}</Badge>
         </div>

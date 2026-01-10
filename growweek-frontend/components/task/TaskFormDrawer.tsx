@@ -52,7 +52,6 @@ export function TaskFormDrawer({
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState("2");
-  const [startDate, setStartDate] = useState(formatDate(new Date()));
   const [dueDate, setDueDate] = useState(formatDate(new Date()));
   const [sensitivityLevel, setSensitivityLevel] = useState<SensitivityLevel>("NONE");
   const [status, setStatus] = useState<TaskStatus>("TODO");
@@ -63,7 +62,6 @@ export function TaskFormDrawer({
       setTitle(task.title);
       setDescription(task.description || "");
       setPriority(String(task.priority));
-      setStartDate(task.startDate);
       setDueDate(task.dueDate);
       setSensitivityLevel(task.sensitivityLevel);
       setStatus(task.status);
@@ -72,7 +70,6 @@ export function TaskFormDrawer({
       setTitle("");
       setDescription("");
       setPriority("2");
-      setStartDate(formatDate(new Date()));
       setDueDate(formatDate(new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)));
       setSensitivityLevel("NONE");
       setStatus("TODO");
@@ -87,16 +84,8 @@ export function TaskFormDrawer({
       newErrors.title = "제목을 입력해주세요.";
     }
 
-    if (!startDate) {
-      newErrors.startDate = "시작일을 선택해주세요.";
-    }
-
     if (!dueDate) {
       newErrors.dueDate = "마감일을 선택해주세요.";
-    }
-
-    if (startDate && dueDate && new Date(startDate) > new Date(dueDate)) {
-      newErrors.dueDate = "마감일은 시작일 이후여야 합니다.";
     }
 
     setErrors(newErrors);
@@ -116,7 +105,6 @@ export function TaskFormDrawer({
           title: title.trim(),
           description: description.trim() || undefined,
           priority: parseInt(priority),
-          startDate,
           dueDate,
           sensitivityLevel,
         };
@@ -206,27 +194,15 @@ export function TaskFormDrawer({
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
-          <Input
-            type="date"
-            label="시작일"
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-            error={errors.startDate}
-            required
-            disabled={mode === "edit" || isLocked}
-          />
-
-          <Input
-            type="date"
-            label="마감일"
-            value={dueDate}
-            onChange={(e) => setDueDate(e.target.value)}
-            error={errors.dueDate}
-            required
-            disabled={isLocked}
-          />
-        </div>
+        <Input
+          type="date"
+          label="마감일"
+          value={dueDate}
+          onChange={(e) => setDueDate(e.target.value)}
+          error={errors.dueDate}
+          required
+          disabled={isLocked}
+        />
 
         {mode === "edit" && (
           <Select

@@ -1,17 +1,16 @@
 "use client";
 
 import { Card, CardContent } from "@/components/common";
-import { formatDateRangeKorean, getWeekOfMonth } from "@/lib/utils";
+import { parseWeekId, formatWeekIdKorean, getWeekOfMonth } from "@/lib/utils";
 
 interface WeekInfoProps {
-  weekStart: string;
-  weekEnd: string;
+  weekId: string;
 }
 
-export function WeekInfo({ weekStart, weekEnd }: WeekInfoProps) {
-  const startDate = new Date(weekStart);
-  const month = startDate.getMonth() + 1;
-  const weekOfMonth = getWeekOfMonth(startDate);
+export function WeekInfo({ weekId }: WeekInfoProps) {
+  const { start } = parseWeekId(weekId);
+  const month = start.getMonth() + 1;
+  const weekOfMonth = getWeekOfMonth(start);
   const today = new Date();
   const todayStr = today.toLocaleDateString("ko-KR", {
     month: "long",
@@ -31,7 +30,7 @@ export function WeekInfo({ weekStart, weekEnd }: WeekInfoProps) {
               {month}월 {weekOfMonth}주차
             </h2>
             <p className="text-indigo-100">
-              {formatDateRangeKorean(weekStart, weekEnd)}
+              {formatWeekIdKorean(weekId)}
             </p>
           </div>
           <div className="w-20 h-20 bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-sm">

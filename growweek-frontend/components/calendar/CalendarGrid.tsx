@@ -2,6 +2,7 @@
 
 import { useMemo } from "react";
 import type { TaskResponse, RetrospectiveSummaryResponse } from "@/lib/api";
+import { parseWeekId, formatDate } from "@/lib/utils";
 
 interface CalendarGridProps {
   year: number;
@@ -60,9 +61,12 @@ export function CalendarGrid({
       // 해당 날짜의 할일 (마감일 기준)
       const dayTasks = tasks.filter((t) => t.dueDate === dateStr);
 
-      // 해당 날짜가 포함된 회고 기간 (문자열 비교로 시간대 문제 방지)
+      // 해당 날짜가 포함된 회고 기간 (weekId를 파싱하여 시작/종료일 계산)
       const dayRetros = retrospectives.filter((r) => {
-        return dateStr >= r.startDate && dateStr <= r.endDate;
+        const { start, end } = parseWeekId(r.weekId);
+        const startStr = formatDate(start);
+        const endStr = formatDate(end);
+        return dateStr >= startStr && dateStr <= endStr;
       });
 
       result.push({
@@ -154,8 +158,9 @@ export function CalendarGrid({
               <div className="space-y-1">
                 {/* 회고 기간 표시 */}
                 {day.retrospectives.slice(0, 1).map((retro) => {
-                  const isStart = retro.startDate === formatDateStr(day.date);
-                  const isEnd = retro.endDate === formatDateStr(day.date);
+                  const { start, end } = parseWeekId(retro.weekId);
+                  const isStart = formatDate(start) === formatDateStr(day.date);
+                  const isEnd = formatDate(end) === formatDateStr(day.date);
 
                   return (
                     <div

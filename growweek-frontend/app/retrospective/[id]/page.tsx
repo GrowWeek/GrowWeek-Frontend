@@ -11,7 +11,7 @@ import type {
   RetrospectiveStatus,
   AnswerResponse,
 } from "@/lib/api";
-import { formatDateRangeKorean } from "@/lib/utils";
+import { formatWeekIdKorean } from "@/lib/utils";
 
 interface RetrospectiveDetailPageProps {
   params: Promise<{ id: string }>;
@@ -137,7 +137,7 @@ export default function RetrospectiveDetailPage({
   return (
     <PageLayout
       title="회고 상세"
-      description={formatDateRangeKorean(retrospective.startDate, retrospective.endDate)}
+      description={formatWeekIdKorean(retrospective.weekId)}
       actions={
         <div className="flex items-center gap-3">
           <Button variant="ghost" onClick={() => router.push("/retrospective")}>
@@ -167,7 +167,7 @@ export default function RetrospectiveDetailPage({
             {status.label}
           </Badge>
           <span className="text-zinc-500">
-            {formatDateRangeKorean(retrospective.startDate, retrospective.endDate)}
+            {formatWeekIdKorean(retrospective.weekId)}
           </span>
         </div>
 
@@ -390,7 +390,7 @@ export default function RetrospectiveDetailPage({
               <div className="p-4 bg-zinc-50 dark:bg-zinc-800/50 rounded-xl">
                 <p className="text-sm text-zinc-500 mb-1">회고 기간</p>
                 <p className="font-medium text-zinc-900 dark:text-zinc-100">
-                  {formatDateRangeKorean(retrospective.startDate, retrospective.endDate)}
+                  {formatWeekIdKorean(retrospective.weekId)}
                 </p>
               </div>
               <div className="p-4 bg-zinc-50 dark:bg-zinc-800/50 rounded-xl">
