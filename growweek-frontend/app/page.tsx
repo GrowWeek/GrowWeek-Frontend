@@ -152,7 +152,7 @@ export default function DashboardPage() {
                 href="/tasks"
                 className="flex items-center gap-3 p-3 rounded-xl hover:bg-stone-50 dark:hover:bg-stone-800 transition-colors"
               >
-                <div className="w-10 h-10 bg-lime-100 dark:bg-lime-900/50 rounded-lg flex items-center justify-center">
+                <div className="w-10 h-10 bg-lime-200 dark:bg-lime-800/50 rounded-lg flex items-center justify-center">
                   <svg
                     className="w-5 h-5 text-lime-600 dark:text-lime-400"
                     fill="none"

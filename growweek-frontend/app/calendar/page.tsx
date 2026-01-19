@@ -173,7 +173,7 @@ export default function CalendarPage() {
             <div className="flex items-center gap-2">
               <button
                 onClick={handlePrevMonth}
-                className="p-2 rounded-xl hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
+                className="p-2 rounded-lg hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
               >
                 <svg
                   className="w-5 h-5 text-stone-600 dark:text-stone-400"
@@ -194,7 +194,7 @@ export default function CalendarPage() {
               </h2>
               <button
                 onClick={handleNextMonth}
-                className="p-2 rounded-xl hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
+                className="p-2 rounded-lg hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
               >
                 <svg
                   className="w-5 h-5 text-stone-600 dark:text-stone-400"
