@@ -9,7 +9,7 @@ interface CardProps {
 export function Card({ children, className = "", onClick }: CardProps) {
   return (
     <div
-      className={`bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm ${className} ${onClick ? "cursor-pointer hover:shadow-md transition-shadow" : ""}`}
+      className={`bg-white dark:bg-stone-900 rounded-xl border border-stone-200 dark:border-stone-800 ${className} ${onClick ? "cursor-pointer hover:border-stone-300 dark:hover:border-stone-700 transition-colors" : ""}`}
       onClick={onClick}
     >
       {children}
@@ -25,7 +25,7 @@ interface CardHeaderProps {
 export function CardHeader({ children, className = "" }: CardHeaderProps) {
   return (
     <div
-      className={`px-6 py-4 border-b border-zinc-100 dark:border-zinc-800 ${className}`}
+      className={`px-5 py-4 border-b border-stone-100 dark:border-stone-800 ${className}`}
     >
       {children}
     </div>
@@ -38,7 +38,7 @@ interface CardContentProps {
 }
 
 export function CardContent({ children, className = "" }: CardContentProps) {
-  return <div className={`px-6 py-4 ${className}`}>{children}</div>;
+  return <div className={`px-5 py-4 ${className}`}>{children}</div>;
 }
 
 interface CardTitleProps {
@@ -49,10 +49,9 @@ interface CardTitleProps {
 export function CardTitle({ children, className = "" }: CardTitleProps) {
   return (
     <h3
-      className={`text-lg font-semibold text-zinc-900 dark:text-zinc-100 ${className}`}
+      className={`text-base font-semibold text-stone-900 dark:text-stone-100 ${className}`}
     >
       {children}
     </h3>
   );
 }
-

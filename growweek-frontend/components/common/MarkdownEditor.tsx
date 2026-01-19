@@ -272,7 +272,7 @@ export function MarkdownEditor({
   return (
     <div className="w-full" data-color-mode="auto">
       {label && (
-        <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1.5">
+        <label className="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-1.5">
           {label}
           {required && <span className="text-rose-500 ml-1">*</span>}
         </label>
@@ -281,7 +281,7 @@ export function MarkdownEditor({
         className={`
           rounded-xl overflow-hidden
           border transition-colors
-          ${error ? "border-rose-500" : "border-zinc-200 dark:border-zinc-700"}
+          ${error ? "border-rose-500" : "border-stone-200 dark:border-stone-700"}
           ${disabled ? "opacity-50 cursor-not-allowed" : ""}
         `}
       >
@@ -302,7 +302,7 @@ export function MarkdownEditor({
       </div>
       {error && <p className="mt-1.5 text-sm text-rose-500">{error}</p>}
       {helperText && !error && (
-        <p className="mt-1.5 text-sm text-zinc-500">{helperText}</p>
+        <p className="mt-1.5 text-sm text-stone-500">{helperText}</p>
       )}
     </div>
   );

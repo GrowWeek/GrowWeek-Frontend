@@ -15,12 +15,12 @@ interface BadgeProps {
 }
 
 const variantStyles: Record<BadgeVariant, string> = {
-  default: "bg-zinc-100 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300",
-  primary: "bg-indigo-100 text-indigo-700 dark:bg-indigo-900 dark:text-indigo-300",
-  success: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900 dark:text-emerald-300",
-  warning: "bg-amber-100 text-amber-700 dark:bg-amber-900 dark:text-amber-300",
-  danger: "bg-rose-100 text-rose-700 dark:bg-rose-900 dark:text-rose-300",
-  info: "bg-sky-100 text-sky-700 dark:bg-sky-900 dark:text-sky-300",
+  default: "bg-stone-100 text-stone-600 dark:bg-stone-800 dark:text-stone-400",
+  primary: "bg-lime-100 text-lime-700 dark:bg-lime-900/50 dark:text-lime-400",
+  success: "bg-lime-100 text-lime-700 dark:bg-lime-900/50 dark:text-lime-400",
+  warning: "bg-amber-100 text-amber-700 dark:bg-amber-900/50 dark:text-amber-400",
+  danger: "bg-rose-100 text-rose-700 dark:bg-rose-900/50 dark:text-rose-400",
+  info: "bg-stone-100 text-stone-600 dark:bg-stone-800 dark:text-stone-400",
 };
 
 export function Badge({
@@ -30,10 +30,9 @@ export function Badge({
 }: BadgeProps) {
   return (
     <span
-      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${variantStyles[variant]} ${className}`}
+      className={`inline-flex items-center px-2 py-0.5 rounded-lg text-xs font-medium ${variantStyles[variant]} ${className}`}
     >
       {children}
     </span>
   );
 }
-

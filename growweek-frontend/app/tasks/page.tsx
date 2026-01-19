@@ -154,8 +154,8 @@ export default function TasksPage() {
       <PageLayout title="할일 관리" description="칸반 보드로 할일을 관리하세요">
         <div className="flex items-center justify-center h-96">
           <div className="flex flex-col items-center gap-4">
-            <div className="w-12 h-12 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin" />
-            <p className="text-zinc-500">할일을 불러오는 중...</p>
+            <div className="w-12 h-12 border-4 border-lime-200 border-t-lime-500 rounded-full animate-spin" />
+            <p className="text-stone-500">할일을 불러오는 중...</p>
           </div>
         </div>
       </PageLayout>
@@ -249,26 +249,26 @@ export default function TasksPage() {
       {/* 통계 요약 */}
       {weeklyData && (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-          <div className="bg-white dark:bg-zinc-900 rounded-xl p-4 border border-zinc-200 dark:border-zinc-800">
-            <p className="text-2xl font-bold text-zinc-900 dark:text-zinc-100">
+          <div className="bg-white dark:bg-stone-900 rounded-xl p-4 border border-stone-200 dark:border-stone-800">
+            <p className="text-2xl font-bold text-stone-900 dark:text-stone-100">
               {weeklyData.statistics.total}
             </p>
-            <p className="text-sm text-zinc-500">전체</p>
+            <p className="text-sm text-stone-500">전체</p>
           </div>
-          <div className="bg-sky-50 dark:bg-sky-900/20 rounded-xl p-4 border border-sky-200 dark:border-sky-800">
-            <p className="text-2xl font-bold text-sky-700 dark:text-sky-300">
+          <div className="bg-lime-50 dark:bg-lime-900/20 rounded-xl p-4 border border-lime-200 dark:border-lime-800">
+            <p className="text-2xl font-bold text-lime-700 dark:text-lime-300">
               {weeklyData.statistics.inProgress}
             </p>
-            <p className="text-sm text-sky-600 dark:text-sky-400">진행 중</p>
+            <p className="text-sm text-lime-600 dark:text-lime-400">진행 중</p>
           </div>
-          <div className="bg-emerald-50 dark:bg-emerald-900/20 rounded-xl p-4 border border-emerald-200 dark:border-emerald-800">
-            <p className="text-2xl font-bold text-emerald-700 dark:text-emerald-300">
+          <div className="bg-lime-100 dark:bg-lime-900/30 rounded-xl p-4 border border-lime-300 dark:border-lime-700">
+            <p className="text-2xl font-bold text-lime-800 dark:text-lime-200">
               {weeklyData.statistics.done}
             </p>
-            <p className="text-sm text-emerald-600 dark:text-emerald-400">완료</p>
+            <p className="text-sm text-lime-700 dark:text-lime-300">완료</p>
           </div>
-          <div className="bg-white dark:bg-zinc-900 rounded-xl p-4 border border-zinc-200 dark:border-zinc-800">
-            <p className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
+          <div className="bg-white dark:bg-stone-900 rounded-xl p-4 border border-stone-200 dark:border-stone-800">
+            <p className="text-2xl font-bold text-lime-600 dark:text-lime-400">
               {weeklyData.statistics.total > 0
                 ? Math.round(
                     (weeklyData.statistics.done / weeklyData.statistics.total) * 100
@@ -276,7 +276,7 @@ export default function TasksPage() {
                 : 0}
               %
             </p>
-            <p className="text-sm text-zinc-500">완료율</p>
+            <p className="text-sm text-stone-500">완료율</p>
           </div>
         </div>
       )}

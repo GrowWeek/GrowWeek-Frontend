@@ -17,16 +17,16 @@ const statusConfig: Record<
   TaskStatus,
   { label: string; variant: "default" | "info" | "success" | "danger"; bgColor: string }
 > = {
-  TODO: { label: "할 일", variant: "default", bgColor: "bg-zinc-100 dark:bg-zinc-800" },
-  IN_PROGRESS: { label: "진행 중", variant: "info", bgColor: "bg-sky-50 dark:bg-sky-900/30" },
-  DONE: { label: "완료", variant: "success", bgColor: "bg-emerald-50 dark:bg-emerald-900/30" },
+  TODO: { label: "할 일", variant: "default", bgColor: "bg-stone-100 dark:bg-stone-800" },
+  IN_PROGRESS: { label: "진행 중", variant: "info", bgColor: "bg-lime-50 dark:bg-lime-900/30" },
+  DONE: { label: "완료", variant: "success", bgColor: "bg-lime-100 dark:bg-lime-900/30" },
   CANCEL: { label: "취소", variant: "danger", bgColor: "bg-rose-50 dark:bg-rose-900/30" },
 };
 
 const priorityConfig: Record<number, { label: string; color: string; bgColor: string }> = {
   1: { label: "높음", color: "text-rose-700 dark:text-rose-300", bgColor: "bg-rose-100 dark:bg-rose-900/30" },
   2: { label: "중간", color: "text-amber-700 dark:text-amber-300", bgColor: "bg-amber-100 dark:bg-amber-900/30" },
-  3: { label: "낮음", color: "text-emerald-700 dark:text-emerald-300", bgColor: "bg-emerald-100 dark:bg-emerald-900/30" },
+  3: { label: "낮음", color: "text-lime-700 dark:text-lime-300", bgColor: "bg-lime-100 dark:bg-lime-900/30" },
 };
 
 function getPriorityConfig(priority: number) {
@@ -115,8 +115,8 @@ export default function TaskDetailPage({ params }: TaskDetailPageProps) {
       <PageLayout title="할일 상세" description="할일 정보를 확인하세요">
         <div className="flex items-center justify-center h-96">
           <div className="flex flex-col items-center gap-4">
-            <div className="w-12 h-12 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin" />
-            <p className="text-zinc-500">할일을 불러오는 중...</p>
+            <div className="w-12 h-12 border-4 border-lime-200 border-t-lime-500 rounded-full animate-spin" />
+            <p className="text-stone-500">할일을 불러오는 중...</p>
           </div>
         </div>
       </PageLayout>
@@ -143,7 +143,7 @@ export default function TaskDetailPage({ params }: TaskDetailPageProps) {
               />
             </svg>
           </div>
-          <p className="text-zinc-600 dark:text-zinc-400 mb-4">
+          <p className="text-stone-600 dark:text-stone-400 mb-4">
             {error || "할일을 찾을 수 없습니다."}
           </p>
           <Button variant="secondary" onClick={() => router.push("/tasks")}>
@@ -244,20 +244,20 @@ export default function TaskDetailPage({ params }: TaskDetailPageProps) {
             </div>
 
             {/* 제목 */}
-            <h1 className="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-4">
+            <h1 className="text-3xl font-bold text-stone-900 dark:text-stone-100 mb-4">
               {task.title}
             </h1>
 
             {/* 설명 */}
             {task.description ? (
               <div className="mb-8">
-                <h2 className="text-sm font-medium text-zinc-500 mb-2">설명</h2>
-                <p className="text-zinc-700 dark:text-zinc-300 whitespace-pre-wrap leading-relaxed">
+                <h2 className="text-sm font-medium text-stone-500 mb-2">설명</h2>
+                <p className="text-stone-700 dark:text-stone-300 whitespace-pre-wrap leading-relaxed">
                   {task.description}
                 </p>
               </div>
             ) : (
-              <p className="text-zinc-400 dark:text-zinc-500 mb-8 italic">
+              <p className="text-stone-400 dark:text-stone-500 mb-8 italic">
                 설명이 없습니다.
               </p>
             )}
@@ -265,7 +265,7 @@ export default function TaskDetailPage({ params }: TaskDetailPageProps) {
             {/* 상태 변경 버튼 */}
             {!isLocked && (
               <div className="mb-8">
-                <h2 className="text-sm font-medium text-zinc-500 mb-3">상태 변경</h2>
+                <h2 className="text-sm font-medium text-stone-500 mb-3">상태 변경</h2>
                 <div className="flex flex-wrap gap-2">
                   {(Object.keys(statusConfig) as TaskStatus[]).map((s) => (
                     <button
@@ -276,7 +276,7 @@ export default function TaskDetailPage({ params }: TaskDetailPageProps) {
                         px-4 py-2 rounded-xl text-sm font-medium transition-all
                         ${
                           task.status === s
-                            ? `${statusConfig[s].bgColor} ring-2 ring-indigo-500`
+                            ? `${statusConfig[s].bgColor} ring-2 ring-lime-500`
                             : `${statusConfig[s].bgColor} opacity-60 hover:opacity-100`
                         }
                       `}
@@ -295,27 +295,27 @@ export default function TaskDetailPage({ params }: TaskDetailPageProps) {
           {/* 일정 정보 */}
           <Card>
             <CardContent className="p-6">
-              <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100 mb-4 flex items-center gap-2">
-                <svg className="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <h2 className="text-lg font-semibold text-stone-900 dark:text-stone-100 mb-4 flex items-center gap-2">
+                <svg className="w-5 h-5 text-lime-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    strokeWidth={2}
+                    strokeWidth={1.5}
                     d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                   />
                 </svg>
                 일정 정보
               </h2>
               <div className="space-y-4">
-                <div className="flex justify-between items-center py-3 border-b border-zinc-100 dark:border-zinc-800">
-                  <span className="text-zinc-500">주차</span>
-                  <span className="font-medium text-zinc-900 dark:text-zinc-100">
+                <div className="flex justify-between items-center py-3 border-b border-stone-100 dark:border-stone-800">
+                  <span className="text-stone-500">주차</span>
+                  <span className="font-medium text-stone-900 dark:text-stone-100">
                     {formatWeekIdKorean(task.weekId)}
                   </span>
                 </div>
-                <div className="flex justify-between items-center py-3 border-b border-zinc-100 dark:border-zinc-800">
-                  <span className="text-zinc-500">마감일</span>
-                  <span className={`font-medium ${isOverdue ? "text-rose-600" : "text-zinc-900 dark:text-zinc-100"}`}>
+                <div className="flex justify-between items-center py-3 border-b border-stone-100 dark:border-stone-800">
+                  <span className="text-stone-500">마감일</span>
+                  <span className={`font-medium ${isOverdue ? "text-rose-600" : "text-stone-900 dark:text-stone-100"}`}>
                     {new Date(task.dueDate).toLocaleDateString("ko-KR", {
                       year: "numeric",
                       month: "long",
@@ -326,8 +326,8 @@ export default function TaskDetailPage({ params }: TaskDetailPageProps) {
                   </span>
                 </div>
                 <div className="flex justify-between items-center py-3">
-                  <span className="text-zinc-500">남은 기간</span>
-                  <span className="font-medium text-zinc-900 dark:text-zinc-100">
+                  <span className="text-stone-500">남은 기간</span>
+                  <span className="font-medium text-stone-900 dark:text-stone-100">
                     {task.status === "DONE" || task.status === "CANCEL"
                       ? "-"
                       : isOverdue
@@ -342,39 +342,39 @@ export default function TaskDetailPage({ params }: TaskDetailPageProps) {
           {/* 추가 정보 */}
           <Card>
             <CardContent className="p-6">
-              <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100 mb-4 flex items-center gap-2">
-                <svg className="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <h2 className="text-lg font-semibold text-stone-900 dark:text-stone-100 mb-4 flex items-center gap-2">
+                <svg className="w-5 h-5 text-lime-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    strokeWidth={2}
+                    strokeWidth={1.5}
                     d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                   />
                 </svg>
                 추가 정보
               </h2>
               <div className="space-y-4">
-                <div className="flex justify-between items-center py-3 border-b border-zinc-100 dark:border-zinc-800">
-                  <span className="text-zinc-500">민감도</span>
-                  <span className="font-medium text-zinc-900 dark:text-zinc-100">
+                <div className="flex justify-between items-center py-3 border-b border-stone-100 dark:border-stone-800">
+                  <span className="text-stone-500">민감도</span>
+                  <span className="font-medium text-stone-900 dark:text-stone-100">
                     {sensitivityLabels[task.sensitivityLevel]}
                   </span>
                 </div>
-                <div className="flex justify-between items-center py-3 border-b border-zinc-100 dark:border-zinc-800">
-                  <span className="text-zinc-500">회고 작성</span>
-                  <span className="font-medium text-zinc-900 dark:text-zinc-100">
+                <div className="flex justify-between items-center py-3 border-b border-stone-100 dark:border-stone-800">
+                  <span className="text-stone-500">회고 작성</span>
+                  <span className="font-medium text-stone-900 dark:text-stone-100">
                     {task.hasRetrospective ? "완료" : "미작성"}
                   </span>
                 </div>
-                <div className="flex justify-between items-center py-3 border-b border-zinc-100 dark:border-zinc-800">
-                  <span className="text-zinc-500">생성일</span>
-                  <span className="font-medium text-zinc-900 dark:text-zinc-100">
+                <div className="flex justify-between items-center py-3 border-b border-stone-100 dark:border-stone-800">
+                  <span className="text-stone-500">생성일</span>
+                  <span className="font-medium text-stone-900 dark:text-stone-100">
                     {new Date(task.createdAt).toLocaleDateString("ko-KR")}
                   </span>
                 </div>
                 <div className="flex justify-between items-center py-3">
-                  <span className="text-zinc-500">최종 수정</span>
-                  <span className="font-medium text-zinc-900 dark:text-zinc-100">
+                  <span className="text-stone-500">최종 수정</span>
+                  <span className="font-medium text-stone-900 dark:text-stone-100">
                     {new Date(task.updatedAt).toLocaleDateString("ko-KR")}
                   </span>
                 </div>
