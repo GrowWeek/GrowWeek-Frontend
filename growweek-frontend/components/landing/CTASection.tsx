@@ -1,16 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
 import { Button } from "../common";
-import { memberService } from "@/lib/api";
+import { useIsLoggedIn } from "@/lib/hooks";
 
 export function CTASection() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    setIsLoggedIn(memberService.isLoggedIn());
-  }, []);
+  const isLoggedIn = useIsLoggedIn();
   return (
     <section className="py-20 md:py-32 bg-white dark:bg-stone-900">
       <div className="max-w-6xl mx-auto px-6">

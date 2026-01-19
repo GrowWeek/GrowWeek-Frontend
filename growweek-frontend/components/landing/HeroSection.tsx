@@ -1,16 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
 import { Button } from "../common";
-import { memberService } from "@/lib/api";
+import { useIsLoggedIn } from "@/lib/hooks";
 
 export function HeroSection() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    setIsLoggedIn(memberService.isLoggedIn());
-  }, []);
+  const isLoggedIn = useIsLoggedIn();
   return (
     <section className="relative pt-32 pb-20 md:pt-40 md:pb-32 overflow-hidden">
       {/* Background decoration */}

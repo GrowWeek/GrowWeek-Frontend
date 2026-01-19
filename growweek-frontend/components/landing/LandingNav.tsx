@@ -1,23 +1,20 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "../common";
 import { memberService } from "@/lib/api";
+import { useIsLoggedIn } from "@/lib/hooks";
 
 export function LandingNav() {
   const router = useRouter();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    setIsLoggedIn(memberService.isLoggedIn());
-  }, []);
+  const isLoggedIn = useIsLoggedIn();
 
   const handleLogout = () => {
     memberService.logout();
-    setIsLoggedIn(false);
+    window.dispatchEvent(new Event("storage"));
     router.refresh();
   };
 
