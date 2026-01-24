@@ -1,6 +1,10 @@
+"use client";
+
 import Link from "next/link";
+import { useLandingOnlyMode } from "@/lib/hooks";
 
 export function Footer() {
+  const isLandingOnly = useLandingOnlyMode();
   return (
     <footer className="py-12 bg-stone-50 dark:bg-stone-950 border-t border-stone-200 dark:border-stone-800">
       <div className="max-w-6xl mx-auto px-6">
@@ -46,12 +50,14 @@ export function Footer() {
             >
               사용 방법
             </a>
-            <Link
-              href="/login"
-              className="text-sm text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 transition-colors"
-            >
-              로그인
-            </Link>
+            {!isLandingOnly && (
+              <Link
+                href="/login"
+                className="text-sm text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 transition-colors"
+              >
+                로그인
+              </Link>
+            )}
           </div>
 
           {/* Copyright */}
