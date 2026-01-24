@@ -5,12 +5,13 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "../common";
 import { memberService } from "@/lib/api";
-import { useIsLoggedIn } from "@/lib/hooks";
+import { useIsLoggedIn, useLandingOnlyMode } from "@/lib/hooks";
 
 export function LandingNav() {
   const router = useRouter();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const isLoggedIn = useIsLoggedIn();
+  const isLandingOnly = useLandingOnlyMode();
 
   const handleLogout = () => {
     memberService.logout();
@@ -62,7 +63,11 @@ export function LandingNav() {
 
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center gap-3">
-            {isLoggedIn ? (
+            {isLandingOnly ? (
+              <a href="#cta">
+                <Button variant="primary">출시 알림 받기</Button>
+              </a>
+            ) : isLoggedIn ? (
               <>
                 <Button variant="ghost" onClick={handleLogout}>
                   로그아웃
@@ -139,7 +144,13 @@ export function LandingNav() {
                 사용 방법
               </a>
               <div className="flex flex-col gap-2 pt-4 border-t border-stone-200 dark:border-stone-800">
-                {isLoggedIn ? (
+                {isLandingOnly ? (
+                  <a href="#cta" onClick={() => setIsMobileMenuOpen(false)}>
+                    <Button variant="primary" className="w-full">
+                      출시 알림 받기
+                    </Button>
+                  </a>
+                ) : isLoggedIn ? (
                   <>
                     <Button
                       variant="ghost"

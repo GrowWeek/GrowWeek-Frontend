@@ -2,10 +2,12 @@
 
 import Link from "next/link";
 import { Button } from "../common";
-import { useIsLoggedIn } from "@/lib/hooks";
+import { useIsLoggedIn, useLandingOnlyMode } from "@/lib/hooks";
+import { EmailCollectionForm } from "./EmailCollectionForm";
 
 export function HeroSection() {
   const isLoggedIn = useIsLoggedIn();
+  const isLandingOnly = useLandingOnlyMode();
   return (
     <section className="relative pt-32 pb-20 md:pt-40 md:pb-32 overflow-hidden">
       {/* Background decoration */}
@@ -40,30 +42,36 @@ export function HeroSection() {
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href={isLoggedIn ? "/dashboard" : "/signup"}>
-              <Button size="lg" className="px-8">
-                {isLoggedIn ? "대시보드로 이동" : "무료로 시작하기"}
-                <svg
-                  className="w-5 h-5 ml-1"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M13 7l5 5m0 0l-5 5m5-5H6"
-                  />
-                </svg>
-              </Button>
-            </Link>
-            <a href="#features">
-              <Button variant="outline" size="lg">
-                기능 살펴보기
-              </Button>
-            </a>
+          <div className="flex flex-col items-center justify-center gap-4">
+            {isLandingOnly ? (
+              <EmailCollectionForm variant="hero" />
+            ) : (
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <Link href={isLoggedIn ? "/dashboard" : "/signup"}>
+                  <Button size="lg" className="px-8">
+                    {isLoggedIn ? "대시보드로 이동" : "무료로 시작하기"}
+                    <svg
+                      className="w-5 h-5 ml-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M13 7l5 5m0 0l-5 5m5-5H6"
+                      />
+                    </svg>
+                  </Button>
+                </Link>
+                <a href="#features">
+                  <Button variant="outline" size="lg">
+                    기능 살펴보기
+                  </Button>
+                </a>
+              </div>
+            )}
           </div>
 
           {/* Stats */}

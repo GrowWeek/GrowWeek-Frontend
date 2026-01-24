@@ -6,7 +6,11 @@ set -e
 
 cat <<EOF > /app/public/env-config.js
 window.__ENV__ = {
-  API_BASE_URL: "${API_BASE_URL:-http://localhost:8080}"
+  API_BASE_URL: "${API_BASE_URL:-http://localhost:8080}",
+  LANDING_ONLY_MODE: ${LANDING_ONLY_MODE:-false},
+  EMAIL_COLLECTION_API_URL: "${EMAIL_COLLECTION_API_URL:-}",
+  UX_LOG_API_URL: "${UX_LOG_API_URL:-https://uxlog.team.io.kr}",
+  UX_LOG_PROJECT_ID: ${UX_LOG_PROJECT_ID:-2}
 };
 EOF
 
