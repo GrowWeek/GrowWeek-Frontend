@@ -1,0 +1,128 @@
+name: Deploy Landing Page
+
+on:
+  workflow_dispatch:
+
+env:
+  HARBOR_REGISTRY: harbor.homelab.robinjoon.xyz
+  IMAGE_NAME: growweek/frontend-landing
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: growweek-frontend
+
+    steps:
+      - name: Configure DNS to use Google DNS
+        working-directory: /
+        run: |
+          sudo sed -i 's/nameserver.*/nameserver 8.8.8.8/' /etc/resolv.conf
+          echo "nameserver 8.8.4.4" | sudo tee -a /etc/resolv.conf
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Cache npm packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.npm
+            growweek-frontend/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('growweek-frontend/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run lint
+        run: npm run lint
+
+      - name: Build (Landing Only)
+        run: npm run build:landing
+
+  build-and-push:
+    runs-on: ubuntu-latest
+    needs: test
+    defaults:
+      run:
+        working-directory: growweek-frontend
+    outputs:
+      image-tag: ${{ steps.meta.outputs.tag }}
+
+    steps:
+      - name: Configure DNS to use Google DNS
+        working-directory: /
+        run: |
+          sudo sed -i 's/nameserver.*/nameserver 8.8.8.8/' /etc/resolv.conf
+          echo "nameserver 8.8.4.4" | sudo tee -a /etc/resolv.conf
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate image tag
+        id: meta
+        run: |
+          TAG=$(date +'%Y%m%d')-${{ github.run_number }}-landing
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Harbor
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.HARBOR_REGISTRY }}
+          username: ${{ secrets.HARBOR_USERNAME }}
+          password: ${{ secrets.HARBOR_PASSWORD }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: growweek-frontend
+          push: true
+          build-args: |
+            LANDING_ONLY_MODE=true
+          tags: |
+            ${{ env.HARBOR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.tag }}
+            ${{ env.HARBOR_REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  update-helm:
+    runs-on: ubuntu-latest
+    needs: build-and-push
+
+    steps:
+      - name: Configure DNS to use Google DNS
+        run: |
+          sudo sed -i 's/nameserver.*/nameserver 8.8.8.8/' /etc/resolv.conf
+          echo "nameserver 8.8.4.4" | sudo tee -a /etc/resolv.conf
+
+      - name: Checkout Helm repository
+        uses: actions/checkout@v4
+        with:
+          repository: GrowWeek/Helm
+          token: ${{ secrets.HELM_REPO_PAT }}
+          path: helm-repo
+
+      - name: Update image tag in values-landing.yaml
+        run: |
+          cd helm-repo
+          sed -i 's/tag: ".*"/tag: "${{ needs.build-and-push.outputs.image-tag }}"/' frontend/values/values-landing.yaml
+
+      - name: Commit and push changes
+        run: |
+          cd helm-repo
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add frontend/values/values-landing.yaml
+          git commit -m "chore: update frontend landing image tag to ${{ needs.build-and-push.outputs.image-tag }}"
+          git push

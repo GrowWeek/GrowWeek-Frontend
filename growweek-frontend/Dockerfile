@@ -12,13 +12,22 @@ RUN npm ci --only=production
 FROM node:20-alpine AS builder
 WORKDIR /app
 
+# 랜딩 전용 빌드 모드 (기본값: false)
+ARG LANDING_ONLY_MODE=false
+ENV LANDING_ONLY_MODE=$LANDING_ONLY_MODE
+ENV NEXT_PUBLIC_LANDING_ONLY_MODE=$LANDING_ONLY_MODE
+
 COPY package.json package-lock.json ./
 RUN npm ci
 
 COPY . .
 
-# Next.js 빌드 (환경변수 없이 빌드 - 런타임에 주입됨)
-RUN npm run build
+# Next.js 빌드 (LANDING_ONLY_MODE에 따라 빌드)
+RUN if [ "$LANDING_ONLY_MODE" = "true" ]; then \
+      npm run build:landing; \
+    else \
+      npm run build; \
+    fi
 
 # ===== Stage 3: Runner =====
 FROM node:20-alpine AS runner
