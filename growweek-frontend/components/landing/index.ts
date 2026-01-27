@@ -6,3 +6,4 @@ export { CTASection } from "./CTASection";
 export { Footer } from "./Footer";
 export { EmailCollectionForm } from "./EmailCollectionForm";
 export { PageViewTracker } from "./PageViewTracker";
+export { Analytics } from "./Analytics";
