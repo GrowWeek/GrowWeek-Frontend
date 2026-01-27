@@ -7,11 +7,13 @@ import {
   CTASection,
   Footer,
   PageViewTracker,
+  Analytics,
 } from "@/components/landing";
 
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-stone-50 dark:bg-stone-950">
+      <Analytics />
       <Suspense fallback={null}>
         <PageViewTracker />
       </Suspense>
