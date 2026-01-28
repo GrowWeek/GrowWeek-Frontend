@@ -188,3 +188,16 @@ html {
 .wmde-markdown li > ol {
   margin: 0.25em 0;
 }
+
+/* 균형 잡힌 줄바꿈을 위한 유틸리티 */
+.text-balance {
+  text-wrap: balance;
+}
+
+.word-keep-all {
+  word-break: keep-all;
+}
+
+.text-pretty {
+  text-wrap: pretty;
+}

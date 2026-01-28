@@ -99,10 +99,10 @@ export function HowItWorksSection() {
               사용 방법
             </span>
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-stone-900 dark:text-stone-100 mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-stone-900 dark:text-stone-100 mb-4 text-balance word-keep-all">
             간단한 4단계로 시작하세요
           </h2>
-          <p className="text-lg text-stone-600 dark:text-stone-400">
+          <p className="text-lg text-stone-600 dark:text-stone-400 text-balance word-keep-all">
             매주 반복되는 성장 사이클로 꾸준히 발전하세요
           </p>
         </div>
@@ -131,7 +131,7 @@ export function HowItWorksSection() {
                   <h3 className="text-xl font-semibold text-stone-900 dark:text-stone-100 mb-3">
                     {step.title}
                   </h3>
-                  <p className="text-stone-600 dark:text-stone-400 leading-relaxed">
+                  <p className="text-stone-600 dark:text-stone-400 leading-relaxed text-pretty word-keep-all">
                     {step.description}
                   </p>
                 </div>
@@ -162,10 +162,10 @@ export function HowItWorksSection() {
         {/* Weekly cycle visualization */}
         <div className="mt-20 bg-white dark:bg-stone-900 rounded-2xl p-8 border border-stone-200 dark:border-stone-800">
           <div className="text-center mb-8">
-            <h3 className="text-xl font-semibold text-stone-900 dark:text-stone-100 mb-2">
+            <h3 className="text-xl font-semibold text-stone-900 dark:text-stone-100 mb-2 text-balance word-keep-all">
               주간 성장 사이클
             </h3>
-            <p className="text-stone-600 dark:text-stone-400">
+            <p className="text-stone-600 dark:text-stone-400 text-balance word-keep-all">
               일주일 동안의 흐름을 한눈에 확인하세요
             </p>
           </div>
@@ -196,7 +196,7 @@ export function HowItWorksSection() {
           </div>
 
           <div className="mt-6 text-center">
-            <p className="text-sm text-stone-500 dark:text-stone-500">
+            <p className="text-sm text-stone-500 dark:text-stone-500 text-balance word-keep-all">
               <span className="inline-flex items-center gap-1">
                 <svg
                   className="w-4 h-4 text-lime-600"
