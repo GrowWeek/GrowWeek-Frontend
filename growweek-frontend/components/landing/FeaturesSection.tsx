@@ -78,10 +78,10 @@ export function FeaturesSection() {
               주요 기능
             </span>
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-stone-900 dark:text-stone-100 mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-stone-900 dark:text-stone-100 mb-4 text-balance word-keep-all">
             성장을 위한 모든 도구
           </h2>
-          <p className="text-lg text-stone-600 dark:text-stone-400">
+          <p className="text-lg text-stone-600 dark:text-stone-400 text-balance word-keep-all">
             할일 관리부터 회고까지, 주간 성장 사이클을 완성하세요
           </p>
         </div>
@@ -102,7 +102,7 @@ export function FeaturesSection() {
               <h3 className="text-xl font-semibold text-stone-900 dark:text-stone-100 mb-3">
                 {feature.title}
               </h3>
-              <p className="text-stone-600 dark:text-stone-400 mb-5 leading-relaxed">
+              <p className="text-stone-600 dark:text-stone-400 mb-5 leading-relaxed text-pretty word-keep-all">
                 {feature.description}
               </p>
 

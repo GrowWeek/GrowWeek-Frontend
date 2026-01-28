@@ -35,19 +35,13 @@ export function CTASection() {
             </div>
 
             {/* Headline */}
-            <h2 className="text-3xl md:text-4xl font-bold text-stone-900 dark:text-stone-100 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-stone-900 dark:text-stone-100 mb-4 text-balance word-keep-all">
               오늘부터 성장을 시작하세요
             </h2>
-            <p className="text-lg text-stone-600 dark:text-stone-400 mb-8 leading-relaxed">
-              {isLandingOnly ? (
-                "서비스 출시 시 가장 먼저 알림을 받으세요."
-              ) : (
-                <>
-                  매주 작은 목표를 세우고, 달성하고, 돌아보는 습관이
-                  <br className="hidden md:block" />
-                  큰 변화를 만들어냅니다.
-                </>
-              )}
+            <p className="text-lg text-stone-600 dark:text-stone-400 mb-8 leading-relaxed text-pretty word-keep-all">
+              {isLandingOnly
+                ? "서비스 출시 시 가장 먼저 알림을 받으세요."
+                : "매주 작은 목표를 세우고, 달성하고, 돌아보는 습관이 큰 변화를 만들어냅니다."}
             </p>
 
             {/* CTA Buttons */}

@@ -27,24 +27,21 @@ export function HeroSection() {
           </div>
 
           {/* Headline */}
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-stone-900 dark:text-stone-100 leading-tight mb-6">
-            주간 할일과 회고로
-            <br />
-            <span className="text-lime-600 dark:text-lime-400">꾸준히 성장</span>
-            하세요
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-stone-900 dark:text-stone-100 leading-tight mb-6 text-balance word-keep-all">
+            주간 할일과 회고로{" "}
+            <span className="text-lime-600 dark:text-lime-400">
+              꾸준히 성장하세요
+            </span>
           </h1>
 
           {/* Subheadline */}
-          <p className="text-lg md:text-xl text-stone-600 dark:text-stone-400 mb-10 leading-relaxed">
+          <p className="text-lg md:text-xl text-stone-600 dark:text-stone-400 mb-10 leading-relaxed text-pretty word-keep-all">
             <span className="hidden md:inline">
-              매주 목표를 세우고, 칸반 보드로 진행 상황을 관리하고,
-              <br />
-              AI가 생성한 질문에 답하며 한 주를 되돌아보세요.
+              매주 목표를 세우고, 칸반 보드로 진행 상황을 관리하고, AI가 생성한
+              질문에 답하며 한 주를 되돌아보세요.
             </span>
             <span className="md:hidden">
-              목표 설정부터 회고까지,
-              <br />
-              주간 성장을 한곳에서 관리하세요.
+              목표 설정부터 회고까지, 주간 성장을 한곳에서 관리하세요.
             </span>
           </p>
 
