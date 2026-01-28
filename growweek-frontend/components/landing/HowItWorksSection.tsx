@@ -4,7 +4,7 @@ export function HowItWorksSection() {
       step: "01",
       title: "주간 할일 작성",
       description:
-        "매주 시작할 때 이번 주에 완료할 할일들을 작성하세요. 우선순위와 마감일을 설정하여 체계적으로 관리합니다.",
+        "이번 주 할일을 작성하고 우선순위를 설정하세요.",
       icon: (
         <svg
           className="w-8 h-8"
@@ -25,7 +25,7 @@ export function HowItWorksSection() {
       step: "02",
       title: "매일 진행 상황 업데이트",
       description:
-        "칸반 보드에서 드래그 앤 드롭으로 할일 상태를 변경하세요. 진행 중인 작업과 완료된 작업을 한눈에 파악할 수 있습니다.",
+        "드래그 앤 드롭으로 할일 상태를 변경하세요.",
       icon: (
         <svg
           className="w-8 h-8"
@@ -46,7 +46,7 @@ export function HowItWorksSection() {
       step: "03",
       title: "주말에 회고 작성",
       description:
-        "주 마감 전까지 AI가 생성한 질문에 답하며 한 주를 돌아보세요. 무엇이 잘 됐고, 무엇을 개선할 수 있는지 성찰합니다.",
+        "AI 질문에 답하며 한 주를 돌아보세요.",
       icon: (
         <svg
           className="w-8 h-8"
@@ -67,7 +67,7 @@ export function HowItWorksSection() {
       step: "04",
       title: "월간 리뷰로 성장 확인",
       description:
-        "월별로 모인 회고를 통해 장기적인 성장 패턴을 파악하세요. 통계와 함께 자신만의 성장 스토리를 만들어갑니다.",
+        "월별 회고로 장기적인 성장을 확인하세요.",
       icon: (
         <svg
           className="w-8 h-8"

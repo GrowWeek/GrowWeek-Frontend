@@ -36,9 +36,16 @@ export function HeroSection() {
 
           {/* Subheadline */}
           <p className="text-lg md:text-xl text-stone-600 dark:text-stone-400 mb-10 leading-relaxed">
-            매주 목표를 세우고, 칸반 보드로 진행 상황을 관리하고,
-            <br className="hidden md:block" />
-            AI가 생성한 질문에 답하며 한 주를 되돌아보세요.
+            <span className="hidden md:inline">
+              매주 목표를 세우고, 칸반 보드로 진행 상황을 관리하고,
+              <br />
+              AI가 생성한 질문에 답하며 한 주를 되돌아보세요.
+            </span>
+            <span className="md:hidden">
+              목표 설정부터 회고까지,
+              <br />
+              주간 성장을 한곳에서 관리하세요.
+            </span>
           </p>
 
           {/* CTA Buttons */}
@@ -124,7 +131,7 @@ export function HeroSection() {
 
               {/* Content preview */}
               <div className="p-6 md:p-8 bg-stone-50 dark:bg-stone-950">
-                <div className="grid grid-cols-4 gap-4">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
                   {/* Kanban columns preview */}
                   {["TODO", "진행 중", "완료", "취소"].map((col, idx) => (
                     <div
