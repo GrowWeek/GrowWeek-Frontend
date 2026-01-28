@@ -30,6 +30,8 @@ export function EmailCollectionForm() {
 
   // 컴포넌트 마운트 시 대기 인원수 조회
   useEffect(() => {
+    // 외부 API에서 초기 데이터를 가져오는 것은 useEffect의 적절한 사용 사례
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchWaitingCount();
   }, [fetchWaitingCount]);
 
