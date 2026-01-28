@@ -53,7 +53,7 @@ export function CTASection() {
             {/* CTA Buttons */}
             <div className="flex flex-col items-center justify-center gap-4">
               {isLandingOnly ? (
-                <EmailCollectionForm variant="cta" />
+                <EmailCollectionForm />
               ) : (
                 <Link href={isLoggedIn ? "/dashboard" : "/signup"}>
                   <Button size="lg" className="px-10">
