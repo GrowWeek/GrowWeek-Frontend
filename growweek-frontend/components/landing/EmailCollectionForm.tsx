@@ -1,16 +1,12 @@
 "use client";
 
-import { useState, useEffect, FormEvent } from "react";
+import { useState, useEffect, FormEvent, useCallback } from "react";
 import { Button } from "../common";
 import { Input } from "../common";
 import { useTrackingParams, submitEmail } from "@/lib/hooks";
 import { getConfig } from "@/lib/config";
 
-interface EmailCollectionFormProps {
-  variant?: "hero" | "cta";
-}
-
-export function EmailCollectionForm({ variant = "hero" }: EmailCollectionFormProps) {
+export function EmailCollectionForm() {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
@@ -18,7 +14,7 @@ export function EmailCollectionForm({ variant = "hero" }: EmailCollectionFormPro
   const trackingParams = useTrackingParams();
 
   // 대기 인원수 조회
-  const fetchWaitingCount = async () => {
+  const fetchWaitingCount = useCallback(async () => {
     try {
       const config = getConfig();
       const res = await fetch(
@@ -30,12 +26,12 @@ export function EmailCollectionForm({ variant = "hero" }: EmailCollectionFormPro
     } catch {
       // 실패 시 null 유지 (표시 안 함)
     }
-  };
+  }, []);
 
   // 컴포넌트 마운트 시 대기 인원수 조회
   useEffect(() => {
     fetchWaitingCount();
-  }, []);
+  }, [fetchWaitingCount]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
