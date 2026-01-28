@@ -51,7 +51,7 @@ export function HeroSection() {
           {/* CTA Buttons */}
           <div className="flex flex-col items-center justify-center gap-4">
             {isLandingOnly ? (
-              <EmailCollectionForm variant="hero" />
+              <EmailCollectionForm />
             ) : (
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Link href={isLoggedIn ? "/dashboard" : "/signup"}>
