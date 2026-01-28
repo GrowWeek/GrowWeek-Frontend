@@ -35,7 +35,7 @@ export function HeroSection() {
           </h1>
 
           {/* Subheadline */}
-          <p className="text-lg md:text-xl text-stone-600 dark:text-stone-400 mb-10 leading-relaxed text-balance word-keep-all">
+          <p className="text-lg md:text-xl text-stone-600 dark:text-stone-400 mb-10 leading-relaxed text-pretty word-keep-all">
             <span className="hidden md:inline">
               매주 목표를 세우고, 칸반 보드로 진행 상황을 관리하고, AI가 생성한
               질문에 답하며 한 주를 되돌아보세요.
