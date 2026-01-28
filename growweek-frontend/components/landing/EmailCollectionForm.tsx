@@ -1,10 +1,28 @@
 "use client";
 
-import { useState, useEffect, FormEvent, useCallback } from "react";
+import { useState, useEffect, FormEvent } from "react";
 import { Button } from "../common";
 import { Input } from "../common";
 import { useTrackingParams, submitEmail } from "@/lib/hooks";
 import { getConfig } from "@/lib/config";
+
+async function fetchWaitingCount(): Promise<number | null> {
+  try {
+    const config = getConfig();
+    const res = await fetch(
+      `${config.UX_LOG_API_URL}/api/projects/${config.UX_LOG_PROJECT_ID}/waiting-count`,
+      { mode: "cors" }
+    );
+    if (!res.ok) {
+      throw new Error(`Failed to fetch waiting count: ${res.status}`);
+    }
+    const data = await res.json();
+    return data.waitingCount;
+  } catch (error) {
+    console.error("Error fetching waiting count:", error);
+    return null;
+  }
+}
 
 export function EmailCollectionForm() {
   const [email, setEmail] = useState("");
@@ -13,27 +31,20 @@ export function EmailCollectionForm() {
   const [waitingCount, setWaitingCount] = useState<number | null>(null);
   const trackingParams = useTrackingParams();
 
-  // 대기 인원수 조회
-  const fetchWaitingCount = useCallback(async () => {
-    try {
-      const config = getConfig();
-      const res = await fetch(
-        `${config.UX_LOG_API_URL}/api/projects/${config.UX_LOG_PROJECT_ID}/waiting-count`,
-        { mode: "cors" }
-      );
-      const data = await res.json();
-      setWaitingCount(data.waitingCount);
-    } catch {
-      // 실패 시 null 유지 (표시 안 함)
-    }
-  }, []);
-
   // 컴포넌트 마운트 시 대기 인원수 조회
   useEffect(() => {
-    // 외부 API에서 초기 데이터를 가져오는 것은 useEffect의 적절한 사용 사례
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    fetchWaitingCount();
-  }, [fetchWaitingCount]);
+    let cancelled = false;
+
+    fetchWaitingCount().then((count) => {
+      if (!cancelled) {
+        setWaitingCount(count);
+      }
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -45,7 +56,8 @@ export function EmailCollectionForm() {
       await submitEmail(email, trackingParams);
 
       // 대기 인원수 다시 조회 (서버에서 증가된 값)
-      await fetchWaitingCount();
+      const count = await fetchWaitingCount();
+      setWaitingCount(count);
 
       setStatus("success");
       setEmail("");
@@ -56,6 +68,12 @@ export function EmailCollectionForm() {
       );
     }
   };
+
+  const waitingCountDisplay = waitingCount !== null && (
+    <p className="text-sm text-stone-500 dark:text-stone-400">
+      현재 <span className="font-semibold text-lime-600 dark:text-lime-400">{waitingCount}명</span>이 대기 중입니다
+    </p>
+  );
 
   if (status === "success") {
     return (
@@ -78,11 +96,7 @@ export function EmailCollectionForm() {
             출시 알림 신청이 완료되었습니다!
           </span>
         </div>
-        {waitingCount !== null && (
-          <p className="text-sm text-stone-500 dark:text-stone-400">
-            현재 <span className="font-semibold text-lime-600 dark:text-lime-400">{waitingCount}명</span>이 대기 중입니다
-          </p>
-        )}
+        {waitingCountDisplay}
       </div>
     );
   }
@@ -112,11 +126,7 @@ export function EmailCollectionForm() {
         <p className="mt-2 text-sm text-rose-500">{errorMessage}</p>
       )}
       <div className="mt-3 space-y-1">
-        {waitingCount !== null && (
-          <p className="text-sm text-stone-500 dark:text-stone-400">
-            현재 <span className="font-semibold text-lime-600 dark:text-lime-400">{waitingCount}명</span>이 대기 중입니다
-          </p>
-        )}
+        {waitingCountDisplay}
         <p className="text-xs text-stone-400 dark:text-stone-500">
           사전예약 안내를 위해 이메일을 수집합니다.
         </p>
