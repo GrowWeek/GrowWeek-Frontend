@@ -69,7 +69,7 @@ export function EmailCollectionForm() {
         if (error.message === "Failed to fetch" || error.message.includes("NetworkError")) {
           setErrorMessage("네트워크 연결을 확인해주세요. 잠시 후 다시 시도해주세요.");
         } else {
-          setErrorMessage(error.message);
+          setErrorMessage("이메일 등록 중 문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
         }
       } else {
         setErrorMessage("이메일 등록에 실패했습니다. 잠시 후 다시 시도해주세요.");

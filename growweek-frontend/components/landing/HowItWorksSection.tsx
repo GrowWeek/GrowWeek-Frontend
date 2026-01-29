@@ -188,7 +188,7 @@ export function HowItWorksSection() {
                   {idx === 0 ? "할일 작성" : idx === 6 ? "회고 마감" : "진행 관리"}
                 </span>
                 <span className="sm:hidden text-[10px] text-stone-500 dark:text-stone-500">
-                  {idx === 0 ? "할일 작성" : idx === 3 ? "진행 관리" : idx === 6 ? "회고 마감" : "\u00A0"}
+                  {({ 0: "할일 작성", 3: "진행 관리", 6: "회고 마감" } as Record<number, string>)[idx] || "\u00A0"}
                 </span>
               </div>
             ))}
