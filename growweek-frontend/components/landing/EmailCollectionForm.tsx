@@ -63,9 +63,17 @@ export function EmailCollectionForm() {
       setEmail("");
     } catch (error) {
       setStatus("error");
-      setErrorMessage(
-        error instanceof Error ? error.message : "오류가 발생했습니다."
-      );
+      // 사용자 친화적인 에러 메시지 처리
+      if (error instanceof Error) {
+        // 네트워크 에러 감지
+        if (error.message === "Failed to fetch" || error.message.includes("NetworkError")) {
+          setErrorMessage("네트워크 연결을 확인해주세요. 잠시 후 다시 시도해주세요.");
+        } else {
+          setErrorMessage("이메일 등록 중 문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
+        }
+      } else {
+        setErrorMessage("이메일 등록에 실패했습니다. 잠시 후 다시 시도해주세요.");
+      }
     }
   };
 

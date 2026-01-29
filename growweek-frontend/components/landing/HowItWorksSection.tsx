@@ -160,8 +160,8 @@ export function HowItWorksSection() {
         </div>
 
         {/* Weekly cycle visualization */}
-        <div className="mt-20 bg-white dark:bg-stone-900 rounded-2xl p-8 border border-stone-200 dark:border-stone-800">
-          <div className="text-center mb-8">
+        <div className="mt-20 bg-white dark:bg-stone-900 rounded-2xl p-6 sm:p-8 border border-stone-200 dark:border-stone-800">
+          <div className="text-center mb-6 sm:mb-8">
             <h3 className="text-xl font-semibold text-stone-900 dark:text-stone-100 mb-2 text-balance word-keep-all">
               주간 성장 사이클
             </h3>
@@ -170,11 +170,11 @@ export function HowItWorksSection() {
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-4">
+          <div className="grid grid-cols-7 gap-1.5 sm:gap-4 max-w-md sm:max-w-2xl mx-auto">
             {["월", "화", "수", "목", "금", "토", "일"].map((day, idx) => (
               <div key={day} className="text-center">
                 <div
-                  className={`w-16 h-16 rounded-xl flex items-center justify-center mb-2 ${
+                  className={`w-9 h-9 sm:w-14 sm:h-14 mx-auto rounded-lg sm:rounded-xl flex items-center justify-center mb-1 sm:mb-2 ${
                     idx === 0
                       ? "bg-lime-400 text-stone-900"
                       : idx === 6
@@ -182,14 +182,13 @@ export function HowItWorksSection() {
                         : "bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400"
                   }`}
                 >
-                  <span className="font-semibold">{day}</span>
+                  <span className="text-xs sm:text-base font-semibold">{day}</span>
                 </div>
-                <span className="text-xs text-stone-500 dark:text-stone-500">
-                  {idx === 0
-                    ? "할일 작성"
-                    : idx === 6
-                      ? "회고 마감"
-                      : "진행 관리"}
+                <span className="hidden sm:block text-xs text-stone-500 dark:text-stone-500">
+                  {idx === 0 ? "할일 작성" : idx === 6 ? "회고 마감" : "진행 관리"}
+                </span>
+                <span className="sm:hidden text-[10px] text-stone-500 dark:text-stone-500">
+                  {({ 0: "할일 작성", 3: "진행 관리", 6: "회고 마감" } as Record<number, string>)[idx] || "\u00A0"}
                 </span>
               </div>
             ))}
