@@ -16,6 +16,18 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "GrowWeek - 주간 할일 & 회고 관리",
   description: "매주 할일을 관리하고 회고를 통해 성장하세요",
+  openGraph: {
+    title: "GrowWeek - 주간 할일 & 회고 관리",
+    description: "매주 할일을 관리하고 회고를 통해 성장하세요",
+    type: "website",
+    siteName: "GrowWeek",
+    locale: "ko_KR",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "GrowWeek - 주간 할일 & 회고 관리",
+    description: "매주 할일을 관리하고 회고를 통해 성장하세요",
+  },
 };
 
 export default function RootLayout({
