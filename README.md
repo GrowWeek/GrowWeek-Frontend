@@ -35,7 +35,7 @@ GrowWeek 프로젝트의 프론트엔드 애플리케이션입니다.
 ## 프로젝트 구조
 
 ```
-growweek-frontend/
+.
 ├── app/                    # Next.js App Router
 │   ├── layout.tsx          # 루트 레이아웃
 │   ├── page.tsx            # 메인 페이지
