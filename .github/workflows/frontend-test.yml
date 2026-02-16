@@ -3,15 +3,14 @@ name: Frontend Module Test
 on:
   pull_request:
     paths:
-      - 'growweek-frontend/**'
+      - '**'
+      - '!.github/**'
+      - '!.claude/**'
+      - '!CLAUDE.md'
 
 jobs:
   test:
     runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        working-directory: growweek-frontend
 
     steps:
       - name: Checkout repository
@@ -27,8 +26,8 @@ jobs:
         with:
           path: |
             ~/.npm
-            growweek-frontend/node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('growweek-frontend/package-lock.json') }}
+            node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
 
@@ -40,4 +39,3 @@ jobs:
 
       - name: Build
         run: npm run build
-
